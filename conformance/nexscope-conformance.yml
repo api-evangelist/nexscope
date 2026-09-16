@@ -1,0 +1,31 @@
+generated: '2026-09-16'
+method: derived
+source: openapi/nexscope-openapi.json + https://github.com/nexscope-ai/nexscope-ecommerce-api
+note: >-
+  Cross-cutting standards check. Nexscope's public skill API is a proprietary
+  REST surface with HTTP bearer API-key auth and a proprietary JSON error
+  envelope. It asserts no formal cross-cutting or domain standard. Ecommerce
+  marketplace-intelligence has no mandated interchange standard analogous to
+  FHIR/SCIM/ISO-20022, so absence here is expected and not penalized.
+conformance:
+- id: oauth2
+  conforms: false
+  evidence: securitySchemes uses http bearer API key, not oauth2.
+- id: oidc
+  conforms: false
+  evidence: No openid-configuration document served (well-known probes are catch-all 200s).
+- id: rfc9457
+  conforms: false
+  evidence: Errors use a proprietary {code,msg,...} envelope, not application/problem+json.
+- id: idempotency
+  conforms: false
+  evidence: No Idempotency-Key mechanism documented (see conventions/).
+- id: pagination
+  conforms: false
+  evidence: No cross-cutting pagination convention documented.
+domain_standard:
+  present: false
+  evidence: >-
+    No SCIM/OData/OpenRTB/HL7/X12/ISO-20022/ActivityPub or other domain-standard
+    signature is declared in the contract; the surface is a proprietary
+    per-skill run API.

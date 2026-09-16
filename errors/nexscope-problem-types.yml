@@ -1,0 +1,48 @@
+generated: '2026-09-16'
+method: derived
+source: openapi/nexscope-openapi.json + https://github.com/nexscope-ai/nexscope-ecommerce-api + live probes
+format: proprietary-json-envelope
+note: >-
+  Nexscope does NOT use RFC 9457 problem+json. Errors are returned as a
+  proprietary JSON envelope, frequently with HTTP 200 even on failure (the
+  business status lives in `code`). The OpenAPI declares 400/401/403/429/500
+  responses per operation but with empty content, so titles/remediation below
+  are derived from the published API reference and observed live envelopes.
+envelope:
+  content_type: application/json
+  shape:
+    code: integer business status code (0 = success)
+    msg: human-readable message
+    data: result payload or null
+    ts: epoch millis (string)
+    time: formatted timestamp
+    cost: credit cost of the call (-1 on error)
+    traceId: request trace id for support
+  note: >-
+    A non-zero `code` with HTTP 200 is an error; clients must inspect `code`,
+    not only the HTTP status.
+http_statuses:
+- status: 400
+  title: Bad Request
+  meaning: Invalid fields, types, values, or media constraints.
+- status: 401
+  title: Unauthorized
+  meaning: Missing/invalid Authorization header or API key.
+- status: 403
+  title: Forbidden
+  meaning: Account permissions, API access, or subscription restrictions.
+- status: 429
+  title: Too Many Requests
+  meaning: Rate limited; respect the Retry-After header when present.
+- status: 500
+  title: Server Error
+  meaning: Service error; verify whether the task was created before resubmitting.
+business_codes:
+- code: 12001
+  meaning: User login has expired (authentication required / token expired).
+  action: Re-authenticate with a valid Nexscope API key.
+  observed: true
+- code: 11209
+  meaning: API key does not exist.
+  action: Create or copy a valid key from the API Access panel.
+  observed: true

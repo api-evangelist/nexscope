@@ -1,0 +1,23 @@
+generated: '2026-09-16'
+method: searched
+source: https://github.com/nexscope-ai/nexscope-ecommerce-api
+note: >-
+  Nexscope publishes no numeric rate-limit ceiling. The API reference frames a
+  "5-second starting interval" as an application recommendation, not an API
+  rate-limit guarantee, and documents 429 with Retry-After on exhaustion. Usage
+  is governed primarily by the credit/quota model (see plans/), not a
+  requests-per-window cap.
+limit_count: 0
+exhaustion_status: 429
+response_headers:
+- name: Retry-After
+  present: when-429
+  detail: Honor when present on a 429 response.
+limits:
+- scope: per-key
+  window: null
+  limit: null
+  burst: null
+  detail: >-
+    No published per-key request ceiling. Recommended client pacing is a 5s
+    starting interval (guidance only). Throughput is bounded by credits.

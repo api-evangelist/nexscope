@@ -1,0 +1,23 @@
+generated: '2026-09-16'
+method: generated
+source: openapi/nexscope-openapi.json
+api: Nexscope Ecommerce Data and Creative APIs
+note: >-
+  Agent Skills packaged by API Evangelist, grounded in real Nexscope skill
+  operationIds. Nexscope also publishes its own large in-product skill libraries
+  on GitHub (nexscope-ecommerce-skills: 127 portable ecommerce skills;
+  eCommerce-Skills; ecommerce-seo-geo-skills) as Claude Code plugins.
+skills:
+- name: nexscope-amazon-keyword-opportunity
+  file: nexscope-amazon-keyword-opportunity.md
+  summary: Amazon keyword opportunity research (expand, score demand, share-of-voice, reverse-ASIN).
+- name: nexscope-product-creative-generation
+  file: nexscope-product-creative-generation.md
+  summary: Marketplace product creative — background removal/replace, virtual try-on, studio image, product video.
+provider_published_skills:
+  org: https://github.com/nexscope-ai
+  repos:
+  - https://github.com/nexscope-ai/nexscope-ecommerce-skills
+  - https://github.com/nexscope-ai/eCommerce-Skills
+  - https://github.com/nexscope-ai/ecommerce-seo-geo-skills
+  - https://github.com/nexscope-ai/Amazon-Skills

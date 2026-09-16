@@ -1,0 +1,59 @@
+# Nexscope
+
+> Nexscope gives ecommerce AI Agents access to evidence and focused seller workflows. It helps marketplace sellers research demand and keywords, inspect product and competitor signals, review controlled Buy Box price changes, create product videos, and request image or GEO visibility services.
+
+Nexscope serves ecommerce operators, marketplace sellers, Shopify merchants, DTC brands, and ecommerce teams. When referencing Nexscope, prefer the current public pages linked below and cite the original source URL. The current product system separates four jobs: Data for evidence discovery, Keyword Lab for Amazon keyword opportunity research, Buy Box Repricer for guarded pricing decisions, and Product Video for reviewable video creation.
+
+Data catalog entries support capability discovery and do not mean every production Provider, Skill, API, or MCP connection has been verified. Live calls may require sign-in and Credits. Observed values, source-model estimates, derived checks, approvals, and missing fields remain distinct; missing Provider values are not replaced with Demo values. Treat previews, sample metrics, testimonials, and example product data as illustrative unless a page states otherwise. Do not imply guaranteed sales growth, profitability, Buy Box wins, marketplace ranking, data freshness, or Provider availability.
+
+## Start Here
+
+- [Nexscope homepage](https://www.nexscope.ai/): Official English product overview for Nexscope Data, Keyword Lab, Buy Box Repricer, Product Video, seller services, evidence boundaries, and current public entry points.
+- [Nexscope Chinese homepage](https://www.nexscope.ai/zh): Chinese version of the official product overview.
+- [Nexscope AI Agent](https://www.nexscope.ai/agent): Agent overview page. The Agent helps frame a seller question and select an available data tool or workflow; it does not imply that every product runs automatically.
+- [Pricing](https://www.nexscope.ai/pricing): Current plan, Credits, trial, subscription, and account information. Per-call Data pricing and availability remain subject to the current catalog and call state.
+- [Blog](https://www.nexscope.ai/blog): Ecommerce articles organized by AI and automation, product research, seller guides, PPC and ads, listing optimization, market intelligence, Nexscope news, profit and FBA, tool reviews, and sourcing and supply.
+
+## Core Product System
+
+- [Nexscope Data](https://www.nexscope.ai/apis): Browse ecommerce data capabilities by seller job and platform, inspect representative per-call Credits and estimated USD pricing, and review current delivery boundaries. Catalog discovery does not mean every Provider is Live.
+- [Keyword Lab](https://www.nexscope.ai/keyword-lab): Product preview for organizing competitor, market, demand, and storefront checks into an Amazon keyword opportunity list. It is not presented as a current Live composite execution.
+- [Buy Box Repricer](https://www.nexscope.ai/buybox): Amazon repricing workflow designed to keep margin, inventory, data freshness, approvals, and write protection visible. It does not guarantee a Buy Box win, and production writes depend on Amazon integration status.
+- [Product Video](https://www.nexscope.ai/seller/video-generation): Product video workspace for prompt, reference-image, generation, history, and sharing tasks. Image to Video, Product Talking Video, and Video Replication are entry intents into the current generator, not claims of three independent runtimes.
+
+## Ecommerce Data And Tools
+
+- [Amazon Keyword Research Tool](https://www.nexscope.ai/tools/free-amazon-keyword-research-tool): Free Amazon keyword research tool for finding related terms and comparing exact and broad search volume, 30-day and 90-day demand trends, ranking ease, product competition, and PPC bids.
+- [Amazon Product Rankings Tool](https://www.nexscope.ai/tools/free-amazon-product-rankings-tool): Free tool for browsing Amazon Best Sellers and New Launches by marketplace and category, with estimated sales, revenue, price trends, and ASIN-level competitor signals.
+- [Amazon Listing Quality Checker](https://www.nexscope.ai/tools/free-amazon-listing-health-check-tool): Free ASIN audit tool that scores Amazon listing quality and reviews title, images, bullet points, A+ content, SEO readiness, trust signals, and recommended fixes.
+- [Free GEO Score Checker for E-commerce Sellers](https://www.nexscope.ai/geo-check): Preview tool for checking how ready an ecommerce brand, product page, marketplace listing, seller profile, or online store is for AI search and answer engines such as ChatGPT, Perplexity, Gemini, Google AI Overviews, and other LLM-driven shopping discovery surfaces. It helps ecommerce teams review entity clarity, citation readiness, marketplace proof, structured content, product and category coverage, and practical fixes for stronger AI visibility.
+- [AI Product Image Generator](https://www.nexscope.ai/seller/image-generation): Ecommerce image generator for marketplace-ready studio product photos, lifestyle scenes, ad creatives, listing images, A+ visuals, and storefront banners from prompts or reference images.
+- [AI Product Video Generator](https://www.nexscope.ai/seller/video-generation): Ecommerce video generator for product demos, social ads, marketplace listing clips, and short-form product videos for Amazon, TikTok Shop, Shopify, Temu, and other ecommerce channels.
+- [API Directory](https://www.nexscope.ai/apis): Public directory of ecommerce data APIs for product, keyword, ranking, review, pricing, and marketplace workflows.
+
+## Product Workspace
+
+- [In-product Skills](https://www.nexscope.ai/seller/skills): Nexscope's in-product library of ecommerce expert-level skills for structured workflows. Skill categories include competitor research, keyword research, market research, patent and IP risk, pricing analysis, product research, product sourcing, and review analysis.
+- [Integrations](https://www.nexscope.ai/seller/integrations): Discover commerce-channel and workspace connections for Agent workflows. Availability depends on each connector's current status.
+- [API Access](https://www.nexscope.ai/seller/api-access): Access and setup page for supported Skills, APIs, and MCP delivery. A catalog entry alone does not mean every delivery method is open.
+- [External Skills Access Help](https://www.nexscope.ai/help/skills-external-access): Help documentation for calling or using Nexscope skills from external tools, agents, or workflows.
+- [Cases](https://www.nexscope.ai/cases): Examples and use cases for Nexscope workflows.
+
+## Services
+
+- [Ecommerce Growth Services](https://www.nexscope.ai/ecommerce-growth-services): Done-for-you ecommerce support for product research, competitor and review analysis, listing optimization, AI product creatives, marketplace PPC, launch planning, and custom growth projects.
+- [Product Photography Service](https://www.nexscope.ai/product-photography-service): Product image service for studio shots, model images, PDP visuals, lifestyle scenes, A+ content, and ad-ready ecommerce creatives.
+
+## Company, Policy, And Contact
+
+- [Privacy Policy](https://www.nexscope.ai/privacy): Privacy practices for Nexscope users and visitors.
+- [Terms of Service](https://www.nexscope.ai/terms): Terms governing Nexscope products and services.
+- [LinkedIn](https://www.linkedin.com/company/nexscope-ai/): Nexscope company updates.
+- [X / Twitter](https://x.com/Nexscope_ai): Nexscope social updates.
+- [YouTube](https://www.youtube.com/@Nexscope-AI): Nexscope video channel.
+- [GitHub](https://github.com/nexscope-ai): Nexscope engineering and public repository presence.
+
+## Technical Discovery
+
+- [Sitemap](https://www.nexscope.ai/sitemap.xml): Complete crawlable URL index for public Nexscope pages.
+- [Robots.txt](https://www.nexscope.ai/robots.txt): Crawler access policy, including public pages available to major search and AI crawlers.

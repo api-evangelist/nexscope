@@ -1,0 +1,66 @@
+generated: '2026-09-16'
+method: probed
+source: probes against api.nexscope.ai and www.nexscope.ai
+note: >-
+  Every /.well-known/* path on api.nexscope.ai returns HTTP 200 but the body is
+  the API's catch-all authentication error envelope
+  ({"code":12001,"msg":"User login has expired",...}), NOT a real discovery
+  document. These are false-positive 200s from a catch-all handler and are
+  recorded as misses; no WellKnown or SecurityTxt pointer is emitted. On
+  www.nexscope.ai every path returns 404. No served well-known document was
+  found.
+hosts:
+- host: api.nexscope.ai
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    document: false
+    note: catch-all auth-error JSON, not a security.txt
+  - path: /.well-known/openid-configuration
+    status: 200
+    document: false
+    note: catch-all auth-error JSON
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    document: false
+    note: catch-all auth-error JSON
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    document: false
+    note: catch-all auth-error JSON
+  - path: /.well-known/api-catalog
+    status: 200
+    document: false
+    note: catch-all auth-error JSON
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    document: false
+    note: catch-all auth-error JSON
+  - path: /.well-known/agent-card.json
+    status: 200
+    document: false
+    note: catch-all auth-error JSON (NOT a real AgentCard)
+  - path: /.well-known/agent.json
+    status: 200
+    document: false
+    note: catch-all auth-error JSON
+- host: www.nexscope.ai
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    document: false
+  - path: /.well-known/openid-configuration
+    status: 404
+    document: false
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    document: false
+  - path: /.well-known/api-catalog
+    status: 404
+    document: false
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    document: false
+  - path: /.well-known/agent-card.json
+    status: 404
+    document: false

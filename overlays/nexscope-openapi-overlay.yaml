@@ -1,0 +1,32 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enrichment overlay for Nexscope Ecommerce Data and Creative APIs
+  version: 1.0.0
+x-provenance:
+  generated: '2026-09-16'
+  method: generated
+  source: openapi/nexscope-openapi.json
+  note: >-
+    Non-destructive enhancements over the provider's published OpenAPI. Captures
+    runtime semantics established during enrichment (auth, error envelope,
+    async-task pattern, MCP availability) as an overlay; the original spec is not
+    mutated.
+extends: ../openapi/nexscope-openapi.json
+actions:
+- target: $.info
+  update:
+    x-api-evangelist-enriched: '2026-09-16'
+    x-auth-style: http-bearer
+    x-mcp-endpoint: https://api.nexscope.ai/api/skill-api/v1/mcp
+    x-error-envelope: proprietary-json {code,msg,data,ts,time,cost,traceId}
+    x-async-task-pattern: 'creative skills return taskId; poll GET .../tasks/{taskId}'
+    x-idempotency: none-documented
+    x-pricing-model: credit-based (see plans/nexscope-plans-pricing.yml)
+- target: $.info
+  update:
+    x-related-artifacts:
+      conventions: conventions/nexscope-conventions.yml
+      errors: errors/nexscope-problem-types.yml
+      authentication: authentication/nexscope-authentication.yml
+      rate_limits: rate-limits/nexscope-rate-limits.yml
+      mcp: mcp/nexscope-mcp.yml

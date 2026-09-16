@@ -1,0 +1,28 @@
+generated: '2026-09-16'
+method: probed
+source: https://www.nexscope.ai/mcp-map + POST probe of the endpoint
+name: Nexscope MCP Server
+description: >-
+  Official remote MCP server exposing Nexscope's ecommerce data and creative
+  skills to AI agents (Claude, ChatGPT, others). Implements JSON-RPC 2.0
+  (initialize, tools/list, tools/call) over HTTPS. The tool surface mirrors the
+  225 skill operations in the OpenAPI (marketplace intelligence, keyword/demand,
+  TikTok/social, image & video generation, patent/IP risk).
+deployment:
+  mode: remote
+  endpoint: https://api.nexscope.ai/api/skill-api/v1/mcp
+  auth: api-key
+  verified: probed
+  note: >-
+    Live POST of {"method":"tools/list"} to the endpoint returns the API's
+    authentication error envelope ({"code":12001,"msg":"User login has
+    expired"}), confirming a real, reachable, auth-gated MCP endpoint. A bearer
+    Nexscope API key (from the API Access panel) is required; the live tool
+    schemas need authenticated introspection. No stdio/npx package is published
+    (the nexscope-plugin monorepo on GitHub is private:true and unpublished).
+transport: streamable-http / json-rpc-2.0
+methods:
+- initialize
+- tools/list
+- tools/call
+docs: https://www.nexscope.ai/mcp-map

@@ -1,0 +1,26 @@
+generated: '2026-09-16'
+method: searched
+source: openapi/nexscope-openapi.json + https://github.com/nexscope-ai/nexscope-ecommerce-api + https://www.nexscope.ai
+note: >-
+  Nexscope publishes a single production API version identified by a date-stamped
+  catalog version string in the OpenAPI. No deprecation policy, Sunset/Deprecation
+  (RFC 8594) header usage, SLA, or public status page was found. No operation in
+  the spec is marked deprecated.
+versioning:
+  scheme: date-stamped-catalog + URL path v1
+  current: 2026-08-28-public-catalog-v1
+  url_version: /api/skill-api/v1/
+deprecation:
+  policy: none-found
+  deprecated_operations: []
+  headers: none-documented
+status_page:
+  url: null
+  found: false
+sla:
+  url: null
+  found: false
+availability_note: >-
+  The provider's llms.txt explicitly states that a catalog entry does not mean a
+  provider/skill/API/MCP connection is Live, and disclaims guarantees on data
+  freshness and provider availability.

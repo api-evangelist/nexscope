@@ -1,0 +1,13 @@
+generated: '2026-09-16'
+method: derived
+source: openapi/nexscope-openapi.json
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: Nexscope API Key
+  sources:
+  - openapi/nexscope-openapi.json

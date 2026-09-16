@@ -1,6 +1,16 @@
 aid: nexscope
 name: Nexscope Ecommerce Data and Creative APIs
-description: ''
+description: >-
+  Nexscope is an ecommerce data and creative-AI platform for marketplace sellers.
+  Its public REST + MCP surface exposes 225 skill operations spanning Amazon
+  marketplace intelligence, keyword and search-demand research, TikTok/social
+  commerce, Temu, Shopify, Etsy, Ozon, eBay, Shopee and 1688 data, patent/IP
+  risk, and creative generation (studio product images, background removal,
+  virtual try-on, and short-form product video) across model families such as
+  Seedream, Seedance, Kling, Wan and GPT-Image. Authentication is a bearer
+  Nexscope API key and usage is credit-based; data skills return synchronously
+  while creative skills run as pollable async tasks. The same catalog is exposed
+  to AI agents over a remote MCP endpoint.
 type: Index
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/nexscope/refs/heads/main/apis.yml
@@ -11,19 +21,83 @@ tags:
 - Data
 - Creative
 - AI
+- Marketplace Intelligence
+- Amazon
+- TikTok
+- Keyword Research
+- Image Generation
+- Video Generation
+- MCP
 apis:
 - name: Nexscope Ecommerce Data and Creative APIs
-  description: ''
+  description: >-
+    Proprietary REST skill API (OpenAPI 3.1) with 225 POST operations at
+    /api/skill-api/v1/skills/{skill}/run, bearer API-key auth, a credit-based
+    usage model, and a matching remote MCP server.
   humanURL: https://www.nexscope.ai
   baseURL: https://api.nexscope.ai
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   properties:
+  - type: OpenAPI
+    url: openapi/nexscope-openapi.json
+  - type: Overlay
+    url: overlays/nexscope-openapi-overlay.yaml
+  - type: MCPServer
+    url: mcp/nexscope-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
   - type: Documentation
-    url: https://www.nexscope.ai
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
 common:
-- type: Website
-  url: https://www.nexscope.ai
+- type: DomainSecurity
+  url: security/nexscope-domain-security.yml
+- type: Authentication
+  url: authentication/nexscope-authentication.yml
+- type: Packages
+  url: packages/nexscope-packages.yml
+- type: SDKs
+  url: packages/nexscope-packages.yml
+- type: LLMsTxt
+  url: llms/nexscope-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DeveloperPortal
+  url: https://www.nexscope.ai/api-docs
 - type: Documentation
+  url: https://www.nexscope.ai/api-docs
+- type: Pricing
+  url: https://www.nexscope.ai/pricing
+- type: Blog
+  url: https://www.nexscope.ai/blog
+- type: GitHubOrganization
+  url: https://github.com/nexscope-ai
+- type: SignUp
+  url: https://www.nexscope.ai/seller/api-access
+- type: TermsOfService
+  url: https://www.nexscope.ai/terms
+- type: PrivacyPolicy
+  url: https://www.nexscope.ai/privacy
+- type: Website
   url: https://www.nexscope.ai
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-09-16'
+  status: enriched
+  artifacts_added: 18
+  pass: local-v3

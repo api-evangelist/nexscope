@@ -1,0 +1,61 @@
+generated: '2026-09-16'
+method: derived
+source: openapi/nexscope-openapi.json + https://github.com/nexscope-ai/nexscope-ecommerce-api
+note: >-
+  Cross-cutting runtime semantics for the Nexscope skill API. All operations are
+  POST /api/skill-api/v1/skills/{skill}/run with a JSON body. Data skills return
+  synchronously; creative (image/video) skills return an async task id to poll.
+authentication:
+  style: http-bearer
+  header: 'Authorization: Bearer <Nexscope API Key>'
+  detail: See authentication/nexscope-authentication.yml. Key issued from the API Access panel.
+idempotency:
+  coverage: none
+  mechanism: null
+  detail: >-
+    The API reference explicitly states it does not establish an idempotency
+    guarantee for POST requests. No Idempotency-Key header is documented on any
+    of the 225 operations.
+pagination:
+  style: none-documented
+  detail: >-
+    No cross-cutting pagination convention is documented; individual data skills
+    accept skill-specific paging/limit parameters in their request body.
+async_tasks:
+  applies_to: creative (image & video generation) skills
+  submit: POST /api/skill-api/v1/skills/{skill}/run -> returns taskId + status
+  poll: GET /api/skill-api/v1/skills/{skill}/tasks/{taskId}
+  statuses: [PENDING, RUNNING, SUCCESS, FAILED, TIMEOUT]
+  poll_interval: 5s recommended (application guidance, not an API guarantee)
+error_envelope:
+  detail: >-
+    Proprietary JSON envelope {code,msg,data,ts,time,cost,traceId}; inspect
+    `code` (0 = success) rather than HTTP status. See
+    errors/nexscope-problem-types.yml.
+rate_limit_signaling:
+  detail: >-
+    429 on exhaustion with Retry-After when present; no RateLimit-* headers
+    documented. See rate-limits/nexscope-rate-limits.yml.
+versioning:
+  style: date-stamped catalog version in the OpenAPI info.version
+  value: 2026-08-28-public-catalog-v1
+reversibility:
+  applies: partial
+  detail: >-
+    Data skills are read-only (retrieval) and are `na` for reversibility.
+    Creative skills CREATE assets via async tasks; no cancel/undo/delete
+    operation for a submitted generation task is documented in the public
+    reference. The Buy Box Repricer product performs guarded pricing writes with
+    approvals/write-protection, but that surface is not in the public skill API.
+  write_surfaces:
+  - surface: creative generation (image/video skills)
+    reversal_operation: null
+    window: null
+    grade: none
+    note: No documented reversal path for a submitted generation task.
+  read_surfaces_note: >-
+    Marketplace/keyword/patent data skills are retrieval-only; reversibility is
+    na for them.
+dry_run_mode:
+  supported: false
+  detail: No dry-run/preview mode documented for the skill API.

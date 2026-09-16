@@ -1,0 +1,53 @@
+generated: '2026-09-16'
+method: searched
+source: https://www.nexscope.ai/pricing
+note: >-
+  Credit-based pricing. Subscriptions grant a monthly credit allotment usable
+  across data, keyword, market, TikTok, patent, and video/image APIs. Data API
+  pay-as-you-go top-ups are available without a subscription (top-up credits are
+  restricted to Data APIs and cannot be spent on video/image generation).
+  Intro prices reflect a 50%-off first-subscription promotion observed on the
+  pricing page; regular prices are recorded alongside.
+currency: USD
+plan_count: 4
+plans:
+- name: Free Trial
+  price: 0
+  billing_period: 3-days
+  credits: 1000
+  note: >-
+    1,000 credits for 3 days; no credit card required. Unlocks video generation
+    & clone, video & image APIs, and ecommerce data & APIs. Trial credits do NOT
+    enable Creative API key access (an active subscription is required for that).
+- name: Starter
+  price: 29
+  intro_price: 14.50
+  billing_period: monthly
+  annual_price: 348
+  annual_intro_today: 174
+  credits: 30000
+  note: >-
+    Video generation, video clone, video & image APIs, product/keyword/market
+    data, TikTok products/creators/videos, patent data.
+- name: Growth
+  price: 55
+  intro_price: 27.50
+  billing_period: monthly
+  annual_price: 660
+  annual_intro_today: 330
+  credits: 75000
+  popular: true
+  note: Most popular. Same feature set as Starter.
+- name: Pro
+  price: 129
+  intro_price: 64.50
+  billing_period: monthly
+  annual_price: 1548
+  annual_intro_today: 774
+  credits: 150000
+  note: Same feature set as Starter/Growth, larger credit allotment.
+top_ups:
+  name: Data API Top-Ups
+  model: pay-as-you-go
+  scope: Data APIs only (not video/image generation)
+  subscription_required: false

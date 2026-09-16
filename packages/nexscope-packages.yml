@@ -1,0 +1,43 @@
+generated: '2026-09-16'
+method: searched
+source: https://registry.npmjs.org / https://github.com/nexscope-ai
+note: >-
+  Nexscope publishes no language SDK (the API repo ships copy-paste cURL/Node/
+  Python examples using standard libraries only). It DOES publish two official
+  first-party integration connectors on npm under the @nexscope scope. A third
+  unscoped `nexscope` npm package ("NexScope CLI tool") carries no author,
+  homepage or repository metadata and could not be confirmed as first-party.
+packages:
+- name: '@nexscope/n8n-nodes-app'
+  registry: npm
+  url: https://www.npmjs.com/package/@nexscope/n8n-nodes-app
+  language: javascript
+  kind: integration-connector
+  official: true
+  version: 1.0.3
+  published: '2026-09-16'
+  note: >-
+    "Official n8n community node for Nexscope ecommerce data APIs"; author
+    Nexscope <service@nexscope.ai>. Wraps the skill-api data endpoints as n8n
+    workflow nodes.
+- name: '@nexscope/make-app'
+  registry: npm
+  url: https://www.npmjs.com/package/@nexscope/make-app
+  language: javascript
+  kind: integration-connector
+  official: true
+  version: 1.0.0
+  published: '2026-09-02'
+  note: '"Official Nexscope custom app source for Make" (Make.com custom app).'
+- name: nexscope
+  registry: npm
+  url: https://www.npmjs.com/package/nexscope
+  language: javascript
+  kind: cli
+  official: false
+  version: 1.0.5
+  published: '2026-03-20'
+  note: >-
+    Unscoped "NexScope CLI tool"; no author/homepage/repository metadata on the
+    registry record, so first-party ownership is unconfirmed. Not credited as an
+    official package.

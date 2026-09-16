@@ -1,0 +1,67 @@
+generated: '2026-09-16'
+method: derived
+source: openapi/nexscope-openapi.json + mcp/nexscope-mcp.yml
+note: >-
+  Nexscope exposes the SAME skill catalog over REST and over MCP. Each REST
+  operation is POST /api/skill-api/v1/skills/{skill}/run; the MCP server exposes
+  one tool per skill. The live MCP tools/list is auth-gated (bearer API key), so
+  exact tool names/inputSchemas could not be introspected; mappings below are by
+  the documented 1:1 skill<->tool convention and are marked low/medium
+  confidence accordingly. Each MCP tool inherits its backing operation's request
+  body as its real inputSchema. Representative rows are given per category; the
+  full mapping is the 225-operation set in the OpenAPI.
+surfaces:
+  openapi: openapi/nexscope-openapi.json
+  openapi_path_pattern: /api/skill-api/v1/skills/{skill}/run
+  mcp_url: https://api.nexscope.ai/api/skill-api/v1/mcp
+  mcp_gated: true
+  graphql: null
+coverage:
+  rest_operations: 225
+  mcp_tools_observed: null
+  mcp_gated: true
+  mapping_basis: name-convention (skill slug == tool name)
+crosswalk:
+- tool: amazon-keyword-overview
+  category: Keyword & Search Demand
+  rest:
+  - runAmazonKeywordOverview
+  binding: skill-slug==tool-name
+  confidence: medium
+- tool: amazon-search
+  category: Amazon Marketplace Intelligence
+  rest:
+  - runAmazonSearch
+  binding: skill-slug==tool-name
+  confidence: medium
+- tool: amazon-product-detail
+  category: Amazon Marketplace Intelligence
+  rest:
+  - runAmazonProductDetail
+  binding: skill-slug==tool-name
+  confidence: medium
+- tool: chuhaijiang-tiktok-product-search
+  category: TikTok / Social Commerce
+  rest:
+  - runChuhaijiangTiktokProductSearch
+  binding: skill-slug==tool-name
+  confidence: medium
+- tool: google-trends-by-keywords
+  category: Search & Trend Intelligence
+  rest:
+  - runGoogleTrendsByKeywords
+  binding: skill-slug==tool-name
+  confidence: medium
+- tool: gpt-image-2-generation
+  category: Image Generation Models
+  rest:
+  - runGptImage2Generation
+  binding: skill-slug==tool-name
+  confidence: low
+  note: image-generation skills return async task ids; the MCP tool wraps the same run op
+mcp_only: []
+rest_only:
+- note: >-
+    The other ~219 REST operations are presumed to have matching MCP tools under
+    the same 1:1 convention but were not individually confirmed because
+    tools/list is auth-gated. None is confirmed mcp_only or rest_only.
