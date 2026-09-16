@@ -1,0 +1,29 @@
+aid: nexscope
+name: Nexscope Ecommerce Data and Creative APIs
+description: ''
+type: Index
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/nexscope/refs/heads/main/apis.yml
+created: '2026-09-16'
+modified: '2026-09-16'
+tags:
+- E-Commerce
+- Data
+- Creative
+- AI
+apis:
+- name: Nexscope Ecommerce Data and Creative APIs
+  description: ''
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  properties:
+  - type: Documentation
+    url: https://www.nexscope.ai
+common:
+- type: Website
+  url: https://www.nexscope.ai
+- type: Documentation
+  url: https://www.nexscope.ai
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
