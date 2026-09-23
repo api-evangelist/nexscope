@@ -1,0 +1,30 @@
+# Front Door AI Index — nexscope — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: nexscope
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.nexscope.ai
+  final_host: www.nexscope.ai
+  ownership: own
+  owner: nexscope
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 21
+  host_score: 21
+  density: 33.33
+  words: 630
+  tiers:
+    agentic: 7
+    core: 12
+    model: 2
+  ambiguous: 7
+  top_terms:
+    AI: 12
+    agent: 7
+    AI agent: 5
+    MCP: 2
+    ChatGPT: 1
+    Claude: 1
