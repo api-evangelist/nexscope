@@ -1,0 +1,3813 @@
+openapi: 3.2.0
+info:
+  title: Nexscope Ecommerce Data and Creative Temu Marketplace…
+  version: 2026-08-28-public-catalog-v1
+  description: Nexscope APIs provide ecommerce marketplace intelligence and creative generation capabilities through REST and MCP. Authentication uses a Nexscope API key. Pricing is credit-based and actual usage varies by endpoint and workload; current estimates are shown in the Nexscope account.
+  termsOfService: https://www.nexscope.ai/terms
+  contact:
+    name: Nexscope Support
+    email: service@nexscope.ai
+    url: https://www.nexscope.ai/api-docs
+  license:
+    name: Proprietary API; use subject to Nexscope Terms
+    url: https://www.nexscope.ai/terms
+servers:
+- url: https://api.nexscope.ai
+  description: Production
+security:
+- bearerAuth: []
+tags:
+- name: Temu Marketplace Intelligence
+  description: Temu product, category and store source APIs.
+  x-category-slug: temu-marketplace
+paths:
+  /api/skill-api/v1/skills/geekbi-temu-goods-image-search/run:
+    post:
+      tags:
+      - Temu Marketplace Intelligence
+      summary: GeekBI Temu Image Search
+      description: Execute the selected image search operation and preserve provider business fields and extensions.
+      operationId: runGeekbiTemuGoodsImageSearch
+      externalDocs:
+        description: GeekBI Temu Image Search documentation
+        url: https://www.nexscope.ai/api-docs/geekbi-temu-goods-image-search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                imageUrl:
+                  type: string
+                  description: Provider OSS temporary image URL, obtained through presignedPut and a successful PUT upload with the signature query removed. Replace the example.invalid placeholder before calling; external URLs are rejected upstream. Actual image must be at most 10 MB and JPEG, PNG, GIF, WebP or BMP.
+                  minLength: 1
+                  maxLength: 2048
+                  format: uri
+                contentType:
+                  type: string
+                  description: Must match OSS response and actual image bytes; omitted means server detection.
+                  maxLength: 100
+                  enum:
+                  - image/jpeg
+                  - image/png
+                  - image/gif
+                  - image/webp
+                  - image/bmp
+              required:
+              - imageUrl
+            example:
+              imageUrl: https://example.invalid/replace-with-provider-oss-image
+              contentType: image/jpeg
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                properties:
+                  errcode:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Provider business status; observed success is 200.
+                  errmsg:
+                    type:
+                    - string
+                    - 'null'
+                    description: Provider business status message.
+                  columns:
+                    type:
+                    - array
+                    - 'null'
+                    description: Render column definitions; business records are separate.
+                    items: {}
+                  title:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: title.'
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: type.'
+                  sourceTool:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: sourceTool.'
+                  sourceType:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: sourceType.'
+                  items:
+                    type:
+                    - array
+                    - 'null'
+                    description: Returned records, including valid empty results; preserve duplicate records and unknown fields.
+                    items:
+                      type: object
+                      properties:
+                        isAd:
+                          type:
+                          - boolean
+                          - 'null'
+                          description: 'Provider product flag: isAd.'
+                        isCustom:
+                          type:
+                          - boolean
+                          - 'null'
+                          description: 'Provider product flag: isCustom.'
+                        isPresale:
+                          type:
+                          - boolean
+                          - 'null'
+                          description: 'Provider product flag: isPresale.'
+                        goodsId:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider goodsId; preserve identifier and timestamp strings.
+                        mallId:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider mallId; preserve identifier and timestamp strings.
+                        thumbnail:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider thumbnail; preserve identifier and timestamp strings.
+                        goodsName:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider goodsName; preserve identifier and timestamp strings.
+                        goodsNameCn:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider goodsNameCn; preserve identifier and timestamp strings.
+                        goodsNameEn:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider goodsNameEn; preserve identifier and timestamp strings.
+                        brand:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider brand; preserve identifier and timestamp strings.
+                        sku:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider sku; preserve identifier and timestamp strings.
+                        onSaleTime:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider onSaleTime; preserve identifier and timestamp strings.
+                        mallOpenTime:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider mallOpenTime; preserve identifier and timestamp strings.
+                        createTime:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider createTime; preserve identifier and timestamp strings.
+                        updateTime:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider updateTime; preserve identifier and timestamp strings.
+                        sold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider sold; monetary values use the selected site's currency unless identified as supply prices.
+                        quantity:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider quantity; monetary values use the selected site's currency unless identified as supply prices.
+                        mallSold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider mallSold; monetary values use the selected site's currency unless identified as supply prices.
+                        sales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider sales; monetary values use the selected site's currency unless identified as supply prices.
+                        minPrice:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider minPrice; monetary values use the selected site's currency unless identified as supply prices.
+                        maxPrice:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider maxPrice; monetary values use the selected site's currency unless identified as supply prices.
+                        supplyPrice:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider supplyPrice; monetary values use the selected site's currency unless identified as supply prices.
+                        minSupplyPrice:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider minSupplyPrice; monetary values use the selected site's currency unless identified as supply prices.
+                        medianSupplyPrice:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider medianSupplyPrice; monetary values use the selected site's currency unless identified as supply prices.
+                        maxSupplyPrice:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider maxSupplyPrice; monetary values use the selected site's currency unless identified as supply prices.
+                        goodsScore:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider goodsScore; monetary values use the selected site's currency unless identified as supply prices.
+                        reviewNum:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider reviewNum; monetary values use the selected site's currency unless identified as supply prices.
+                        hostingMode:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider hostingMode; monetary values use the selected site's currency unless identified as supply prices.
+                        status:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider status; monetary values use the selected site's currency unless identified as supply prices.
+                        similarNum:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider similarNum; monetary values use the selected site's currency unless identified as supply prices.
+                        catIds:
+                          type:
+                          - array
+                          - 'null'
+                          description: Associated category identifiers.
+                          items: {}
+                        catItems:
+                          type:
+                          - array
+                          - 'null'
+                          description: 'Category paths: catId, catName, catLevel, parentCatId and isLeaf.'
+                          items: {}
+                        daySold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider day Sold metric; sales revenue uses site currency.
+                        daySoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for day Sold.
+                        daySales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider day Sales metric; sales revenue uses site currency.
+                        daySalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for day Sales.
+                        weekSold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider week Sold metric; sales revenue uses site currency.
+                        weekSoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for week Sold.
+                        weekSales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider week Sales metric; sales revenue uses site currency.
+                        weekSalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for week Sales.
+                        monthSold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider month Sold metric; sales revenue uses site currency.
+                        monthSoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for month Sold.
+                        monthSales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider month Sales metric; sales revenue uses site currency.
+                        monthSalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for month Sales.
+                  total:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Provider match count, possibly capped at 10000 for searches.
+                additionalProperties: true
+                type: object
+              example:
+                errmsg: ok
+                errcode: 200
+                columns: []
+                items: []
+                total: 0
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: geekbi-temu-goods-image-search
+      x-nexscope-mcp-tool-name: nexscope_geekbi_temu_goods_image_search
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/geekbi-temu-mall-search/run:
+    post:
+      tags:
+      - Temu Marketplace Intelligence
+      summary: GeekBI Temu Shop Search
+      description: Execute the selected shop search operation and preserve provider business fields and extensions.
+      operationId: runGeekbiTemuMallSearch
+      externalDocs:
+        description: GeekBI Temu Shop Search documentation
+        url: https://www.nexscope.ai/api-docs/geekbi-temu-mall-search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                regionId:
+                  type: integer
+                  description: Temu region from sites[].regionId; never siteId.
+                  minimum: 1
+                  default: 211
+                page:
+                  type: integer
+                  description: Page number.
+                  minimum: 1
+                  default: 1
+                size:
+                  type: integer
+                  description: Items per page; page times size must not exceed 10000.
+                  minimum: 1
+                  maximum: 200
+                  default: 20
+                keyword:
+                  type: string
+                  description: User keyword; preserve the supplied language.
+                  maxLength: 300
+                sort:
+                  type: string
+                  description: Confirmed provider sort field; omit when unnecessary.
+                  maxLength: 100
+                order:
+                  type: string
+                  description: Sort direction, case-insensitive.
+                  pattern: ^([aA][sS][cC]|[dD][eE][sS][cC])$
+                catIds:
+                  type: array
+                  description: Category identifiers obtained from category lookup.
+                  items:
+                    type: integer
+                    minimum: 0
+                hostingMode:
+                  type: integer
+                  description: 1 fully managed, 2 semi-managed.
+                  enum:
+                  - 1
+                  - 2
+                mallSoldMin:
+                  type: integer
+                  description: Lower bound for mallSold; minimum must not exceed maximum.
+                  minimum: 0
+                mallSoldMax:
+                  type: integer
+                  description: Upper bound for mallSold; minimum must not exceed maximum.
+                  minimum: 0
+                reviewNumMin:
+                  type: integer
+                  description: Lower bound for reviewNum; minimum must not exceed maximum.
+                  minimum: 0
+                reviewNumMax:
+                  type: integer
+                  description: Upper bound for reviewNum; minimum must not exceed maximum.
+                  minimum: 0
+                goodsNumMin:
+                  type: integer
+                  description: Lower bound for goodsNum; minimum must not exceed maximum.
+                  minimum: 0
+                goodsNumMax:
+                  type: integer
+                  description: Upper bound for goodsNum; minimum must not exceed maximum.
+                  minimum: 0
+                followerNumMin:
+                  type: integer
+                  description: Lower bound for followerNum; minimum must not exceed maximum.
+                  minimum: 0
+                followerNumMax:
+                  type: integer
+                  description: Upper bound for followerNum; minimum must not exceed maximum.
+                  minimum: 0
+                mallSalesMin:
+                  type: number
+                  description: Lower bound for mallSales; minimum must not exceed maximum.
+                  minimum: 0
+                mallSalesMax:
+                  type: number
+                  description: Upper bound for mallSales; minimum must not exceed maximum.
+                  minimum: 0
+                avgPriceMin:
+                  type: number
+                  description: Lower bound for avgPrice; minimum must not exceed maximum.
+                  minimum: 0
+                avgPriceMax:
+                  type: number
+                  description: Upper bound for avgPrice; minimum must not exceed maximum.
+                  minimum: 0
+                mallStarMin:
+                  type: number
+                  description: Lower bound for mallStar; minimum must not exceed maximum.
+                  minimum: 0
+                  maximum: 5
+                mallStarMax:
+                  type: number
+                  description: Upper bound for mallStar; minimum must not exceed maximum.
+                  minimum: 0
+                  maximum: 5
+                mallOpenTimeMin:
+                  type: string
+                  description: Earliest mallOpenTime in ISO-8601 date-time; minimum must not exceed maximum.
+                  maxLength: 40
+                  format: date-time
+                mallOpenTimeMax:
+                  type: string
+                  description: Latest mallOpenTime in ISO-8601 date-time; minimum must not exceed maximum.
+                  maxLength: 40
+                  format: date-time
+              required: []
+            example:
+              regionId: 211
+              page: 1
+              size: 3
+              mallStarMin: 4
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                properties:
+                  errcode:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Provider business status; observed success is 200.
+                  errmsg:
+                    type:
+                    - string
+                    - 'null'
+                    description: Provider business status message.
+                  columns:
+                    type:
+                    - array
+                    - 'null'
+                    description: Render column definitions; business records are separate.
+                    items: {}
+                  title:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: title.'
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: type.'
+                  sourceTool:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: sourceTool.'
+                  sourceType:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: sourceType.'
+                  items:
+                    type:
+                    - array
+                    - 'null'
+                    description: Returned records, including valid empty results; preserve duplicate records and unknown fields.
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider id; preserve identifier and timestamp strings.
+                        mallId:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider mallId; preserve identifier and timestamp strings.
+                        mallLogo:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider mallLogo; preserve identifier and timestamp strings.
+                        mallName:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider mallName; preserve identifier and timestamp strings.
+                        mallOpenTime:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider mallOpenTime; preserve identifier and timestamp strings.
+                        createTime:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider createTime; preserve identifier and timestamp strings.
+                        updateTime:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider updateTime; preserve identifier and timestamp strings.
+                        regionId:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider regionId; monetary values use the selected site's currency unless identified as supply prices.
+                        hot:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider hot; monetary values use the selected site's currency unless identified as supply prices.
+                        mallStar:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider mallStar; monetary values use the selected site's currency unless identified as supply prices.
+                        reviewNum:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider reviewNum; monetary values use the selected site's currency unless identified as supply prices.
+                        goodsNum:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider goodsNum; monetary values use the selected site's currency unless identified as supply prices.
+                        followerNum:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider followerNum; monetary values use the selected site's currency unless identified as supply prices.
+                        mallSold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider mallSold; monetary values use the selected site's currency unless identified as supply prices.
+                        mallSales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider mallSales; monetary values use the selected site's currency unless identified as supply prices.
+                        avgPrice:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider avgPrice; monetary values use the selected site's currency unless identified as supply prices.
+                        hostingMode:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider hostingMode; monetary values use the selected site's currency unless identified as supply prices.
+                        catIds:
+                          type:
+                          - array
+                          - 'null'
+                          description: Associated category identifiers.
+                          items: {}
+                        catItems:
+                          type:
+                          - array
+                          - 'null'
+                          description: 'Category paths: catId, catName, catLevel, parentCatId and isLeaf.'
+                          items: {}
+                        dayFollower:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider day Follower metric; sales revenue uses site currency.
+                        dayFollowerRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for day Follower.
+                        dayItemCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider day ItemCount metric; sales revenue uses site currency.
+                        dayItemCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for day ItemCount.
+                        daySales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider day Sales metric; sales revenue uses site currency.
+                        daySalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for day Sales.
+                        daySellthroughCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider day SellthroughCount metric; sales revenue uses site currency.
+                        daySellthroughCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for day SellthroughCount.
+                        daySold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider day Sold metric; sales revenue uses site currency.
+                        daySoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for day Sold.
+                        weekFollower:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider week Follower metric; sales revenue uses site currency.
+                        weekFollowerRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for week Follower.
+                        weekItemCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider week ItemCount metric; sales revenue uses site currency.
+                        weekItemCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for week ItemCount.
+                        weekSales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider week Sales metric; sales revenue uses site currency.
+                        weekSalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for week Sales.
+                        weekSellthroughCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider week SellthroughCount metric; sales revenue uses site currency.
+                        weekSellthroughCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for week SellthroughCount.
+                        weekSold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider week Sold metric; sales revenue uses site currency.
+                        weekSoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for week Sold.
+                        monthFollower:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider month Follower metric; sales revenue uses site currency.
+                        monthFollowerRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for month Follower.
+                        monthItemCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider month ItemCount metric; sales revenue uses site currency.
+                        monthItemCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for month ItemCount.
+                        monthSales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider month Sales metric; sales revenue uses site currency.
+                        monthSalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for month Sales.
+                        monthSellthroughCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider month SellthroughCount metric; sales revenue uses site currency.
+                        monthSellthroughCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for month SellthroughCount.
+                        monthSold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider month Sold metric; sales revenue uses site currency.
+                        monthSoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for month Sold.
+                  total:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Provider match count, possibly capped at 10000 for searches.
+                  regionId:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Region used for the query.
+                  page:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Current page.
+                  size:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Items per page.
+                additionalProperties: true
+                type: object
+              example:
+                errmsg: ok
+                errcode: 200
+                columns: []
+                items: []
+                total: 0
+                regionId: 211
+                page: 1
+                size: 3
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: geekbi-temu-mall-search
+      x-nexscope-mcp-tool-name: nexscope_geekbi_temu_mall_search
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/geekbi-temu-goods-detail/run:
+    post:
+      tags:
+      - Temu Marketplace Intelligence
+      summary: GeekBI Temu Product Detail
+      description: Execute the selected product detail operation and preserve provider business fields and extensions.
+      operationId: runGeekbiTemuGoodsDetail
+      externalDocs:
+        description: GeekBI Temu Product Detail documentation
+        url: https://www.nexscope.ai/api-docs/geekbi-temu-goods-detail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                goodsId:
+                  type: string
+                  description: Product ID returned by product search.
+                  minLength: 1
+                  maxLength: 100
+                regionId:
+                  type: integer
+                  description: Temu region from sites[].regionId; never siteId.
+                  minimum: 1
+                  default: 211
+              required:
+              - goodsId
+            example:
+              goodsId: '601100240999226'
+              regionId: 211
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                properties:
+                  errcode:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Provider business status; observed success is 200.
+                  errmsg:
+                    type:
+                    - string
+                    - 'null'
+                    description: Provider business status message.
+                  columns:
+                    type:
+                    - array
+                    - 'null'
+                    description: Render column definitions; business records are separate.
+                    items: {}
+                  title:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: title.'
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: type.'
+                  sourceTool:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: sourceTool.'
+                  sourceType:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: sourceType.'
+                  goods:
+                    type:
+                    - object
+                    - 'null'
+                    description: Product object; nullable fields and extensions are preserved.
+                    properties:
+                      isAd:
+                        type:
+                        - boolean
+                        - 'null'
+                        description: 'Provider product flag: isAd.'
+                      isCustom:
+                        type:
+                        - boolean
+                        - 'null'
+                        description: 'Provider product flag: isCustom.'
+                      isPresale:
+                        type:
+                        - boolean
+                        - 'null'
+                        description: 'Provider product flag: isPresale.'
+                      goodsId:
+                        type:
+                        - string
+                        - 'null'
+                        description: Provider goodsId; preserve identifier and timestamp strings.
+                      mallId:
+                        type:
+                        - string
+                        - 'null'
+                        description: Provider mallId; preserve identifier and timestamp strings.
+                      thumbnail:
+                        type:
+                        - string
+                        - 'null'
+                        description: Provider thumbnail; preserve identifier and timestamp strings.
+                      goodsName:
+                        type:
+                        - string
+                        - 'null'
+                        description: Provider goodsName; preserve identifier and timestamp strings.
+                      goodsNameCn:
+                        type:
+                        - string
+                        - 'null'
+                        description: Provider goodsNameCn; preserve identifier and timestamp strings.
+                      goodsNameEn:
+                        type:
+                        - string
+                        - 'null'
+                        description: Provider goodsNameEn; preserve identifier and timestamp strings.
+                      brand:
+                        type:
+                        - string
+                        - 'null'
+                        description: Provider brand; preserve identifier and timestamp strings.
+                      sku:
+                        type:
+                        - string
+                        - 'null'
+                        description: Provider sku; preserve identifier and timestamp strings.
+                      onSaleTime:
+                        type:
+                        - string
+                        - 'null'
+                        description: Provider onSaleTime; preserve identifier and timestamp strings.
+                      mallOpenTime:
+                        type:
+                        - string
+                        - 'null'
+                        description: Provider mallOpenTime; preserve identifier and timestamp strings.
+                      createTime:
+                        type:
+                        - string
+                        - 'null'
+                        description: Provider createTime; preserve identifier and timestamp strings.
+                      updateTime:
+                        type:
+                        - string
+                        - 'null'
+                        description: Provider updateTime; preserve identifier and timestamp strings.
+                      sold:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider sold; monetary values use the selected site's currency unless identified as supply prices.
+                      quantity:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider quantity; monetary values use the selected site's currency unless identified as supply prices.
+                      mallSold:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider mallSold; monetary values use the selected site's currency unless identified as supply prices.
+                      sales:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider sales; monetary values use the selected site's currency unless identified as supply prices.
+                      minPrice:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider minPrice; monetary values use the selected site's currency unless identified as supply prices.
+                      maxPrice:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider maxPrice; monetary values use the selected site's currency unless identified as supply prices.
+                      supplyPrice:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider supplyPrice; monetary values use the selected site's currency unless identified as supply prices.
+                      minSupplyPrice:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider minSupplyPrice; monetary values use the selected site's currency unless identified as supply prices.
+                      medianSupplyPrice:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider medianSupplyPrice; monetary values use the selected site's currency unless identified as supply prices.
+                      maxSupplyPrice:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider maxSupplyPrice; monetary values use the selected site's currency unless identified as supply prices.
+                      goodsScore:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider goodsScore; monetary values use the selected site's currency unless identified as supply prices.
+                      reviewNum:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider reviewNum; monetary values use the selected site's currency unless identified as supply prices.
+                      hostingMode:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider hostingMode; monetary values use the selected site's currency unless identified as supply prices.
+                      status:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider status; monetary values use the selected site's currency unless identified as supply prices.
+                      similarNum:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider similarNum; monetary values use the selected site's currency unless identified as supply prices.
+                      catIds:
+                        type:
+                        - array
+                        - 'null'
+                        description: Associated category identifiers.
+                        items: {}
+                      catItems:
+                        type:
+                        - array
+                        - 'null'
+                        description: 'Category paths: catId, catName, catLevel, parentCatId and isLeaf.'
+                        items: {}
+                      daySold:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider day Sold metric; sales revenue uses site currency.
+                      daySoldRate:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider growth rate for day Sold.
+                      daySales:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider day Sales metric; sales revenue uses site currency.
+                      daySalesRate:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider growth rate for day Sales.
+                      weekSold:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider week Sold metric; sales revenue uses site currency.
+                      weekSoldRate:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider growth rate for week Sold.
+                      weekSales:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider week Sales metric; sales revenue uses site currency.
+                      weekSalesRate:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider growth rate for week Sales.
+                      monthSold:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider month Sold metric; sales revenue uses site currency.
+                      monthSoldRate:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider growth rate for month Sold.
+                      monthSales:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider month Sales metric; sales revenue uses site currency.
+                      monthSalesRate:
+                        type:
+                        - number
+                        - 'null'
+                        description: Provider growth rate for month Sales.
+                  history:
+                    type:
+                    - array
+                    - 'null'
+                    description: History records from the last 30 days; optional provider metrics and time strings.
+                    items:
+                      type: object
+                      properties:
+                        sold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical sold; monetary values use site currency.
+                        sales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical sales; monetary values use site currency.
+                        minPrice:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical minPrice; monetary values use site currency.
+                        maxPrice:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical maxPrice; monetary values use site currency.
+                        quantity:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical quantity; monetary values use site currency.
+                        goodsScore:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical goodsScore; monetary values use site currency.
+                        reviewNum:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical reviewNum; monetary values use site currency.
+                        daySold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical daySold; monetary values use site currency.
+                        weekSold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical weekSold; monetary values use site currency.
+                        monthSold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical monthSold; monetary values use site currency.
+                        daySales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical daySales; monetary values use site currency.
+                        weekSales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical weekSales; monetary values use site currency.
+                        monthSales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical monthSales; monetary values use site currency.
+                        daySoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical daySoldRate; monetary values use site currency.
+                        weekSoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical weekSoldRate; monetary values use site currency.
+                        monthSoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical monthSoldRate; monetary values use site currency.
+                        daySalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical daySalesRate; monetary values use site currency.
+                        weekSalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical weekSalesRate; monetary values use site currency.
+                        monthSalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Historical monthSalesRate; monetary values use site currency.
+                        createTime:
+                          type:
+                          - string
+                          - 'null'
+                          description: Unmodified provider history timestamp.
+                  regionId:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Region used for the query.
+                additionalProperties: true
+                type: object
+              example:
+                errmsg: ok
+                errcode: 200
+                columns: []
+                goods: {}
+                history: []
+                regionId: 211
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: geekbi-temu-goods-detail
+      x-nexscope-mcp-tool-name: nexscope_geekbi_temu_goods_detail
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/geekbi-temu-goods-search/run:
+    post:
+      tags:
+      - Temu Marketplace Intelligence
+      summary: GeekBI Temu Product Search
+      description: Execute the selected product search operation and preserve provider business fields and extensions.
+      operationId: runGeekbiTemuGoodsSearch
+      externalDocs:
+        description: GeekBI Temu Product Search documentation
+        url: https://www.nexscope.ai/api-docs/geekbi-temu-goods-search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                regionId:
+                  type: integer
+                  description: Temu region from sites[].regionId; never siteId.
+                  minimum: 1
+                  default: 211
+                page:
+                  type: integer
+                  description: Page number.
+                  minimum: 1
+                  default: 1
+                size:
+                  type: integer
+                  description: Items per page; page times size must not exceed 10000.
+                  minimum: 1
+                  maximum: 200
+                  default: 20
+                keyword:
+                  type: string
+                  description: User keyword; preserve the supplied language.
+                  maxLength: 300
+                sort:
+                  type: string
+                  description: Confirmed provider sort field; omit when unnecessary.
+                  maxLength: 100
+                order:
+                  type: string
+                  description: Sort direction, case-insensitive.
+                  pattern: ^([aA][sS][cC]|[dD][eE][sS][cC])$
+                catIds:
+                  type: array
+                  description: Category identifiers obtained from category lookup.
+                  items:
+                    type: integer
+                    minimum: 0
+                matchMode:
+                  type: integer
+                  description: 1 strict matching, 2 fuzzy matching.
+                  enum:
+                  - 1
+                  - 2
+                  default: 2
+                status:
+                  type: array
+                  description: 1 normal, 2 out of stock, 3 delisted.
+                  items:
+                    type: integer
+                    enum:
+                    - 1
+                    - 2
+                    - 3
+                hostingMode:
+                  type: integer
+                  description: 1 fully managed, 2 semi-managed.
+                  enum:
+                  - 1
+                  - 2
+                soldMin:
+                  type: integer
+                  description: Lower bound for sold; minimum must not exceed maximum.
+                  minimum: 0
+                soldMax:
+                  type: integer
+                  description: Upper bound for sold; minimum must not exceed maximum.
+                  minimum: 0
+                daySoldMin:
+                  type: integer
+                  description: Lower bound for daySold; minimum must not exceed maximum.
+                  minimum: 0
+                daySoldMax:
+                  type: integer
+                  description: Upper bound for daySold; minimum must not exceed maximum.
+                  minimum: 0
+                weekSoldMin:
+                  type: integer
+                  description: Lower bound for weekSold; minimum must not exceed maximum.
+                  minimum: 0
+                weekSoldMax:
+                  type: integer
+                  description: Upper bound for weekSold; minimum must not exceed maximum.
+                  minimum: 0
+                monthSoldMin:
+                  type: integer
+                  description: Lower bound for monthSold; minimum must not exceed maximum.
+                  minimum: 0
+                monthSoldMax:
+                  type: integer
+                  description: Upper bound for monthSold; minimum must not exceed maximum.
+                  minimum: 0
+                quantityMin:
+                  type: integer
+                  description: Lower bound for quantity; minimum must not exceed maximum.
+                  minimum: 0
+                quantityMax:
+                  type: integer
+                  description: Upper bound for quantity; minimum must not exceed maximum.
+                  minimum: 0
+                mallSoldMin:
+                  type: integer
+                  description: Lower bound for mallSold; minimum must not exceed maximum.
+                  minimum: 0
+                mallSoldMax:
+                  type: integer
+                  description: Upper bound for mallSold; minimum must not exceed maximum.
+                  minimum: 0
+                reviewNumMin:
+                  type: integer
+                  description: Lower bound for reviewNum; minimum must not exceed maximum.
+                  minimum: 0
+                reviewNumMax:
+                  type: integer
+                  description: Upper bound for reviewNum; minimum must not exceed maximum.
+                  minimum: 0
+                salesMin:
+                  type: number
+                  description: Lower bound for sales; minimum must not exceed maximum.
+                  minimum: 0
+                salesMax:
+                  type: number
+                  description: Upper bound for sales; minimum must not exceed maximum.
+                  minimum: 0
+                daySalesMin:
+                  type: number
+                  description: Lower bound for daySales; minimum must not exceed maximum.
+                  minimum: 0
+                daySalesMax:
+                  type: number
+                  description: Upper bound for daySales; minimum must not exceed maximum.
+                  minimum: 0
+                weekSalesMin:
+                  type: number
+                  description: Lower bound for weekSales; minimum must not exceed maximum.
+                  minimum: 0
+                weekSalesMax:
+                  type: number
+                  description: Upper bound for weekSales; minimum must not exceed maximum.
+                  minimum: 0
+                monthSalesMin:
+                  type: number
+                  description: Lower bound for monthSales; minimum must not exceed maximum.
+                  minimum: 0
+                monthSalesMax:
+                  type: number
+                  description: Upper bound for monthSales; minimum must not exceed maximum.
+                  minimum: 0
+                priceMin:
+                  type: number
+                  description: Lower bound for price; minimum must not exceed maximum.
+                  minimum: 0
+                priceMax:
+                  type: number
+                  description: Upper bound for price; minimum must not exceed maximum.
+                  minimum: 0
+                supplyPriceMin:
+                  type: number
+                  description: Lower bound for supplyPrice; minimum must not exceed maximum.
+                  minimum: 0
+                supplyPriceMax:
+                  type: number
+                  description: Upper bound for supplyPrice; minimum must not exceed maximum.
+                  minimum: 0
+                daySoldRateMin:
+                  type: number
+                  description: Lower bound for daySoldRate; minimum must not exceed maximum.
+                daySoldRateMax:
+                  type: number
+                  description: Upper bound for daySoldRate; minimum must not exceed maximum.
+                weekSoldRateMin:
+                  type: number
+                  description: Lower bound for weekSoldRate; minimum must not exceed maximum.
+                weekSoldRateMax:
+                  type: number
+                  description: Upper bound for weekSoldRate; minimum must not exceed maximum.
+                monthSoldRateMin:
+                  type: number
+                  description: Lower bound for monthSoldRate; minimum must not exceed maximum.
+                monthSoldRateMax:
+                  type: number
+                  description: Upper bound for monthSoldRate; minimum must not exceed maximum.
+                daySalesRateMin:
+                  type: number
+                  description: Lower bound for daySalesRate; minimum must not exceed maximum.
+                daySalesRateMax:
+                  type: number
+                  description: Upper bound for daySalesRate; minimum must not exceed maximum.
+                weekSalesRateMin:
+                  type: number
+                  description: Lower bound for weekSalesRate; minimum must not exceed maximum.
+                weekSalesRateMax:
+                  type: number
+                  description: Upper bound for weekSalesRate; minimum must not exceed maximum.
+                monthSalesRateMin:
+                  type: number
+                  description: Lower bound for monthSalesRate; minimum must not exceed maximum.
+                monthSalesRateMax:
+                  type: number
+                  description: Upper bound for monthSalesRate; minimum must not exceed maximum.
+                goodsScoreMin:
+                  type: number
+                  description: Lower bound for goodsScore; minimum must not exceed maximum.
+                  minimum: 0
+                  maximum: 5
+                goodsScoreMax:
+                  type: number
+                  description: Upper bound for goodsScore; minimum must not exceed maximum.
+                  minimum: 0
+                  maximum: 5
+                onSaleTimeMin:
+                  type: string
+                  description: Earliest onSaleTime in ISO-8601 date-time; minimum must not exceed maximum.
+                  maxLength: 40
+                  format: date-time
+                onSaleTimeMax:
+                  type: string
+                  description: Latest onSaleTime in ISO-8601 date-time; minimum must not exceed maximum.
+                  maxLength: 40
+                  format: date-time
+                mallOpenTimeMin:
+                  type: string
+                  description: Earliest mallOpenTime in ISO-8601 date-time; minimum must not exceed maximum.
+                  maxLength: 40
+                  format: date-time
+                mallOpenTimeMax:
+                  type: string
+                  description: Latest mallOpenTime in ISO-8601 date-time; minimum must not exceed maximum.
+                  maxLength: 40
+                  format: date-time
+              required: []
+            example:
+              regionId: 211
+              page: 1
+              size: 3
+              keyword: dress
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                properties:
+                  errcode:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Provider business status; observed success is 200.
+                  errmsg:
+                    type:
+                    - string
+                    - 'null'
+                    description: Provider business status message.
+                  columns:
+                    type:
+                    - array
+                    - 'null'
+                    description: Render column definitions; business records are separate.
+                    items: {}
+                  title:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: title.'
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: type.'
+                  sourceTool:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: sourceTool.'
+                  sourceType:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: sourceType.'
+                  items:
+                    type:
+                    - array
+                    - 'null'
+                    description: Returned records, including valid empty results; preserve duplicate records and unknown fields.
+                    items:
+                      type: object
+                      properties:
+                        isAd:
+                          type:
+                          - boolean
+                          - 'null'
+                          description: 'Provider product flag: isAd.'
+                        isCustom:
+                          type:
+                          - boolean
+                          - 'null'
+                          description: 'Provider product flag: isCustom.'
+                        isPresale:
+                          type:
+                          - boolean
+                          - 'null'
+                          description: 'Provider product flag: isPresale.'
+                        goodsId:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider goodsId; preserve identifier and timestamp strings.
+                        mallId:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider mallId; preserve identifier and timestamp strings.
+                        thumbnail:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider thumbnail; preserve identifier and timestamp strings.
+                        goodsName:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider goodsName; preserve identifier and timestamp strings.
+                        goodsNameCn:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider goodsNameCn; preserve identifier and timestamp strings.
+                        goodsNameEn:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider goodsNameEn; preserve identifier and timestamp strings.
+                        brand:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider brand; preserve identifier and timestamp strings.
+                        sku:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider sku; preserve identifier and timestamp strings.
+                        onSaleTime:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider onSaleTime; preserve identifier and timestamp strings.
+                        mallOpenTime:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider mallOpenTime; preserve identifier and timestamp strings.
+                        createTime:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider createTime; preserve identifier and timestamp strings.
+                        updateTime:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider updateTime; preserve identifier and timestamp strings.
+                        sold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider sold; monetary values use the selected site's currency unless identified as supply prices.
+                        quantity:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider quantity; monetary values use the selected site's currency unless identified as supply prices.
+                        mallSold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider mallSold; monetary values use the selected site's currency unless identified as supply prices.
+                        sales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider sales; monetary values use the selected site's currency unless identified as supply prices.
+                        minPrice:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider minPrice; monetary values use the selected site's currency unless identified as supply prices.
+                        maxPrice:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider maxPrice; monetary values use the selected site's currency unless identified as supply prices.
+                        supplyPrice:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider supplyPrice; monetary values use the selected site's currency unless identified as supply prices.
+                        minSupplyPrice:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider minSupplyPrice; monetary values use the selected site's currency unless identified as supply prices.
+                        medianSupplyPrice:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider medianSupplyPrice; monetary values use the selected site's currency unless identified as supply prices.
+                        maxSupplyPrice:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider maxSupplyPrice; monetary values use the selected site's currency unless identified as supply prices.
+                        goodsScore:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider goodsScore; monetary values use the selected site's currency unless identified as supply prices.
+                        reviewNum:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider reviewNum; monetary values use the selected site's currency unless identified as supply prices.
+                        hostingMode:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider hostingMode; monetary values use the selected site's currency unless identified as supply prices.
+                        status:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider status; monetary values use the selected site's currency unless identified as supply prices.
+                        similarNum:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider similarNum; monetary values use the selected site's currency unless identified as supply prices.
+                        catIds:
+                          type:
+                          - array
+                          - 'null'
+                          description: Associated category identifiers.
+                          items: {}
+                        catItems:
+                          type:
+                          - array
+                          - 'null'
+                          description: 'Category paths: catId, catName, catLevel, parentCatId and isLeaf.'
+                          items: {}
+                        daySold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider day Sold metric; sales revenue uses site currency.
+                        daySoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for day Sold.
+                        daySales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider day Sales metric; sales revenue uses site currency.
+                        daySalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for day Sales.
+                        weekSold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider week Sold metric; sales revenue uses site currency.
+                        weekSoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for week Sold.
+                        weekSales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider week Sales metric; sales revenue uses site currency.
+                        weekSalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for week Sales.
+                        monthSold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider month Sold metric; sales revenue uses site currency.
+                        monthSoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for month Sold.
+                        monthSales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider month Sales metric; sales revenue uses site currency.
+                        monthSalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for month Sales.
+                  total:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Provider match count, possibly capped at 10000 for searches.
+                  regionId:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Region used for the query.
+                  page:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Current page.
+                  size:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Items per page.
+                additionalProperties: true
+                type: object
+              example:
+                errmsg: ok
+                errcode: 200
+                columns: []
+                items: []
+                total: 0
+                regionId: 211
+                page: 1
+                size: 3
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: geekbi-temu-goods-search
+      x-nexscope-mcp-tool-name: nexscope_geekbi_temu_goods_search
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/geekbi-temu-keyword-search/run:
+    post:
+      tags:
+      - Temu Marketplace Intelligence
+      summary: GeekBI Temu Keyword Research
+      description: Execute the selected keyword research operation and preserve provider business fields and extensions.
+      operationId: runGeekbiTemuKeywordSearch
+      externalDocs:
+        description: GeekBI Temu Keyword Research documentation
+        url: https://www.nexscope.ai/api-docs/geekbi-temu-keyword-search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                regionId:
+                  type: integer
+                  description: Temu region from sites[].regionId; never siteId.
+                  minimum: 1
+                  default: 211
+                page:
+                  type: integer
+                  description: Page number.
+                  minimum: 1
+                  default: 1
+                size:
+                  type: integer
+                  description: Items per page; page times size must not exceed 10000.
+                  minimum: 1
+                  maximum: 200
+                  default: 20
+                keyword:
+                  type: string
+                  description: User keyword; preserve the supplied language.
+                  maxLength: 300
+                sort:
+                  type: string
+                  description: Confirmed provider sort field; omit when unnecessary.
+                  maxLength: 100
+                order:
+                  type: string
+                  description: Sort direction, case-insensitive.
+                  pattern: ^([aA][sS][cC]|[dD][eE][sS][cC])$
+                dsrMin:
+                  type: number
+                  description: Lower bound for dsr; minimum must not exceed maximum.
+                dsrMax:
+                  type: number
+                  description: Upper bound for dsr; minimum must not exceed maximum.
+                totalSoldMin:
+                  type: integer
+                  description: Lower bound for totalSold; minimum must not exceed maximum.
+                  minimum: 0
+                totalSoldMax:
+                  type: integer
+                  description: Upper bound for totalSold; minimum must not exceed maximum.
+                  minimum: 0
+                itemCountMin:
+                  type: integer
+                  description: Lower bound for itemCount; minimum must not exceed maximum.
+                  minimum: 0
+                itemCountMax:
+                  type: integer
+                  description: Upper bound for itemCount; minimum must not exceed maximum.
+                  minimum: 0
+                mallCountMin:
+                  type: integer
+                  description: Lower bound for mallCount; minimum must not exceed maximum.
+                  minimum: 0
+                mallCountMax:
+                  type: integer
+                  description: Upper bound for mallCount; minimum must not exceed maximum.
+                  minimum: 0
+                avgPriceMin:
+                  type: number
+                  description: Lower bound for avgPrice; minimum must not exceed maximum.
+                  minimum: 0
+                avgPriceMax:
+                  type: number
+                  description: Upper bound for avgPrice; minimum must not exceed maximum.
+                  minimum: 0
+                totalSalesMin:
+                  type: number
+                  description: Lower bound for totalSales; minimum must not exceed maximum.
+                  minimum: 0
+                totalSalesMax:
+                  type: number
+                  description: Upper bound for totalSales; minimum must not exceed maximum.
+                  minimum: 0
+                catIds:
+                  type: array
+                  description: Category identifiers obtained from category lookup.
+                  items:
+                    type: integer
+                    minimum: 0
+                firstOnSaleTimeMin:
+                  type: string
+                  description: Earliest firstOnSaleTime in ISO-8601 date-time; minimum must not exceed maximum.
+                  maxLength: 40
+                  format: date-time
+                firstOnSaleTimeMax:
+                  type: string
+                  description: Latest firstOnSaleTime in ISO-8601 date-time; minimum must not exceed maximum.
+                  maxLength: 40
+                  format: date-time
+              required: []
+            example:
+              regionId: 211
+              page: 1
+              size: 3
+              keyword: dress
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                properties:
+                  errcode:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Provider business status; observed success is 200.
+                  errmsg:
+                    type:
+                    - string
+                    - 'null'
+                    description: Provider business status message.
+                  columns:
+                    type:
+                    - array
+                    - 'null'
+                    description: Render column definitions; business records are separate.
+                    items: {}
+                  title:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: title.'
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: type.'
+                  sourceTool:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: sourceTool.'
+                  sourceType:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: sourceType.'
+                  items:
+                    type:
+                    - array
+                    - 'null'
+                    description: Returned records, including valid empty results; preserve duplicate records and unknown fields.
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider id; preserve identifier and timestamp strings.
+                        keyword:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider keyword; preserve identifier and timestamp strings.
+                        cnKeyword:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider cnKeyword; preserve identifier and timestamp strings.
+                        thumbnail:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider thumbnail; preserve identifier and timestamp strings.
+                        firstOnSaleTime:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider firstOnSaleTime; preserve identifier and timestamp strings.
+                        createTime:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider createTime; preserve identifier and timestamp strings.
+                        updateTime:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider updateTime; preserve identifier and timestamp strings.
+                        regionId:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider regionId; monetary values use the selected site's currency unless identified as supply prices.
+                        dsr:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider dsr; monetary values use the selected site's currency unless identified as supply prices.
+                        totalSold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider totalSold; monetary values use the selected site's currency unless identified as supply prices.
+                        totalSales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider totalSales; monetary values use the selected site's currency unless identified as supply prices.
+                        avgPrice:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider avgPrice; monetary values use the selected site's currency unless identified as supply prices.
+                        itemCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider itemCount; monetary values use the selected site's currency unless identified as supply prices.
+                        mallCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider mallCount; monetary values use the selected site's currency unless identified as supply prices.
+                        semiManagedItemCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider semiManagedItemCount; monetary values use the selected site's currency unless identified as supply prices.
+                        semiManagedMallCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider semiManagedMallCount; monetary values use the selected site's currency unless identified as supply prices.
+                        catIds:
+                          type:
+                          - array
+                          - 'null'
+                          description: Associated category identifiers.
+                          items: {}
+                        catItems:
+                          type:
+                          - array
+                          - 'null'
+                          description: 'Category paths: catId, catName, catLevel, parentCatId and isLeaf.'
+                          items: {}
+                        daySold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider day Sold metric; sales revenue uses site currency.
+                        daySoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for day Sold.
+                        daySales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider day Sales metric; sales revenue uses site currency.
+                        daySalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for day Sales.
+                        dayItemCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider day ItemCount metric; sales revenue uses site currency.
+                        dayItemCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for day ItemCount.
+                        dayMallCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider day MallCount metric; sales revenue uses site currency.
+                        dayMallCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for day MallCount.
+                        weekSold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider week Sold metric; sales revenue uses site currency.
+                        weekSoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for week Sold.
+                        weekSales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider week Sales metric; sales revenue uses site currency.
+                        weekSalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for week Sales.
+                        weekItemCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider week ItemCount metric; sales revenue uses site currency.
+                        weekItemCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for week ItemCount.
+                        weekMallCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider week MallCount metric; sales revenue uses site currency.
+                        weekMallCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for week MallCount.
+                        monthSold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider month Sold metric; sales revenue uses site currency.
+                        monthSoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for month Sold.
+                        monthSales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider month Sales metric; sales revenue uses site currency.
+                        monthSalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for month Sales.
+                        monthItemCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider month ItemCount metric; sales revenue uses site currency.
+                        monthItemCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for month ItemCount.
+                        monthMallCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider month MallCount metric; sales revenue uses site currency.
+                        monthMallCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for month MallCount.
+                  total:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Provider match count, possibly capped at 10000 for searches.
+                  regionId:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Region used for the query.
+                  page:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Current page.
+                  size:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Items per page.
+                additionalProperties: true
+                type: object
+              example:
+                errmsg: ok
+                errcode: 200
+                columns: []
+                items: []
+                total: 0
+                regionId: 211
+                page: 1
+                size: 3
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: geekbi-temu-keyword-search
+      x-nexscope-mcp-tool-name: nexscope_geekbi_temu_keyword_search
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/geekbi-temu-category-search/run:
+    post:
+      tags:
+      - Temu Marketplace Intelligence
+      summary: GeekBI Temu Category Research
+      description: Execute the selected category research operation and preserve provider business fields and extensions.
+      operationId: runGeekbiTemuCategorySearch
+      externalDocs:
+        description: GeekBI Temu Category Research documentation
+        url: https://www.nexscope.ai/api-docs/geekbi-temu-category-search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                regionId:
+                  type: integer
+                  description: Temu region from sites[].regionId; never siteId.
+                  minimum: 1
+                  default: 211
+                page:
+                  type: integer
+                  description: Page number.
+                  minimum: 1
+                  default: 1
+                size:
+                  type: integer
+                  description: Items per page; page times size must not exceed 10000.
+                  minimum: 1
+                  maximum: 200
+                  default: 20
+                keyword:
+                  type: string
+                  description: User keyword; preserve the supplied language.
+                  maxLength: 300
+                sort:
+                  type: string
+                  description: Confirmed provider sort field; omit when unnecessary.
+                  maxLength: 100
+                order:
+                  type: string
+                  description: Sort direction, case-insensitive.
+                  pattern: ^([aA][sS][cC]|[dD][eE][sS][cC])$
+                dsrMin:
+                  type: number
+                  description: Lower bound for dsr; minimum must not exceed maximum.
+                dsrMax:
+                  type: number
+                  description: Upper bound for dsr; minimum must not exceed maximum.
+                totalSoldMin:
+                  type: integer
+                  description: Lower bound for totalSold; minimum must not exceed maximum.
+                  minimum: 0
+                totalSoldMax:
+                  type: integer
+                  description: Upper bound for totalSold; minimum must not exceed maximum.
+                  minimum: 0
+                itemCountMin:
+                  type: integer
+                  description: Lower bound for itemCount; minimum must not exceed maximum.
+                  minimum: 0
+                itemCountMax:
+                  type: integer
+                  description: Upper bound for itemCount; minimum must not exceed maximum.
+                  minimum: 0
+                mallCountMin:
+                  type: integer
+                  description: Lower bound for mallCount; minimum must not exceed maximum.
+                  minimum: 0
+                mallCountMax:
+                  type: integer
+                  description: Upper bound for mallCount; minimum must not exceed maximum.
+                  minimum: 0
+                avgPriceMin:
+                  type: number
+                  description: Lower bound for avgPrice; minimum must not exceed maximum.
+                  minimum: 0
+                avgPriceMax:
+                  type: number
+                  description: Upper bound for avgPrice; minimum must not exceed maximum.
+                  minimum: 0
+                totalSalesMin:
+                  type: number
+                  description: Lower bound for totalSales; minimum must not exceed maximum.
+                  minimum: 0
+                totalSalesMax:
+                  type: number
+                  description: Upper bound for totalSales; minimum must not exceed maximum.
+                  minimum: 0
+              required: []
+            example:
+              regionId: 211
+              page: 1
+              size: 3
+              keyword: pets
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                properties:
+                  errcode:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Provider business status; observed success is 200.
+                  errmsg:
+                    type:
+                    - string
+                    - 'null'
+                    description: Provider business status message.
+                  columns:
+                    type:
+                    - array
+                    - 'null'
+                    description: Render column definitions; business records are separate.
+                    items: {}
+                  title:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: title.'
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: type.'
+                  sourceTool:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: sourceTool.'
+                  sourceType:
+                    type:
+                    - string
+                    - 'null'
+                    description: 'Provider render/source metadata: sourceType.'
+                  items:
+                    type:
+                    - array
+                    - 'null'
+                    description: Returned records, including valid empty results; preserve duplicate records and unknown fields.
+                    items:
+                      type: object
+                      properties:
+                        catName:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider catName; preserve identifier and timestamp strings.
+                        thumbnail:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider thumbnail; preserve identifier and timestamp strings.
+                        createTime:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider createTime; preserve identifier and timestamp strings.
+                        updateTime:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider updateTime; preserve identifier and timestamp strings.
+                        regionId:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider regionId; monetary values use the selected site's currency unless identified as supply prices.
+                        dsr:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider dsr; monetary values use the selected site's currency unless identified as supply prices.
+                        totalSold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider totalSold; monetary values use the selected site's currency unless identified as supply prices.
+                        totalSales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider totalSales; monetary values use the selected site's currency unless identified as supply prices.
+                        avgPrice:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider avgPrice; monetary values use the selected site's currency unless identified as supply prices.
+                        itemCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider itemCount; monetary values use the selected site's currency unless identified as supply prices.
+                        mallCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider mallCount; monetary values use the selected site's currency unless identified as supply prices.
+                        semiManagedItemCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider semiManagedItemCount; monetary values use the selected site's currency unless identified as supply prices.
+                        semiManagedMallCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider semiManagedMallCount; monetary values use the selected site's currency unless identified as supply prices.
+                        catId:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider catId; monetary values use the selected site's currency unless identified as supply prices.
+                        optId:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider optId; monetary values use the selected site's currency unless identified as supply prices.
+                        catLevel:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider catLevel; monetary values use the selected site's currency unless identified as supply prices.
+                        parentCatId:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider parentCatId; monetary values use the selected site's currency unless identified as supply prices.
+                        isLeaf:
+                          type:
+                          - boolean
+                          - 'null'
+                          description: Whether this category is a leaf.
+                        parentCatItems:
+                          type:
+                          - array
+                          - 'null'
+                          description: Full parent category path.
+                          items: {}
+                        daySold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider day Sold metric; sales revenue uses site currency.
+                        daySoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for day Sold.
+                        daySales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider day Sales metric; sales revenue uses site currency.
+                        daySalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for day Sales.
+                        dayItemCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider day ItemCount metric; sales revenue uses site currency.
+                        dayItemCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for day ItemCount.
+                        dayMallCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider day MallCount metric; sales revenue uses site currency.
+                        dayMallCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for day MallCount.
+                        weekSold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider week Sold metric; sales revenue uses site currency.
+                        weekSoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for week Sold.
+                        weekSales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider week Sales metric; sales revenue uses site currency.
+                        weekSalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for week Sales.
+                        weekItemCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider week ItemCount metric; sales revenue uses site currency.
+                        weekItemCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for week ItemCount.
+                        weekMallCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider week MallCount metric; sales revenue uses site currency.
+                        weekMallCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for week MallCount.
+                        monthSold:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider month Sold metric; sales revenue uses site currency.
+                        monthSoldRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for month Sold.
+                        monthSales:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider month Sales metric; sales revenue uses site currency.
+                        monthSalesRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for month Sales.
+                        monthItemCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider month ItemCount metric; sales revenue uses site currency.
+                        monthItemCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for month ItemCount.
+                        monthMallCount:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider month MallCount metric; sales revenue uses site currency.
+                        monthMallCountRate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Provider growth rate for month MallCount.
+                  total:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Provider match count, possibly capped at 10000 for searches.
+                  regionId:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Region used for the query.
+                  page:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Current page.
+                  size:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Items per page.
+                additionalProperties: true
+                type: object
+              example:
+                errmsg: ok
+                errcode: 200
+                columns: []
+                items: []
+                total: 0
+                regionId: 211
+                page: 1
+                size: 3
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: geekbi-temu-category-search
+      x-nexscope-mcp-tool-name: nexscope_geekbi_temu_category_search
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/geekbi-temu-category-list/run:
+    post:
+      tags:
+      - Temu Marketplace Intelligence
+      summary: GeekBI Temu Category List
+      description: Return provider category records without inventing search pagination fields.
+      operationId: runGeekbiTemuCategoryList
+      externalDocs:
+        description: GeekBI Temu Category List documentation
+        url: https://www.nexscope.ai/api-docs/geekbi-temu-category-list
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                parentCatId:
+                  minimum: 0
+                  type: integer
+              additionalProperties: false
+              type: object
+            example: {}
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                properties:
+                  errcode:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Provider business status code.
+                  errmsg:
+                    type:
+                    - string
+                    - 'null'
+                    description: Provider business status message.
+                  total:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Number of returned records.
+                  columns:
+                    type:
+                    - array
+                    - 'null'
+                    description: Provider render column metadata.
+                    items: {}
+                  title:
+                    type:
+                    - string
+                    - 'null'
+                    description: Provider render/source metadata.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: Provider render/source metadata.
+                  sourceType:
+                    type:
+                    - string
+                    - 'null'
+                    description: Provider render/source metadata.
+                  sourceTool:
+                    type:
+                    - string
+                    - 'null'
+                    description: Provider render/source metadata.
+                  categories:
+                    type:
+                    - array
+                    - 'null'
+                    description: Category tree nodes.
+                    items:
+                      type: object
+                      properties:
+                        catId:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Provider identifier; searches use regionId and known category IDs.
+                        catLevel:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Provider identifier; searches use regionId and known category IDs.
+                        parentCatId:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Provider identifier; searches use regionId and known category IDs.
+                        catName:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider catName.
+                        isLeaf:
+                          type:
+                          - boolean
+                          - 'null'
+                          description: Whether this category is a leaf.
+                  parentCatId:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Supplied parent category ID, if present.
+                additionalProperties: true
+                type: object
+              example:
+                errmsg: ok
+                total: 0
+                errcode: 200
+                categories: []
+                columns: []
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: geekbi-temu-category-list
+      x-nexscope-mcp-tool-name: nexscope_geekbi_temu_category_list
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/geekbi-temu-site-list/run:
+    post:
+      tags:
+      - Temu Marketplace Intelligence
+      summary: GeekBI Temu Site List
+      description: Return provider site records without inventing search pagination fields.
+      operationId: runGeekbiTemuSiteList
+      externalDocs:
+        description: GeekBI Temu Site List documentation
+        url: https://www.nexscope.ai/api-docs/geekbi-temu-site-list
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties: {}
+              additionalProperties: false
+              type: object
+            example: {}
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                properties:
+                  errcode:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Provider business status code.
+                  errmsg:
+                    type:
+                    - string
+                    - 'null'
+                    description: Provider business status message.
+                  total:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Number of returned records.
+                  columns:
+                    type:
+                    - array
+                    - 'null'
+                    description: Provider render column metadata.
+                    items: {}
+                  title:
+                    type:
+                    - string
+                    - 'null'
+                    description: Provider render/source metadata.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: Provider render/source metadata.
+                  sourceType:
+                    type:
+                    - string
+                    - 'null'
+                    description: Provider render/source metadata.
+                  sourceTool:
+                    type:
+                    - string
+                    - 'null'
+                    description: Provider render/source metadata.
+                  sites:
+                    type:
+                    - array
+                    - 'null'
+                    description: Supported Temu sites.
+                    items:
+                      type: object
+                      properties:
+                        regionId:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Provider identifier; searches use regionId and known category IDs.
+                        siteId:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Provider identifier; searches use regionId and known category IDs.
+                        name:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider name.
+                        cnName:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider cnName.
+                        lang:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider lang.
+                        currency:
+                          type:
+                          - string
+                          - 'null'
+                          description: Provider currency.
+                additionalProperties: true
+                type: object
+              example:
+                errmsg: ok
+                total: 0
+                errcode: 200
+                columns: []
+                sites: []
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: geekbi-temu-site-list
+      x-nexscope-mcp-tool-name: nexscope_geekbi_temu_site_list
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/temu-category-search/run:
+    post:
+      tags:
+      - Temu Marketplace Intelligence
+      summary: Temu Category Search
+      description: Search synced Temu category data in the local database by keyword to find category Chinese names, English names, and category IDs for use in product/store filtering. Triggered when users mention Temu categories, Temu category ID, Temu category tree, Temu backend categories, temu categories, syncTemuCategory (Temu category sync) followed by category queries, or Temu category search. Even if the user does not mention the tool name, this skill should be triggered whenever searching for category IDs by keyword in the locally synced Temu category database.
+      operationId: runTemuCategorySearch
+      externalDocs:
+        description: Temu Category Search documentation
+        url: https://www.nexscope.ai/api-docs/temu-category-search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.temu-category-search.
+              properties:
+                keyword:
+                  type: string
+                  description: 'Keyword: matches against category Chinese name, English name, category ID (substring)'
+                  example: home
+                page:
+                  type: integer
+                  description: Page number (starting from 1)
+                  example: 1
+                pageSize:
+                  type: integer
+                  description: Results per page, max 200
+                  example: 10
+              required:
+              - keyword
+              example:
+                page: 1
+                keyword: home
+                pageSize: 10
+              additionalProperties: true
+            example:
+              page: 1
+              keyword: home
+              pageSize: 10
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  total:
+                    type: integer
+                    description: Number of results returned on this page
+                    example: 1
+                  categories:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Category ID
+                          example: example-id
+                        categoryId:
+                          type: string
+                          description: Category ID (upstream category id)
+                          example: example-id
+                        parentId:
+                          type: string
+                          description: Parent category ID (empty string for top-level)
+                          example: example-id
+                        level:
+                          type: integer
+                          description: Category hierarchy level
+                          example: 1
+                        categoryName:
+                          type: string
+                          description: Category name (Chinese)
+                        categoryNameEn:
+                          type: string
+                          description: Category name (English)
+                        isDeleted:
+                          type: integer
+                          description: 'Whether deleted: 0=Normal, 1=Deleted'
+                          example: 1
+                        hasChildren:
+                          type: boolean
+                          description: Whether has child categories
+                          example: false
+                      additionalProperties: true
+                    description: List of matching categories
+                    example: []
+                  title:
+                    type: string
+                    description: Title (Temu Category Search)
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  type:
+                    type: string
+                    description: Provider-specific render or payload type.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  total: 1
+                  categories:
+                  - id: example-id
+                    categoryId: example-id
+                    parentId: example-id
+                    level: 1
+                    isDeleted: 1
+                    hasChildren: false
+                additionalProperties: true
+              example:
+                total: 1
+                categories:
+                - id: example-id
+                  categoryId: example-id
+                  parentId: example-id
+                  level: 1
+                  isDeleted: 1
+                  hasChildren: false
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: temu-category-search
+      x-nexscope-mcp-tool-name: nexscope_temu_category_search
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/temu-product-source-query/run:
+    post:
+      tags:
+      - Temu Marketplace Intelligence
+      summary: Temu Product Source Query
+      description: Filter Temu products by multiple dimensions (keyword/product ID/store ID, front/backend categories, price, rating, reviews, total/weekly/daily sales, listing date, fully-managed/semi-managed, semi-managed regions, tags, etc.). Triggered when users mention Temu products, Temu product selection, Pinduoduo cross-border, Temu bestsellers, Temu semi-managed, fully-managed products, Temu product query, or temu items. Even if the user does not mention the tool name, this skill should be triggered whenever searching for products, viewing sales/ratings/prices, or filtering products on Temu.
+      operationId: runTemuProductSourceQuery
+      externalDocs:
+        description: Temu Product Source Query documentation
+        url: https://www.nexscope.ai/api-docs/temu-product-source-query
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.temu-product-source-query.
+              properties:
+                searchKey:
+                  type: string
+                  description: Keyword or product ID / store ID
+                categoryHome:
+                  type: string
+                  description: Front-end category ID
+                categoryBackend:
+                  type: string
+                  description: Back-end category ID
+                priceBegin:
+                  type: number
+                  description: Price range start (USD), combined to form upstream price
+                  example: 1
+                priceEnd:
+                  type: number
+                  description: Price range end (USD)
+                  example: 1
+                ratingBegin:
+                  type: number
+                  description: Rating range start, combined to form upstream rating
+                  example: 1
+                ratingEnd:
+                  type: number
+                  description: Rating range end
+                  example: 1
+                reviewsBegin:
+                  type: integer
+                  description: Review count range start, combined to form reviews
+                  example: 1
+                reviewsEnd:
+                  type: integer
+                  description: Review count range end
+                  example: 1
+                salesTotalBegin:
+                  type: integer
+                  description: Total sales range start, combined to form sales_total
+                  example: 1
+                salesTotalEnd:
+                  type: integer
+                  description: Total sales range end
+                  example: 1
+                salesWeeklyBegin:
+                  type: integer
+                  description: Weekly sales range start, combined to form sales_weekly
+                  example: 1
+                salesWeeklyEnd:
+                  type: integer
+                  description: Weekly sales range end
+                  example: 1
+                salesDailyBegin:
+                  type: integer
+                  description: Daily sales range start, combined to form sales_daily
+                  example: 1
+                salesDailyEnd:
+                  type: integer
+                  description: Daily sales range end
+                  example: 1
+                publishTimeBegin:
+                  type: string
+                  description: Listing date range start, combined to form publish_time
+                publishTimeEnd:
+                  type: string
+                  description: Listing date range end
+                soldOut:
+                  type: integer
+                  description: 'Whether delisted: 0=Listed, 1=Delisted'
+                  example: 1
+                isLocal:
+                  type: integer
+                  description: 'Whether semi-managed: 0=Fully managed, 1=Semi-managed'
+                  example: 1
+                region:
+                  type: string
+                  description: Semi-managed regions, comma-separated
+                  example: US
+                tags:
+                  type: string
+                  description: Product tags, comma-separated
+                customTags:
+                  type: string
+                  description: Custom tags, comma-separated
+                sortBy:
+                  type: string
+                  description: 'Sort field+direction: order_week-0 (weekly sales descending, default), price-0, order_total-0, rating-0, etc.'
+                page:
+                  type: integer
+                  description: Page number (starting from 1)
+                  example: 1
+                pageSize:
+                  type: integer
+                  description: Results per page, max 100, recommended not to exceed 50
+                  example: 1
+                keyword:
+                  type: string
+              example:
+                page: 1
+                keyword: phone case
+                pageSize: 10
+              additionalProperties: true
+            example:
+              page: 1
+              keyword: phone case
+              pageSize: 10
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  total:
+                    type: integer
+                    description: Number of results returned on this page
+                    example: 1
+                  productNum:
+                    type: integer
+                    description: Total number of matching products (upstream product_num)
+                    example: 1
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        productId:
+                          type: string
+                          description: Product ID
+                          example: example-id
+                        productName:
+                          type: string
+                          description: Product name (English)
+                        productNameCn:
+                          type: string
+                          description: Product name (Chinese)
+                        logoUrl:
+                          type: string
+                          description: Main image URL
+                          example: https://example.com/image.jpg
+                        price:
+                          type: string
+                          description: Price
+                        orderTotal:
+                          type: string
+                          description: Total sales
+                        orderWeek:
+                          type: string
+                          description: Weekly sales
+                        orderDay:
+                          type: string
+                          description: Daily sales
+                        orderMonth:
+                          type: string
+                          description: Monthly sales
+                        rating:
+                          type: string
+                          description: Rating
+                        reviewNum:
+                          type: string
+                          description: Review count
+                        publishTime:
+                          type: string
+                          description: Listing time
+                        soldOut:
+                          type: string
+                          description: Whether delisted
+                        isLocal:
+                          type: string
+                          description: 'Whether semi-managed: 0=Fully managed, 1=Semi-managed'
+                        localRegion:
+                          type: string
+                          description: Semi-managed region list
+                        storeId:
+                          type: string
+                          description: Store ID
+                          example: example-id
+                        tags:
+                          type: string
+                          description: Tag list
+                        customTags:
+                          type: string
+                          description: Custom tags
+                        categoryHome:
+                          type: string
+                          description: Front-end category
+                        categoryBackend:
+                          type: string
+                          description: Back-end category
+                      additionalProperties: true
+                    description: Temu product list
+                    example: []
+                  columns:
+                    type: array
+                    items: {}
+                    description: Columns for rendering
+                    example: []
+                  title:
+                    type: string
+                    description: Title (Temu Product Query)
+                  sourceType:
+                    type: string
+                    description: 'Source type: temu'
+                  sourceTool:
+                    type: string
+                    description: 'Tool type: ehunt'
+                  type:
+                    type: string
+                    description: 'Render style: tableListWorkbenches'
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  total: 1
+                  productNum: 1
+                  products:
+                  - productId: example-id
+                    logoUrl: https://example.com/image.jpg
+                    storeId: example-id
+                  columns: []
+                additionalProperties: true
+              example:
+                total: 1
+                productNum: 1
+                products:
+                - productId: example-id
+                  logoUrl: https://example.com/image.jpg
+                  storeId: example-id
+                columns: []
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: temu-product-source-query
+      x-nexscope-mcp-tool-name: nexscope_temu_product_source_query
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/temu-store-source-query/run:
+    post:
+      tags:
+      - Temu Marketplace Intelligence
+      summary: Temu Store Source Query
+      description: Filter Temu stores by multiple dimensions (store name/ID, country site, backend category, fully-managed/semi-managed, total/weekly/monthly sales and revenue, rating, reviews, followers, product count, store opening time, etc.).
+      operationId: runTemuStoreSourceQuery
+      externalDocs:
+        description: Temu Store Source Query documentation
+        url: https://www.nexscope.ai/api-docs/temu-store-source-query
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.temu-store-source-query.
+              properties:
+                searchKey:
+                  type: string
+                  description: Store name or ID keyword
+                siteId:
+                  type: string
+                  description: Country site ID, multiple separated by commas (e.g., 211=US, 76=UK)
+                  example: example-id
+                category:
+                  type: string
+                  description: Backend category ID, multiple separated by commas
+                isLocal:
+                  type: string
+                  description: 'Whether semi-managed: 0=fully managed, 1=semi-managed'
+                orderTotalMin:
+                  type: integer
+                  description: Total sales range (start)
+                  example: 1
+                orderTotalMax:
+                  type: integer
+                  description: Total sales range (end)
+                  example: 1
+                orderWeekMin:
+                  type: integer
+                  description: Weekly sales range (start)
+                  example: 1
+                orderWeekMax:
+                  type: integer
+                  description: Weekly sales range (end)
+                  example: 1
+                orderMonthMin:
+                  type: integer
+                  description: Monthly sales range (start)
+                  example: 1
+                orderMonthMax:
+                  type: integer
+                  description: Monthly sales range (end)
+                  example: 1
+                totalRevenueMin:
+                  type: number
+                  description: Total revenue range (USD, start)
+                  example: 1
+                totalRevenueMax:
+                  type: number
+                  description: Total revenue range (USD, end)
+                  example: 1
+                weekRevenueMin:
+                  type: number
+                  description: Weekly revenue range (USD, start)
+                  example: 1
+                weekRevenueMax:
+                  type: number
+                  description: Weekly revenue range (USD, end)
+                  example: 1
+                monthRevenueMin:
+                  type: number
+                  description: Monthly revenue range (USD, start)
+                  example: 1
+                monthRevenueMax:
+                  type: number
+                  description: Monthly revenue range (USD, end)
+                  example: 1
+                ratingMin:
+                  type: number
+                  description: Rating range (start)
+                  example: 1
+                ratingMax:
+                  type: number
+                  description: Rating range (end)
+                  example: 1
+                reviewNumMin:
+                  type: integer
+                  description: Review count range (start)
+                  example: 1
+                reviewNumMax:
+                  type: integer
+                  description: Review count range (end)
+                  example: 1
+                followerNumMin:
+                  type: integer
+                  description: Follower count range (start)
+                  example: 1
+                followerNumMax:
+                  type: integer
+                  description: Follower count range (end)
+                  example: 1
+                productNumMin:
+                  type: integer
+                  description: Product count range (start)
+                  example: 1
+                productNumMax:
+                  type: integer
+                  description: Product count range (end)
+                  example: 1
+                listedTimeBegin:
+                  type: string
+                  description: Store opening date range (start)
+                listedTimeEnd:
+                  type: string
+                  description: Store opening date range (end)
+                sortBy:
+                  type: string
+                  description: 'Sort field+direction: order_week_count-0 (weekly sales descending, default), order_count-0, total_revenue-0, rating-0'
+                page:
+                  type: integer
+                  description: Page number (starting from 1)
+                  example: 1
+                pageSize:
+                  type: integer
+                  description: Items per page, max 100
+                  example: 1
+                keyword:
+                  type: string
+              example:
+                page: 1
+                keyword: phone case
+                pageSize: 10
+              additionalProperties: true
+            example:
+              page: 1
+              keyword: phone case
+              pageSize: 10
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  total:
+                    type: integer
+                    description: Number of records on this page
+                    example: 1
+                  storeNum:
+                    type: integer
+                    description: Total number of stores matching criteria (upstream store_num)
+                    example: 1
+                  stores:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        storeId:
+                          type: string
+                          description: Store ID
+                          example: example-id
+                        siteId:
+                          type: string
+                          description: Country site ID
+                          example: example-id
+                        storeName:
+                          type: string
+                          description: Store name
+                        logoUrl:
+                          type: string
+                          description: Store logo URL
+                          example: https://example.com/image.jpg
+                        orderTotal:
+                          type: string
+                          description: Total sales
+                        orderWeek:
+                          type: string
+                          description: Weekly sales
+                        orderMonth:
+                          type: string
+                          description: Monthly sales
+                        totalRevenue:
+                          type: string
+                          description: Total revenue
+                        weekRevenue:
+                          type: string
+                          description: Weekly revenue
+                        monthRevenue:
+                          type: string
+                          description: Monthly revenue
+                        rating:
+                          type: string
+                          description: Rating
+                        listedTime:
+                          type: string
+                          description: Store opening time
+                        reviewNum:
+                          type: string
+                          description: Review count
+                        followerNum:
+                          type: string
+                          description: Follower count
+                        productNum:
+                          type: string
+                          description: Product count
+                        categoriesCn:
+                          type: string
+                          description: Chinese category list
+                        categories:
+                          type: string
+                          description: English category list
+                        isLocal:
+                          type: string
+                          description: 'Whether semi-managed: 0=fully managed, 1=semi-managed'
+                      additionalProperties: true
+                    description: Temu store list
+                    example: []
+                  columns:
+                    type: array
+                    items: {}
+                    description: Rendered columns
+                    example: []
+                  title:
+                    type: string
+                    description: Title (Temu Store Query)
+                  sourceType:
+                    type: string
+                    description: 'Source type: temu'
+                  sourceTool:
+                    type: string
+                    description: 'Tool type: ehunt'
+                  type:
+                    type: string
+                    description: 'Render style: tableListWorkbenches'
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  total: 1
+                  storeNum: 1
+                  stores:
+                  - storeId: example-id
+                    siteId: example-id
+                    logoUrl: https://example.com/image.jpg
+                  columns: []
+                additionalProperties: true
+              example:
+                total: 1
+                storeNum: 1
+                stores:
+                - storeId: example-id
+                  siteId: example-id
+                  logoUrl: https://example.com/image.jpg
+                columns: []
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: temu-store-source-query
+      x-nexscope-mcp-tool-name: nexscope_temu_store_source_query
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+components:
+  responses:
+    BadRequest:
+      description: Invalid request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Forbidden:
+      description: The account or API key is not allowed to use this capability.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    ServerError:
+      description: Server or upstream provider error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    TooManyRequests:
+      description: Rate limit or account usage limit reached.
+      headers:
+        Retry-After:
+          description: Retry delay when returned by the service.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+  schemas:
+    CommonError:
+      type: object
+      description: Common API error envelope. Exact fields may vary by endpoint and upstream provider.
+      properties:
+        code:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Application or provider error code.
+        msg:
+          type: string
+          description: Error message.
+        message:
+          type: string
+          description: Alternative error message field.
+        traceId:
+          type: string
+          description: Support trace identifier when available.
+      additionalProperties: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Nexscope API Key
+externalDocs:
+  description: Nexscope API Documentation
+  url: https://www.nexscope.ai/api-docs
+x-nexscope-source: https://api.nexscope.ai/api/skill-api/v1/api-docs
+x-nexscope-pricing-mode: dynamic-credits
+x-nexscope-mcp-endpoint: https://api.nexscope.ai/api/skill-api/v1/mcp

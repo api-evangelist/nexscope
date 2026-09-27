@@ -1,0 +1,736 @@
+openapi: 3.2.0
+info:
+  title: Nexscope Ecommerce Data and Creative Shopee Marketplace API
+  version: 2026-08-28-public-catalog-v1
+  description: Nexscope APIs provide ecommerce marketplace intelligence and creative generation capabilities through REST and MCP. Authentication uses a Nexscope API key. Pricing is credit-based and actual usage varies by endpoint and workload; current estimates are shown in the Nexscope account.
+  termsOfService: https://www.nexscope.ai/terms
+  contact:
+    name: Nexscope Support
+    email: service@nexscope.ai
+    url: https://www.nexscope.ai/api-docs
+  license:
+    name: Proprietary API; use subject to Nexscope Terms
+    url: https://www.nexscope.ai/terms
+servers:
+- url: https://api.nexscope.ai
+  description: Production
+security:
+- bearerAuth: []
+tags:
+- name: Shopee Marketplace
+  description: Shopee product search APIs.
+  x-category-slug: shopee-marketplace
+paths:
+  /api/skill-api/v1/skills/shopee-product-search/run:
+    post:
+      tags:
+      - Shopee Marketplace
+      summary: Shopee Product Search
+      description: YouYing Shopee product selection tool supporting product query and filtering across all Shopee marketplaces, covering Malaysia, Taiwan (China), Indonesia, Thailand, Philippines, Singapore, Vietnam, Brazil, Mexico, Chile, and Colombia. Triggered when users mention Shopee product selection, Shopee product search, Shopee bestsellers, Shopee market analysis, Shopee category selection, Shopee keyword selection, Shopee sales filtering, Shopee price filtering, Southeast Asia e-commerce product selection, Shopee product search, Shopee product selection, Shopee bestsellers, or Shopee market analysis. Even if the user does not explicitly mention "YouYing" or "Shopee," this skill should be triggered whenever their need involves searching for products or filtering Shopee product data on the Shopee platform.
+      operationId: runShopeeProductSearch
+      externalDocs:
+        description: Shopee Product Search documentation
+        url: https://www.nexscope.ai/api-docs/shopee-product-search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.shopee-product-search.
+              properties:
+                station:
+                  type: string
+                  description: Required. Shopee site, accepts name or code. See site mapping table below
+                  example: SG
+                keyword:
+                  type: string
+                  description: Product title keyword
+                  example: phone case
+                keywordType:
+                  type: integer
+                  description: 'Match mode: 1=Exact phrase (default), 2=Multi-word AND, 3=Multi-word OR'
+                  example: 1
+                notExistKeyword:
+                  type: string
+                  description: Exclude products containing this keyword
+                  example: phone case
+                notExistKeywordType:
+                  type: integer
+                  description: 'Exclusion match mode: 1=Exact phrase (default), 2=Multi-word AND, 3=Multi-word OR'
+                  example: 1
+                priceMin:
+                  type: number
+                  description: Minimum total product price (local currency)
+                  example: 1
+                priceMax:
+                  type: number
+                  description: Maximum total product price
+                  example: 1
+                soldMin:
+                  type: integer
+                  description: Minimum units sold in last 30 days
+                  example: 1
+                soldMax:
+                  type: integer
+                  description: Maximum units sold in last 30 days
+                  example: 1
+                estimateSoldStart:
+                  type: integer
+                  description: Minimum estimated units sold in last 30 days
+                  example: 1
+                estimateSoldEnd:
+                  type: integer
+                  description: Maximum estimated units sold in last 30 days
+                  example: 1
+                historicalSoldStart:
+                  type: integer
+                  description: Minimum total historical units sold
+                  example: 1
+                historicalSoldEnd:
+                  type: integer
+                  description: Maximum total historical units sold
+                  example: 1
+                paymentStart:
+                  type: number
+                  description: Minimum sales revenue in last 30 days
+                  example: 1
+                paymentEnd:
+                  type: number
+                  description: Maximum sales revenue in last 30 days
+                  example: 1
+                ratingMin:
+                  type: number
+                  description: Minimum product rating (0-5)
+                  example: 1
+                ratingMax:
+                  type: number
+                  description: Maximum product rating
+                  example: 1
+                ratingsMin:
+                  type: integer
+                  description: Minimum number of ratings
+                  example: 1
+                ratingsMax:
+                  type: integer
+                  description: Maximum number of ratings
+                  example: 1
+                favoriteMin:
+                  type: integer
+                  description: Minimum number of favorites
+                  example: 1
+                favoriteMax:
+                  type: integer
+                  description: Maximum number of favorites
+                  example: 1
+                skuNumberStart:
+                  type: integer
+                  description: Minimum total SKU count
+                  example: 1
+                skuNumberEnd:
+                  type: integer
+                  description: Maximum total SKU count
+                  example: 1
+                listingDateFrom:
+                  type: string
+                  description: 'Product listing date range start (format: yyyy-MM-dd)'
+                  example: '2026-01-01'
+                listingDateTo:
+                  type: string
+                  description: 'Product listing date range end (format: yyyy-MM-dd)'
+                  example: '2026-01-01'
+                statTimeStart:
+                  type: string
+                  description: 'Statistics time range start (format: yyyy-MM-dd HH:mm:ss)'
+                statTimeEnd:
+                  type: string
+                  description: 'Statistics time range end (format: yyyy-MM-dd HH:mm:ss)'
+                lastModiTimeStart:
+                  type: string
+                  description: 'Latest crawl time range start (format: yyyy-MM-dd)'
+                lastModiTimeEnd:
+                  type: string
+                  description: 'Latest crawl time range end (format: yyyy-MM-dd)'
+                approvedDateStart:
+                  type: string
+                  description: 'Store opening time range start (format: yyyy-MM-dd)'
+                  example: '2026-01-01'
+                approvedDateEnd:
+                  type: string
+                  description: 'Store opening time range end (format: yyyy-MM-dd)'
+                  example: '2026-01-01'
+                pL1Id:
+                  type: string
+                  description: Level 1 category ID
+                  example: example-id
+                pL2Id:
+                  type: string
+                  description: Level 2 category ID
+                  example: example-id
+                pL3Id:
+                  type: string
+                  description: Level 3 category ID
+                  example: example-id
+                cidList:
+                  type: string
+                  description: Category ID list, full path, multiple groups separated by
+                shopIdList:
+                  type: string
+                  description: Specific store ID list, comma-separated
+                notExistShopIdList:
+                  type: string
+                  description: Excluded store ID list, comma-separated
+                merchant:
+                  type: string
+                  description: Store name or username
+                shopLocation:
+                  type: string
+                  description: Store location
+                shippingIconType:
+                  type: integer
+                  description: 'Store location type: 0=Local, 1=Overseas'
+                  example: 1
+                cbOption:
+                  type: integer
+                  description: 'Shipping origin: 0=Local, 1=Cross-border'
+                  example: 1
+                isShopeeVerified:
+                  type: integer
+                  description: 'Shopee Preferred: 0=Not preferred, 1=Preferred'
+                  example: 1
+                isOfficialShop:
+                  type: integer
+                  description: 'Official store: 0=No, 1=Yes'
+                  example: 1
+                isHotSales:
+                  type: integer
+                  description: 'Hot selling: 0=Not hot, 1=Hot'
+                  example: 1
+                pids:
+                  type: string
+                  description: Product ID list (max 500), comma-separated
+                orderBy:
+                  type: string
+                  description: 'Sort field: rating, price, historical_sold (total sales), sold (30-day sales), payment (30-day revenue), favorite, ratings, gen_time (listing time), estimate_sold (estimated sales)'
+                orderByType:
+                  type: string
+                  description: 'Sort direction: ASC (ascending), DESC (descending)'
+                page:
+                  type: integer
+                  description: Page number (starting from 1)
+                  example: 1
+                pageSize:
+                  type: integer
+                  description: Products per page (range 1-1000)
+                  example: 10
+              required:
+              - station
+              example:
+                station: SG
+                pageSize: 10
+                keywordType: 1
+                keyword: phone case
+                page: 1
+              additionalProperties: true
+            example:
+              station: SG
+              pageSize: 10
+              keywordType: 1
+              keyword: phone case
+              page: 1
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  total:
+                    type: integer
+                    description: Number of records returned in current response
+                    example: 1
+                  totalSize:
+                    type: integer
+                    description: Total number of results
+                    example: 1
+                  sourceTool:
+                    type: string
+                    description: Source tool identifier
+                  sourceType:
+                    type: string
+                    description: 'Source type: shopee'
+                  columns:
+                    type: array
+                    items: {}
+                    description: Column definitions for rendering
+                    example: []
+                  costToken:
+                    type: integer
+                    description: Tokens consumed
+                    example: 1
+                  type:
+                    type: string
+                    description: Render style
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        pid:
+                          type: string
+                          description: Unique product ID
+                          example: example-id
+                        title:
+                          type: string
+                          description: Product title
+                        description:
+                          type: string
+                          description: Product description
+                        imageUrl:
+                          type: string
+                          description: Product main image URL
+                          example: https://example.com/image.jpg
+                        productUrl:
+                          type: string
+                          description: Shopee product link
+                          example: https://example.com/image.jpg
+                        price:
+                          type: number
+                          description: Default product price (local currency)
+                          example: 1
+                        minPrice:
+                          type: number
+                          description: Lowest SKU price
+                          example: 1
+                        maxPrice:
+                          type: number
+                          description: Highest SKU price
+                          example: 1
+                        sold:
+                          type: integer
+                          description: Units sold in last 30 days
+                          example: 1
+                        estimateSold:
+                          type: integer
+                          description: Estimated units sold in last 30 days
+                          example: 1
+                        historicalSold:
+                          type: integer
+                          description: Total historical units sold
+                          example: 1
+                        payment:
+                          type: number
+                          description: Sales revenue in last 30 days (local currency)
+                          example: 1
+                        rating:
+                          type: number
+                          description: Product rating (0-5)
+                          example: 1
+                        ratings:
+                          type: integer
+                          description: Number of ratings
+                          example: 1
+                        favorite:
+                          type: integer
+                          description: Number of favorites
+                          example: 1
+                        viewCount:
+                          type: integer
+                          description: View count
+                          example: 1
+                        stock:
+                          type: integer
+                          description: Stock quantity
+                          example: 1
+                        skuNumber:
+                          type: integer
+                          description: Number of SKUs
+                          example: 1
+                        genTime:
+                          type: string
+                          description: Listing time
+                        statTime:
+                          type: string
+                          description: Statistics time
+                        lastModiTime:
+                          type: string
+                          description: Latest crawl time
+                        categoryStructure:
+                          type: string
+                          description: Category structure path
+                        cid:
+                          type: string
+                          description: Category ID (comma-separated)
+                          example: example-id
+                        shopId:
+                          type: string
+                          description: Store ID
+                          example: example-id
+                        shopName:
+                          type: string
+                          description: Store name
+                        shopUrl:
+                          type: string
+                          description: Store link
+                          example: https://example.com/image.jpg
+                        userName:
+                          type: string
+                          description: Store owner name
+                        shopLocation:
+                          type: string
+                          description: Store location
+                        shopProductsCount:
+                          type: integer
+                          description: Total products in store
+                          example: 1
+                        approvedDate:
+                          type: string
+                          description: Store opening time
+                          example: '2026-01-01'
+                        isOfficialShop:
+                          type: integer
+                          description: Whether official store (1=Yes, 0=No)
+                          example: 1
+                        isShopeeVerified:
+                          type: integer
+                          description: Shopee Preferred (1=Yes, 0=No)
+                          example: 1
+                        isHotSales:
+                          type: integer
+                          description: Whether hot selling (1=Yes, 0=No)
+                          example: 1
+                        shippingIconType:
+                          type: integer
+                          description: Store location type (0=Local, 1=Overseas, 3 or null=Unknown)
+                          example: 1
+                        cbOption:
+                          type: integer
+                          description: Shipping origin (0=Local, 1=Cross-border)
+                          example: 1
+                        estimatedDays:
+                          type: integer
+                          description: Estimated delivery days
+                          example: 1
+                        status:
+                          type: integer
+                          description: Product status (1=Active, 0=Delisted, 8=Excluded from listing)
+                          example: 1
+                        notExist:
+                          type: integer
+                          description: Whether exists (0=Exists, 1=Does not exist)
+                          example: 1
+                      additionalProperties: true
+                    description: Product list (see fields below)
+                    example: []
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  total: 1
+                  totalSize: 1
+                  columns: []
+                  costToken: 1
+                  products:
+                  - pid: example-id
+                    imageUrl: https://example.com/image.jpg
+                    productUrl: https://example.com/image.jpg
+                    price: 1
+                    minPrice: 1
+                    maxPrice: 1
+                    sold: 1
+                    estimateSold: 1
+                    historicalSold: 1
+                    payment: 1
+                    rating: 1
+                    ratings: 1
+                    favorite: 1
+                    viewCount: 1
+                    stock: 1
+                    skuNumber: 1
+                    cid: example-id
+                    shopId: example-id
+                    shopUrl: https://example.com/image.jpg
+                    shopProductsCount: 1
+                    approvedDate: '2026-01-01'
+                    isOfficialShop: 1
+                    isShopeeVerified: 1
+                    isHotSales: 1
+                    shippingIconType: 1
+                    cbOption: 1
+                    estimatedDays: 1
+                    status: 1
+                    notExist: 1
+                additionalProperties: true
+              example:
+                total: 1
+                totalSize: 1
+                columns: []
+                costToken: 1
+                products:
+                - pid: example-id
+                  imageUrl: https://example.com/image.jpg
+                  productUrl: https://example.com/image.jpg
+                  price: 1
+                  minPrice: 1
+                  maxPrice: 1
+                  sold: 1
+                  estimateSold: 1
+                  historicalSold: 1
+                  payment: 1
+                  rating: 1
+                  ratings: 1
+                  favorite: 1
+                  viewCount: 1
+                  stock: 1
+                  skuNumber: 1
+                  cid: example-id
+                  shopId: example-id
+                  shopUrl: https://example.com/image.jpg
+                  shopProductsCount: 1
+                  approvedDate: '2026-01-01'
+                  isOfficialShop: 1
+                  isShopeeVerified: 1
+                  isHotSales: 1
+                  shippingIconType: 1
+                  cbOption: 1
+                  estimatedDays: 1
+                  status: 1
+                  notExist: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: shopee-product-search
+      x-nexscope-mcp-tool-name: nexscope_shopee_product_search
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/shopee-product-detail/run:
+    post:
+      tags:
+      - Shopee Marketplace
+      summary: Shopee Product Detail
+      description: Returns normalized public ecommerce research data with a fixed read-only provider path.
+      operationId: runShopeeProductDetail
+      externalDocs:
+        description: Shopee Product Detail documentation
+        url: https://www.nexscope.ai/api-docs/shopee-product-detail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - productUrl
+              properties:
+                productUrl:
+                  type: string
+                  format: uri
+                  pattern: ^https://(?:shopee\.sg|shopee\.co\.id|shopee\.com\.my|shopee\.ph|shopee\.co\.th|shopee\.tw|shopee\.vn|shopee\.com\.br)(?::443)?/[^?#]*-i\.\d+\.\d+/?(?:[?#].*)?$
+              description: Request parameters documented by ecommerce.shopee-product-detail.
+              example:
+                productUrl: https://shopee.sg/example-i.9641401.29691169956
+            example:
+              productUrl: https://shopee.sg/example-i.9641401.29691169956
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - product
+                properties:
+                  product:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - itemId
+                    - shopId
+                    properties:
+                      itemId:
+                        type: string
+                      shopId:
+                        type: string
+                      url:
+                        type: string
+                      name:
+                        type: string
+                      brand:
+                        type:
+                        - string
+                        - object
+                        - 'null'
+                      category:
+                        type:
+                        - string
+                        - object
+                        - array
+                        - 'null'
+                      images:
+                        type: array
+                      videos:
+                        type: array
+                      price:
+                        type:
+                        - number
+                        - object
+                        - 'null'
+                      currency:
+                        type: string
+                      sold:
+                        type:
+                        - integer
+                        - number
+                        - 'null'
+                      rating:
+                        type:
+                        - number
+                        - 'null'
+                      stock:
+                        type:
+                        - integer
+                        - number
+                        - object
+                        - 'null'
+                      models:
+                        type: array
+                description: Returns the documented upstream API response directly without an additional wrapper.
+              example:
+                product:
+                  itemId: '29691169956'
+                  shopId: '9641401'
+                  name: Example Shopee product
+                  images: []
+                  models: []
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: shopee-product-detail
+      x-nexscope-mcp-tool-name: nexscope_shopee_product_detail
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+components:
+  responses:
+    BadRequest:
+      description: Invalid request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Forbidden:
+      description: The account or API key is not allowed to use this capability.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    ServerError:
+      description: Server or upstream provider error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    TooManyRequests:
+      description: Rate limit or account usage limit reached.
+      headers:
+        Retry-After:
+          description: Retry delay when returned by the service.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+  schemas:
+    CommonError:
+      type: object
+      description: Common API error envelope. Exact fields may vary by endpoint and upstream provider.
+      properties:
+        code:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Application or provider error code.
+        msg:
+          type: string
+          description: Error message.
+        message:
+          type: string
+          description: Alternative error message field.
+        traceId:
+          type: string
+          description: Support trace identifier when available.
+      additionalProperties: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Nexscope API Key
+externalDocs:
+  description: Nexscope API Documentation
+  url: https://www.nexscope.ai/api-docs
+x-nexscope-source: https://api.nexscope.ai/api/skill-api/v1/api-docs
+x-nexscope-pricing-mode: dynamic-credits
+x-nexscope-mcp-endpoint: https://api.nexscope.ai/api/skill-api/v1/mcp

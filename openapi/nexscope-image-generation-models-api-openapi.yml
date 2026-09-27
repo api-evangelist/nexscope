@@ -1,0 +1,1189 @@
+openapi: 3.2.0
+info:
+  title: Nexscope Ecommerce Data and Creative Image Generation…
+  version: 2026-08-28-public-catalog-v1
+  description: Nexscope APIs provide ecommerce marketplace intelligence and creative generation capabilities through REST and MCP. Authentication uses a Nexscope API key. Pricing is credit-based and actual usage varies by endpoint and workload; current estimates are shown in the Nexscope account.
+  termsOfService: https://www.nexscope.ai/terms
+  contact:
+    name: Nexscope Support
+    email: service@nexscope.ai
+    url: https://www.nexscope.ai/api-docs
+  license:
+    name: Proprietary API; use subject to Nexscope Terms
+    url: https://www.nexscope.ai/terms
+servers:
+- url: https://api.nexscope.ai
+  description: Production
+security:
+- bearerAuth: []
+tags:
+- name: Image Generation Models
+  description: Dedicated image generation APIs with one fixed model per endpoint.
+  x-category-slug: image-generation-models
+paths:
+  /api/skill-api/v1/skills/banana-image-generation/run:
+    post:
+      tags:
+      - Image Generation Models
+      summary: Nano Banana Image Generation
+      description: Generate ecommerce images with the Nano Banana base image model. The model is fixed by this API, so provider must not be supplied in the request.
+      operationId: runBananaImageGeneration
+      externalDocs:
+        description: Nano Banana Image Generation documentation
+        url: https://www.nexscope.ai/api-docs/banana-image-generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Generate ecommerce images with the Nano Banana base image model.
+              properties:
+                imageUrls:
+                  type: array
+                  items:
+                    type: string
+                  description: Public reference image URLs required by this image generation API. When supplied, provide 1 to 10 JPG, PNG, or WEBP images; each image must not exceed 20 MB.
+                  example:
+                  - https://example.com/product.jpg
+                  minItems: 1
+                  maxItems: 10
+                prompt:
+                  type: string
+                  description: Generation prompt describing the target image, scene, composition, style, and constraints. Maximum 5000 characters.
+                  example: Keep the product consistent and generate a clean white-background ecommerce hero image.
+                  maxLength: 5000
+                outputNum:
+                  type: integer
+                  description: 'Number of images to generate. Valid range: 1 to 10; defaults to 1.'
+                  example: 1
+                  minimum: 1
+                  maximum: 10
+                resolution:
+                  type: string
+                  description: 'Output resolution. Supported values: 1K only.'
+                  example: 1K
+                aspectRatio:
+                  type: string
+                  description: 'Output aspect ratio. Supported values: 1:1, 16:9, 9:16, 3:4, 4:3, 3:2, 2:3, 4:5, 5:4, 21:9.'
+                  example: '1:1'
+              required:
+              - imageUrls
+              - prompt
+              example:
+                imageUrls:
+                - https://example.com/product.jpg
+                prompt: Keep the product consistent and generate a clean white-background ecommerce hero image.
+                outputNum: 1
+                resolution: 1K
+                aspectRatio: '1:1'
+              additionalProperties: true
+            example:
+              imageUrls:
+              - https://example.com/product.jpg
+              prompt: Keep the product consistent and generate a clean white-background ecommerce hero image.
+              outputNum: 1
+              resolution: 1K
+              aspectRatio: '1:1'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Creates a Nexscope asynchronous generation task. Use taskId with the task result endpoint to retrieve the completed output. The completed result replaces generated resource URLs with Nexscope-hosted URLs and replaces provider count with actual Nexscope credits charged.
+                properties:
+                  taskId:
+                    type: string
+                    description: Nexscope asynchronous task id used to query the generation result.
+                    example: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                  status:
+                    type: string
+                    description: Task status. Initial run returns PENDING; the query endpoint may return PENDING, RUNNING, SUCCESS, FAILED, or TIMEOUT.
+                    example: PENDING
+                  message:
+                    type: string
+                    description: User-facing task state message.
+                    example: The task has been created. Use taskId to query the result.
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  type:
+                    type: string
+                    description: Provider-specific render or payload type.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                required:
+                - taskId
+                - status
+                example:
+                  taskId: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                  status: PENDING
+                  message: The task has been created. Use taskId to query the result.
+                additionalProperties: true
+              example:
+                taskId: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                status: PENDING
+                message: The task has been created. Use taskId to query the result.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: banana-image-generation
+      x-nexscope-mcp-tool-name: nexscope_banana_image_generation
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/banana-pro-image-generation/run:
+    post:
+      tags:
+      - Image Generation Models
+      summary: Nano Banana Pro Image Generation
+      description: Generate higher-resolution ecommerce images with the Nano Banana Pro model. The model is fixed by this API, so provider must not be supplied in the request.
+      operationId: runBananaProImageGeneration
+      externalDocs:
+        description: Nano Banana Pro Image Generation documentation
+        url: https://www.nexscope.ai/api-docs/banana-pro-image-generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Generate higher-resolution ecommerce images with the Nano Banana Pro model.
+              properties:
+                imageUrls:
+                  type: array
+                  items:
+                    type: string
+                  description: Public reference image URLs required by this image generation API. When supplied, provide 1 to 10 JPG, PNG, or WEBP images; each image must not exceed 20 MB.
+                  example:
+                  - https://example.com/product.jpg
+                  minItems: 1
+                  maxItems: 10
+                prompt:
+                  type: string
+                  description: Generation prompt describing the target image, scene, composition, style, and constraints. Maximum 5000 characters.
+                  example: Keep the product consistent and generate a clean white-background ecommerce hero image.
+                  maxLength: 5000
+                outputNum:
+                  type: integer
+                  description: 'Number of images to generate. Valid range: 1 to 10; defaults to 1.'
+                  example: 1
+                  minimum: 1
+                  maximum: 10
+                resolution:
+                  type: string
+                  description: 'Output resolution. Supported values: 1K, 2K, or 4K; defaults to 1K.'
+                  example: 1K
+                aspectRatio:
+                  type: string
+                  description: 'Output aspect ratio. Supported values: 1:1, 16:9, 9:16, 3:4, 4:3, 3:2, 2:3, 4:5, 5:4, 21:9.'
+                  example: '1:1'
+              required:
+              - imageUrls
+              - prompt
+              example:
+                imageUrls:
+                - https://example.com/product.jpg
+                prompt: Keep the product consistent and generate a clean white-background ecommerce hero image.
+                outputNum: 1
+                resolution: 1K
+                aspectRatio: '1:1'
+              additionalProperties: true
+            example:
+              imageUrls:
+              - https://example.com/product.jpg
+              prompt: Keep the product consistent and generate a clean white-background ecommerce hero image.
+              outputNum: 1
+              resolution: 1K
+              aspectRatio: '1:1'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Creates a Nexscope asynchronous generation task. Use taskId with the task result endpoint to retrieve the completed output. The completed result replaces generated resource URLs with Nexscope-hosted URLs and replaces provider count with actual Nexscope credits charged.
+                properties:
+                  taskId:
+                    type: string
+                    description: Nexscope asynchronous task id used to query the generation result.
+                    example: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                  status:
+                    type: string
+                    description: Task status. Initial run returns PENDING; the query endpoint may return PENDING, RUNNING, SUCCESS, FAILED, or TIMEOUT.
+                    example: PENDING
+                  message:
+                    type: string
+                    description: User-facing task state message.
+                    example: The task has been created. Use taskId to query the result.
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  type:
+                    type: string
+                    description: Provider-specific render or payload type.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                required:
+                - taskId
+                - status
+                example:
+                  taskId: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                  status: PENDING
+                  message: The task has been created. Use taskId to query the result.
+                additionalProperties: true
+              example:
+                taskId: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                status: PENDING
+                message: The task has been created. Use taskId to query the result.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: banana-pro-image-generation
+      x-nexscope-mcp-tool-name: nexscope_banana_pro_image_generation
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/banana-2-image-generation/run:
+    post:
+      tags:
+      - Image Generation Models
+      summary: Nano Banana 2 Image Generation
+      description: Generate ecommerce images with the Nano Banana 2 model. The model is fixed by this API, so provider must not be supplied in the request.
+      operationId: runBanana2ImageGeneration
+      externalDocs:
+        description: Nano Banana 2 Image Generation documentation
+        url: https://www.nexscope.ai/api-docs/banana-2-image-generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Generate ecommerce images with the Nano Banana 2 model.
+              properties:
+                imageUrls:
+                  type: array
+                  items:
+                    type: string
+                  description: Public reference image URLs required by this image generation API. When supplied, provide 1 to 10 JPG, PNG, or WEBP images; each image must not exceed 20 MB.
+                  example:
+                  - https://example.com/product.jpg
+                  minItems: 1
+                  maxItems: 10
+                prompt:
+                  type: string
+                  description: Generation prompt describing the target image, scene, composition, style, and constraints. Maximum 5000 characters.
+                  example: Keep the product consistent and generate a clean white-background ecommerce hero image.
+                  maxLength: 5000
+                outputNum:
+                  type: integer
+                  description: 'Number of images to generate. Valid range: 1 to 10; defaults to 1.'
+                  example: 1
+                  minimum: 1
+                  maximum: 10
+                resolution:
+                  type: string
+                  description: 'Output resolution. Supported values: 1K, 2K, or 4K; defaults to 1K.'
+                  example: 1K
+                aspectRatio:
+                  type: string
+                  description: 'Output aspect ratio. Supported values: 1:1, 3:2, 2:3, 3:4, 4:3, 4:5, 5:4, 16:9, 9:16, 21:9.'
+                  example: '1:1'
+              required:
+              - imageUrls
+              - prompt
+              example:
+                imageUrls:
+                - https://example.com/product.jpg
+                prompt: Keep the product consistent and generate a clean white-background ecommerce hero image.
+                outputNum: 1
+                resolution: 1K
+                aspectRatio: '1:1'
+              additionalProperties: true
+            example:
+              imageUrls:
+              - https://example.com/product.jpg
+              prompt: Keep the product consistent and generate a clean white-background ecommerce hero image.
+              outputNum: 1
+              resolution: 1K
+              aspectRatio: '1:1'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Creates a Nexscope asynchronous generation task. Use taskId with the task result endpoint to retrieve the completed output. The completed result replaces generated resource URLs with Nexscope-hosted URLs and replaces provider count with actual Nexscope credits charged.
+                properties:
+                  taskId:
+                    type: string
+                    description: Nexscope asynchronous task id used to query the generation result.
+                    example: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                  status:
+                    type: string
+                    description: Task status. Initial run returns PENDING; the query endpoint may return PENDING, RUNNING, SUCCESS, FAILED, or TIMEOUT.
+                    example: PENDING
+                  message:
+                    type: string
+                    description: User-facing task state message.
+                    example: The task has been created. Use taskId to query the result.
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  type:
+                    type: string
+                    description: Provider-specific render or payload type.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                required:
+                - taskId
+                - status
+                example:
+                  taskId: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                  status: PENDING
+                  message: The task has been created. Use taskId to query the result.
+                additionalProperties: true
+              example:
+                taskId: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                status: PENDING
+                message: The task has been created. Use taskId to query the result.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: banana-2-image-generation
+      x-nexscope-mcp-tool-name: nexscope_banana_2_image_generation
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/banana-2-lite-image-generation/run:
+    post:
+      tags:
+      - Image Generation Models
+      summary: Nano Banana 2 Lite Image Generation
+      description: Generate ecommerce images with the Nano Banana 2 Lite model. The model is fixed by this API, so provider must not be supplied in the request.
+      operationId: runBanana2LiteImageGeneration
+      externalDocs:
+        description: Nano Banana 2 Lite Image Generation documentation
+        url: https://www.nexscope.ai/api-docs/banana-2-lite-image-generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Generate ecommerce images with the Nano Banana 2 Lite model.
+              properties:
+                imageUrls:
+                  type: array
+                  items:
+                    type: string
+                  description: Public reference image URLs required by this image generation API. When supplied, provide 1 to 10 JPG, PNG, or WEBP images; each image must not exceed 20 MB.
+                  example:
+                  - https://example.com/product.jpg
+                  minItems: 1
+                  maxItems: 10
+                prompt:
+                  type: string
+                  description: Generation prompt describing the target image, scene, composition, style, and constraints. Maximum 5000 characters.
+                  example: Keep the product consistent and generate a clean white-background ecommerce hero image.
+                  maxLength: 5000
+                outputNum:
+                  type: integer
+                  description: 'Number of images to generate. Valid range: 1 to 10; defaults to 1.'
+                  example: 1
+                  minimum: 1
+                  maximum: 10
+                resolution:
+                  type: string
+                  description: 'Output resolution. Supported values: 1K only.'
+                  example: 1K
+                aspectRatio:
+                  type: string
+                  description: 'Output aspect ratio. Supported values: 1:1, 3:2, 2:3, 3:4, 4:3, 4:5, 5:4, 9:16, 16:9, 21:9.'
+                  example: '1:1'
+              required:
+              - imageUrls
+              - prompt
+              example:
+                imageUrls:
+                - https://example.com/product.jpg
+                prompt: Keep the product consistent and generate a clean white-background ecommerce hero image.
+                outputNum: 1
+                resolution: 1K
+                aspectRatio: '1:1'
+              additionalProperties: true
+            example:
+              imageUrls:
+              - https://example.com/product.jpg
+              prompt: Keep the product consistent and generate a clean white-background ecommerce hero image.
+              outputNum: 1
+              resolution: 1K
+              aspectRatio: '1:1'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Creates a Nexscope asynchronous generation task. Use taskId with the task result endpoint to retrieve the completed output. The completed result replaces generated resource URLs with Nexscope-hosted URLs and replaces provider count with actual Nexscope credits charged.
+                properties:
+                  taskId:
+                    type: string
+                    description: Nexscope asynchronous task id used to query the generation result.
+                    example: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                  status:
+                    type: string
+                    description: Task status. Initial run returns PENDING; the query endpoint may return PENDING, RUNNING, SUCCESS, FAILED, or TIMEOUT.
+                    example: PENDING
+                  message:
+                    type: string
+                    description: User-facing task state message.
+                    example: The task has been created. Use taskId to query the result.
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  type:
+                    type: string
+                    description: Provider-specific render or payload type.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                required:
+                - taskId
+                - status
+                example:
+                  taskId: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                  status: PENDING
+                  message: The task has been created. Use taskId to query the result.
+                additionalProperties: true
+              example:
+                taskId: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                status: PENDING
+                message: The task has been created. Use taskId to query the result.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: banana-2-lite-image-generation
+      x-nexscope-mcp-tool-name: nexscope_banana_2_lite_image_generation
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/wan-2-7-image-generation/run:
+    post:
+      tags:
+      - Image Generation Models
+      summary: Wan 2.7 Image Generation
+      description: Generate ecommerce images with the Wan 2.7 image model. The model is fixed by this API, so provider must not be supplied in the request.
+      operationId: runWan27ImageGeneration
+      externalDocs:
+        description: Wan 2.7 Image Generation documentation
+        url: https://www.nexscope.ai/api-docs/wan-2-7-image-generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Generate ecommerce images with the Wan 2.7 image model.
+              properties:
+                imageUrls:
+                  type: array
+                  items:
+                    type: string
+                  description: Public reference image URLs required by this image generation API. When supplied, provide 1 to 10 JPG, PNG, or WEBP images; each image must not exceed 20 MB.
+                  example:
+                  - https://example.com/product.jpg
+                  minItems: 1
+                  maxItems: 10
+                prompt:
+                  type: string
+                  description: Generation prompt describing the target image, scene, composition, style, and constraints. Maximum 5000 characters.
+                  example: Keep the product consistent and generate a clean white-background ecommerce hero image.
+                  maxLength: 5000
+                outputNum:
+                  type: integer
+                  description: 'Number of images to generate. Valid range: 1 to 10; defaults to 1.'
+                  example: 1
+                  minimum: 1
+                  maximum: 10
+                resolution:
+                  type: string
+                  description: 'Output resolution. Supported values: 1K or 2K; defaults to 1K.'
+                  example: 1K
+                aspectRatio:
+                  type: string
+                  description: 'Output aspect ratio. Supported values: 1:1, 1:4, 4:1, 3:2, 2:3, 3:4, 4:3, 4:5, 5:4, 16:9, 9:16, 21:9.'
+                  example: '1:1'
+              required:
+              - imageUrls
+              - prompt
+              example:
+                imageUrls:
+                - https://example.com/product.jpg
+                prompt: Keep the product consistent and generate a clean white-background ecommerce hero image.
+                outputNum: 1
+                resolution: 1K
+                aspectRatio: '1:1'
+              additionalProperties: true
+            example:
+              imageUrls:
+              - https://example.com/product.jpg
+              prompt: Keep the product consistent and generate a clean white-background ecommerce hero image.
+              outputNum: 1
+              resolution: 1K
+              aspectRatio: '1:1'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Creates a Nexscope asynchronous generation task. Use taskId with the task result endpoint to retrieve the completed output. The completed result replaces generated resource URLs with Nexscope-hosted URLs and replaces provider count with actual Nexscope credits charged.
+                properties:
+                  taskId:
+                    type: string
+                    description: Nexscope asynchronous task id used to query the generation result.
+                    example: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                  status:
+                    type: string
+                    description: Task status. Initial run returns PENDING; the query endpoint may return PENDING, RUNNING, SUCCESS, FAILED, or TIMEOUT.
+                    example: PENDING
+                  message:
+                    type: string
+                    description: User-facing task state message.
+                    example: The task has been created. Use taskId to query the result.
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  type:
+                    type: string
+                    description: Provider-specific render or payload type.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                required:
+                - taskId
+                - status
+                example:
+                  taskId: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                  status: PENDING
+                  message: The task has been created. Use taskId to query the result.
+                additionalProperties: true
+              example:
+                taskId: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                status: PENDING
+                message: The task has been created. Use taskId to query the result.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: wan-2-7-image-generation
+      x-nexscope-mcp-tool-name: nexscope_wan_2_7_image_generation
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/seedream-5-pro-image-generation/run:
+    post:
+      tags:
+      - Image Generation Models
+      summary: Seedream 5 Pro Image Generation
+      description: Generate ecommerce images with the Seedream 5 Pro image model. The model is fixed by this API, so provider must not be supplied in the request.
+      operationId: runSeedream5ProImageGeneration
+      externalDocs:
+        description: Seedream 5 Pro Image Generation documentation
+        url: https://www.nexscope.ai/api-docs/seedream-5-pro-image-generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Generate ecommerce images with the Seedream 5 Pro image model.
+              properties:
+                imageUrls:
+                  type: array
+                  items:
+                    type: string
+                  description: Public reference image URLs required by this image generation API. When supplied, provide 1 to 10 JPG, PNG, or WEBP images; each image must not exceed 20 MB.
+                  example:
+                  - https://example.com/product.jpg
+                  minItems: 1
+                  maxItems: 10
+                prompt:
+                  type: string
+                  description: Generation prompt describing the target image, scene, composition, style, and constraints. Maximum 5000 characters.
+                  example: Keep the product consistent and generate a clean white-background ecommerce hero image.
+                  maxLength: 5000
+                outputNum:
+                  type: integer
+                  description: 'Number of images to generate. Valid range: 1 to 10; defaults to 1.'
+                  example: 1
+                  minimum: 1
+                  maximum: 10
+                resolution:
+                  type: string
+                  description: 'Output resolution. Supported values: 1K or 2K; defaults to 1K.'
+                  example: 1K
+                aspectRatio:
+                  type: string
+                  description: 'Output aspect ratio. Supported values: 1:1, 3:4, 4:3, 9:16, 16:9, 3:2, 2:3, 21:9.'
+                  example: '1:1'
+              required:
+              - imageUrls
+              - prompt
+              example:
+                imageUrls:
+                - https://example.com/product.jpg
+                prompt: Keep the product consistent and generate a clean white-background ecommerce hero image.
+                outputNum: 1
+                resolution: 1K
+                aspectRatio: '1:1'
+              additionalProperties: true
+            example:
+              imageUrls:
+              - https://example.com/product.jpg
+              prompt: Keep the product consistent and generate a clean white-background ecommerce hero image.
+              outputNum: 1
+              resolution: 1K
+              aspectRatio: '1:1'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Creates a Nexscope asynchronous generation task. Use taskId with the task result endpoint to retrieve the completed output. The completed result replaces generated resource URLs with Nexscope-hosted URLs and replaces provider count with actual Nexscope credits charged.
+                properties:
+                  taskId:
+                    type: string
+                    description: Nexscope asynchronous task id used to query the generation result.
+                    example: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                  status:
+                    type: string
+                    description: Task status. Initial run returns PENDING; the query endpoint may return PENDING, RUNNING, SUCCESS, FAILED, or TIMEOUT.
+                    example: PENDING
+                  message:
+                    type: string
+                    description: User-facing task state message.
+                    example: The task has been created. Use taskId to query the result.
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  type:
+                    type: string
+                    description: Provider-specific render or payload type.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                required:
+                - taskId
+                - status
+                example:
+                  taskId: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                  status: PENDING
+                  message: The task has been created. Use taskId to query the result.
+                additionalProperties: true
+              example:
+                taskId: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                status: PENDING
+                message: The task has been created. Use taskId to query the result.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: seedream-5-pro-image-generation
+      x-nexscope-mcp-tool-name: nexscope_seedream_5_pro_image_generation
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/gpt-image-2-generation/run:
+    post:
+      tags:
+      - Image Generation Models
+      summary: GPT Image 2 Generation
+      description: Generate ecommerce images with the GPT Image 2 model and optional quality control. The model is fixed by this API, so provider must not be supplied in the request.
+      operationId: runGptImage2Generation
+      externalDocs:
+        description: GPT Image 2 Generation documentation
+        url: https://www.nexscope.ai/api-docs/gpt-image-2-generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Generate ecommerce images with the GPT Image 2 model and optional quality control.
+              properties:
+                imageUrls:
+                  type: array
+                  items:
+                    type: string
+                  description: Public reference image URLs required by this image generation API. When supplied, provide 1 to 10 JPG, PNG, or WEBP images; each image must not exceed 20 MB.
+                  example:
+                  - https://example.com/product.jpg
+                  minItems: 1
+                  maxItems: 10
+                prompt:
+                  type: string
+                  description: Generation prompt describing the target image, scene, composition, style, and constraints. Maximum 5000 characters.
+                  example: Keep the product consistent and generate a clean white-background ecommerce hero image.
+                  maxLength: 5000
+                outputNum:
+                  type: integer
+                  description: 'Number of images to generate. Valid range: 1 to 10; defaults to 1.'
+                  example: 1
+                  minimum: 1
+                  maximum: 10
+                resolution:
+                  type: string
+                  description: 'Output resolution. Supported values: 1K, 2K, or 4K; defaults to 1K.'
+                  example: 1K
+                aspectRatio:
+                  type: string
+                  description: 'Output aspect ratio. Supported values: 1:1, 16:9, 9:16, 3:4, 4:3, 3:2, 2:3, 4:5, 5:4, 21:9, 9:21.'
+                  example: '1:1'
+                quality:
+                  type: string
+                  description: 'GPT Image quality. Supported values: low, medium, or high; defaults to medium.'
+                  example: medium
+              required:
+              - imageUrls
+              - prompt
+              example:
+                imageUrls:
+                - https://example.com/product.jpg
+                prompt: Keep the product consistent and generate a clean white-background ecommerce hero image.
+                outputNum: 1
+                resolution: 1K
+                aspectRatio: '1:1'
+                quality: medium
+              additionalProperties: true
+            example:
+              imageUrls:
+              - https://example.com/product.jpg
+              prompt: Keep the product consistent and generate a clean white-background ecommerce hero image.
+              outputNum: 1
+              resolution: 1K
+              aspectRatio: '1:1'
+              quality: medium
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Creates a Nexscope asynchronous generation task. Use taskId with the task result endpoint to retrieve the completed output. The completed result replaces generated resource URLs with Nexscope-hosted URLs and replaces provider count with actual Nexscope credits charged.
+                properties:
+                  taskId:
+                    type: string
+                    description: Nexscope asynchronous task id used to query the generation result.
+                    example: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                  status:
+                    type: string
+                    description: Task status. Initial run returns PENDING; the query endpoint may return PENDING, RUNNING, SUCCESS, FAILED, or TIMEOUT.
+                    example: PENDING
+                  message:
+                    type: string
+                    description: User-facing task state message.
+                    example: The task has been created. Use taskId to query the result.
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  type:
+                    type: string
+                    description: Provider-specific render or payload type.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                required:
+                - taskId
+                - status
+                example:
+                  taskId: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                  status: PENDING
+                  message: The task has been created. Use taskId to query the result.
+                additionalProperties: true
+              example:
+                taskId: 6b3f1c61-1b7d-4a59-8a7d-3b23e4b0c9e2
+                status: PENDING
+                message: The task has been created. Use taskId to query the result.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: gpt-image-2-generation
+      x-nexscope-mcp-tool-name: nexscope_gpt_image_2_generation
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+components:
+  responses:
+    BadRequest:
+      description: Invalid request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Forbidden:
+      description: The account or API key is not allowed to use this capability.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    ServerError:
+      description: Server or upstream provider error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    TooManyRequests:
+      description: Rate limit or account usage limit reached.
+      headers:
+        Retry-After:
+          description: Retry delay when returned by the service.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+  schemas:
+    CommonError:
+      type: object
+      description: Common API error envelope. Exact fields may vary by endpoint and upstream provider.
+      properties:
+        code:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Application or provider error code.
+        msg:
+          type: string
+          description: Error message.
+        message:
+          type: string
+          description: Alternative error message field.
+        traceId:
+          type: string
+          description: Support trace identifier when available.
+      additionalProperties: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Nexscope API Key
+externalDocs:
+  description: Nexscope API Documentation
+  url: https://www.nexscope.ai/api-docs
+x-nexscope-source: https://api.nexscope.ai/api/skill-api/v1/api-docs
+x-nexscope-pricing-mode: dynamic-credits
+x-nexscope-mcp-endpoint: https://api.nexscope.ai/api/skill-api/v1/mcp

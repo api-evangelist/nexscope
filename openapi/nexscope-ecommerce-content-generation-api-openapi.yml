@@ -1,0 +1,244 @@
+openapi: 3.2.0
+info:
+  title: Nexscope Ecommerce Data and Creative Ecommerce Content…
+  version: 2026-08-28-public-catalog-v1
+  description: Nexscope APIs provide ecommerce marketplace intelligence and creative generation capabilities through REST and MCP. Authentication uses a Nexscope API key. Pricing is credit-based and actual usage varies by endpoint and workload; current estimates are shown in the Nexscope account.
+  termsOfService: https://www.nexscope.ai/terms
+  contact:
+    name: Nexscope Support
+    email: service@nexscope.ai
+    url: https://www.nexscope.ai/api-docs
+  license:
+    name: Proprietary API; use subject to Nexscope Terms
+    url: https://www.nexscope.ai/terms
+servers:
+- url: https://api.nexscope.ai
+  description: Production
+security:
+- bearerAuth: []
+tags:
+- name: Ecommerce Content Generation
+  description: Product description and product video generation APIs.
+  x-category-slug: ecommerce-content-generation
+paths:
+  /api/skill-api/v1/skills/product-description-generator/run:
+    post:
+      tags:
+      - Ecommerce Content Generation
+      summary: Product Description Generator
+      description: Creates a text-generation task from product copy instructions and image URLs, or queries a known task ID.
+      operationId: runProductDescriptionGenerator
+      externalDocs:
+        description: Product Description Generator documentation
+        url: https://www.nexscope.ai/api-docs/product-description-generator
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Use operation=query with the provider taskId returned by create. Query is sent to the skill's /aigc/textTaskQuery endpoint; the system task-result endpoint is not used.
+              properties:
+                operation:
+                  type: string
+                  description: create (default) or query.
+                  example: create
+                prompt:
+                  type: string
+                  description: Product-copy generation instruction; required by create.
+                  example: Write a product description for a wireless speaker.
+                imageUrls:
+                  type: array
+                  items: {}
+                  description: Public image URLs used as visual context; required by create and may be empty.
+                  example: []
+                thinkingLevel:
+                  type: string
+                  description: Reasoning level required by create.
+                  example: minimal
+                model:
+                  type: string
+                  description: Optional supported text-generation model.
+                  example: GEM_3_FLASH
+                memberId:
+                  type: string
+                  description: Optional provider member identifier used by create and query.
+                  example: member-id
+                taskId:
+                  type: string
+                  description: Provider task ID returned by create; required by operation=query.
+                  example: '123456789'
+              example:
+                operation: create
+                thinkingLevel: minimal
+                prompt: Write a product description for a wireless speaker.
+                imageUrls: []
+              additionalProperties: true
+            example:
+              operation: create
+              thinkingLevel: minimal
+              prompt: Write a product description for a wireless speaker.
+              imageUrls: []
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the provider task envelope without exposing credentials.
+                properties:
+                  taskId:
+                    type: string
+                    description: Asynchronous generation task ID.
+                    example: '123456789'
+                  status:
+                    type: string
+                    description: Task status such as PROCESSING, SUCCESS, or FAILED.
+                    example: PROCESSING
+                  content:
+                    type: string
+                    description: Generated product copy when the task succeeds.
+                    example: Example product description.
+                  costToken:
+                    type: integer
+                    description: Provider-reported token cost.
+                    example: 1
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  type:
+                    type: string
+                    description: Provider-specific render or payload type.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  taskId: '123456789'
+                  status: PROCESSING
+                  content: Example product description.
+                  costToken: 1
+                additionalProperties: true
+              example:
+                taskId: '123456789'
+                status: PROCESSING
+                content: Example product description.
+                costToken: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: product-description-generator
+      x-nexscope-mcp-tool-name: nexscope_product_description_generator
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+components:
+  responses:
+    BadRequest:
+      description: Invalid request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Forbidden:
+      description: The account or API key is not allowed to use this capability.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    ServerError:
+      description: Server or upstream provider error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    TooManyRequests:
+      description: Rate limit or account usage limit reached.
+      headers:
+        Retry-After:
+          description: Retry delay when returned by the service.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+  schemas:
+    CommonError:
+      type: object
+      description: Common API error envelope. Exact fields may vary by endpoint and upstream provider.
+      properties:
+        code:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Application or provider error code.
+        msg:
+          type: string
+          description: Error message.
+        message:
+          type: string
+          description: Alternative error message field.
+        traceId:
+          type: string
+          description: Support trace identifier when available.
+      additionalProperties: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Nexscope API Key
+externalDocs:
+  description: Nexscope API Documentation
+  url: https://www.nexscope.ai/api-docs
+x-nexscope-source: https://api.nexscope.ai/api/skill-api/v1/api-docs
+x-nexscope-pricing-mode: dynamic-credits
+x-nexscope-mcp-endpoint: https://api.nexscope.ai/api/skill-api/v1/mcp

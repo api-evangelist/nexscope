@@ -1,0 +1,505 @@
+openapi: 3.2.0
+info:
+  title: Nexscope Ecommerce Data and Creative Walmart Marketplace…
+  version: 2026-08-28-public-catalog-v1
+  description: Nexscope APIs provide ecommerce marketplace intelligence and creative generation capabilities through REST and MCP. Authentication uses a Nexscope API key. Pricing is credit-based and actual usage varies by endpoint and workload; current estimates are shown in the Nexscope account.
+  termsOfService: https://www.nexscope.ai/terms
+  contact:
+    name: Nexscope Support
+    email: service@nexscope.ai
+    url: https://www.nexscope.ai/api-docs
+  license:
+    name: Proprietary API; use subject to Nexscope Terms
+    url: https://www.nexscope.ai/terms
+servers:
+- url: https://api.nexscope.ai
+  description: Production
+security:
+- bearerAuth: []
+tags:
+- name: Walmart Marketplace Intelligence
+paths:
+  /api/skill-api/v1/skills/walmart-category-market/run:
+    post:
+      tags:
+      - Walmart Marketplace Intelligence
+      summary: Walmart Category Market
+      description: Returns normalized public ecommerce research data with a fixed read-only provider path.
+      operationId: runWalmartCategoryMarket
+      externalDocs:
+        description: Walmart Category Market documentation
+        url: https://www.nexscope.ai/api-docs/walmart-category-market
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              unevaluatedProperties: false
+              required:
+              - operation
+              discriminator:
+                propertyName: operation
+              oneOf:
+              - properties:
+                  operation:
+                    const: tree
+                required:
+                - operation
+              - properties:
+                  operation:
+                    const: searchByName
+                  name:
+                    type: string
+                    minLength: 1
+                required:
+                - operation
+                - name
+              - properties:
+                  operation:
+                    const: marketReport
+                  nodePath:
+                    type: string
+                    pattern: ^\d+(?:_\d+)+$
+                required:
+                - operation
+                - nodePath
+              description: Request parameters documented by ecommerce.walmart-category-market.
+              example:
+                operation: tree
+            example:
+              operation: tree
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - operation
+                - value
+                - requestConsumed
+                properties:
+                  operation: {}
+                  value: {}
+                  requestConsumed:
+                    type: integer
+                    minimum: 0
+                oneOf:
+                - properties:
+                    operation:
+                      const: tree
+                    value:
+                      type: array
+                - properties:
+                    operation:
+                      const: searchByName
+                    value:
+                      type: array
+                - properties:
+                    operation:
+                      const: marketReport
+                    value:
+                      type:
+                      - object
+                      - array
+                description: Returns the documented upstream API response directly without an additional wrapper.
+              example:
+                operation: tree
+                value:
+                - NodeId: '1005862'
+                  Name: Personal Care
+                requestConsumed: 5
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: walmart-category-market
+      x-nexscope-mcp-tool-name: nexscope_walmart_category_market
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/walmart-keyword-research/run:
+    post:
+      tags:
+      - Walmart Marketplace Intelligence
+      summary: Walmart Keyword Research
+      description: Returns normalized public ecommerce research data with a fixed read-only provider path.
+      operationId: runWalmartKeywordResearch
+      externalDocs:
+        description: Walmart Keyword Research documentation
+        url: https://www.nexscope.ai/api-docs/walmart-keyword-research
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              unevaluatedProperties: false
+              required:
+              - operation
+              discriminator:
+                propertyName: operation
+              oneOf:
+              - properties:
+                  operation:
+                    const: marketQuery
+                  pattern:
+                    $ref: '#/$defs/pattern'
+                  pageIndex:
+                    $ref: '#/$defs/page'
+                  pageSize:
+                    $ref: '#/$defs/pageSize'
+                required:
+                - operation
+              - properties:
+                  operation:
+                    const: searchByName
+                  name:
+                    type: string
+                    minLength: 1
+                  pageIndex:
+                    $ref: '#/$defs/page'
+                required:
+                - operation
+                - name
+              - properties:
+                  operation:
+                    const: searchProducts
+                  keyword:
+                    type: string
+                    minLength: 1
+                  pageIndex:
+                    $ref: '#/$defs/page'
+                  pageSize:
+                    $ref: '#/$defs/pageSize'
+                required:
+                - operation
+                - keyword
+              - properties:
+                  operation:
+                    const: detail
+                  keyword:
+                    type: string
+                    minLength: 1
+                required:
+                - operation
+                - keyword
+              - properties:
+                  operation:
+                    const: productKeywords
+                  productId:
+                    type: string
+                    minLength: 1
+                  pageIndex:
+                    $ref: '#/$defs/page'
+                  pageSize:
+                    $ref: '#/$defs/pageSize'
+                required:
+                - operation
+                - productId
+              - properties:
+                  operation:
+                    const: relatedKeywords
+                  keyword:
+                    type: string
+                    minLength: 1
+                  pageIndex:
+                    $ref: '#/$defs/page'
+                  pageSize:
+                    $ref: '#/$defs/pageSize'
+                required:
+                - operation
+                - keyword
+              - properties:
+                  operation:
+                    const: favoriteList
+                  command:
+                    oneOf:
+                    - enum:
+                      - all
+                      - dict
+                    - type: string
+                      pattern: ^dict=.+$
+                  pageIndex:
+                    $ref: '#/$defs/page'
+                required:
+                - operation
+                - command
+              $defs:
+                page:
+                  type: integer
+                  minimum: 1
+                  default: 1
+                pageSize:
+                  type: integer
+                  minimum: 20
+                  maximum: 200
+                  default: 20
+                range:
+                  type: array
+                  items:
+                    type: integer
+                    minimum: 0
+                  minItems: 1
+                  maxItems: 2
+                  x-relation: first <= second
+                pattern:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    keyword:
+                      type: string
+                      minLength: 1
+                    rankCondition:
+                      $ref: '#/$defs/range'
+                    searchVolumeCondition:
+                      $ref: '#/$defs/range'
+              description: Request parameters documented by ecommerce.walmart-keyword-research.
+              example:
+                operation: searchByName
+                name: wireless earbuds
+                pageIndex: 1
+            example:
+              operation: searchByName
+              name: wireless earbuds
+              pageIndex: 1
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - operation
+                - value
+                - requestConsumed
+                properties:
+                  operation: {}
+                  value: {}
+                  requestConsumed:
+                    type: integer
+                    minimum: 0
+                oneOf:
+                - properties:
+                    operation:
+                      enum:
+                      - marketQuery
+                      - searchByName
+                      - searchProducts
+                      - productKeywords
+                      - relatedKeywords
+                      - favoriteList
+                    value:
+                      type: array
+                - properties:
+                    operation:
+                      const: detail
+                    value:
+                      type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+              example:
+                operation: searchByName
+                value:
+                - Keyword: wireless earbuds
+                  Rank: 1
+                  SearchVolume: 1
+                requestConsumed: 1
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: walmart-keyword-research
+      x-nexscope-mcp-tool-name: nexscope_walmart_keyword_research
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/walmart-product-analysis/run:
+    post:
+      tags:
+      - Walmart Marketplace Intelligence
+      summary: Walmart Product Analysis
+      description: Returns normalized public ecommerce research data with a fixed read-only provider path.
+      operationId: runWalmartProductAnalysis
+      externalDocs:
+        description: Walmart Product Analysis documentation
+        url: https://www.nexscope.ai/api-docs/walmart-product-analysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              unevaluatedProperties: false
+              required:
+              - operation
+              discriminator:
+                propertyName: operation
+              oneOf:
+              - properties:
+                  operation:
+                    const: searchByName
+                  name:
+                    type: string
+                    minLength: 1
+                  pageIndex:
+                    type: integer
+                    minimum: 1
+                    default: 1
+                required:
+                - operation
+                - name
+              - properties:
+                  operation:
+                    const: detail
+                  productId:
+                    type: string
+                    minLength: 1
+                required:
+                - operation
+                - productId
+              - properties:
+                  operation:
+                    const: trend
+                  productId:
+                    type: string
+                    minLength: 1
+                required:
+                - operation
+                - productId
+              - properties:
+                  operation:
+                    const: salesVolume
+                  productId:
+                    type: string
+                    minLength: 1
+                  queryDate:
+                    type: string
+                    format: date
+                  queryEndDate:
+                    type: string
+                    format: date
+                  pageIndex:
+                    type: integer
+                    minimum: 1
+                    default: 1
+                required:
+                - operation
+                - productId
+                x-relations:
+                - queryDate <= queryEndDate; defaults to latest 30 days; start-only ends today
+              description: Request parameters documented by ecommerce.walmart-product-analysis.
+              example:
+                operation: detail
+                productId: '5169493923'
+            example:
+              operation: detail
+              productId: '5169493923'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - operation
+                - value
+                - requestConsumed
+                properties:
+                  operation: {}
+                  value: {}
+                  requestConsumed:
+                    type: integer
+                    minimum: 0
+                oneOf:
+                - properties:
+                    operation:
+                      const: searchByName
+                    value:
+                      type: array
+                - properties:
+                    operation:
+                      const: salesVolume
+                    value:
+                      type: array
+                      items:
+                        type: array
+                        prefixItems:
+                        - type: string
+                          format: date
+                        - type: number
+                        - type: integer
+                        minItems: 3
+                        maxItems: 3
+                - properties:
+                    operation:
+                      enum:
+                      - detail
+                      - trend
+                    value:
+                      type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+              example:
+                operation: detail
+                value:
+                  ProductId: '5169493923'
+                  Title: Example Walmart product
+                  Price: 1
+                requestConsumed: 1
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: walmart-product-analysis
+      x-nexscope-mcp-tool-name: nexscope_walmart_product_analysis
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Nexscope API Key
+externalDocs:
+  description: Nexscope API Documentation
+  url: https://www.nexscope.ai/api-docs
+x-nexscope-source: https://api.nexscope.ai/api/skill-api/v1/api-docs
+x-nexscope-pricing-mode: dynamic-credits
+x-nexscope-mcp-endpoint: https://api.nexscope.ai/api/skill-api/v1/mcp

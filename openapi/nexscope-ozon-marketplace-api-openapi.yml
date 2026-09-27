@@ -1,0 +1,3714 @@
+openapi: 3.2.0
+info:
+  title: Nexscope Ecommerce Data and Creative Ozon Marketplace API
+  version: 2026-08-28-public-catalog-v1
+  description: Nexscope APIs provide ecommerce marketplace intelligence and creative generation capabilities through REST and MCP. Authentication uses a Nexscope API key. Pricing is credit-based and actual usage varies by endpoint and workload; current estimates are shown in the Nexscope account.
+  termsOfService: https://www.nexscope.ai/terms
+  contact:
+    name: Nexscope Support
+    email: service@nexscope.ai
+    url: https://www.nexscope.ai/api-docs
+  license:
+    name: Proprietary API; use subject to Nexscope Terms
+    url: https://www.nexscope.ai/terms
+servers:
+- url: https://api.nexscope.ai
+  description: Production
+security:
+- bearerAuth: []
+tags:
+- name: Ozon Marketplace
+  description: Ozon product, category, shop, seller and keyword APIs.
+  x-category-slug: ozon-marketplace
+paths:
+  /api/skill-api/v1/skills/ozon-brand-products/run:
+    post:
+      tags:
+      - Ozon Marketplace
+      summary: Ozon Brand Products
+      description: 'MPSTATS Ozon Russia brand drill-down product list. Returns all products under an Ozon brand display name (Russian/Latin) with complete metrics: sales, revenue, price, rating, stock, turnover, lost revenue, supporting multi-dimensional numeric filters, sorting, and currency conversion. Use for brand benchmarking, competitor analysis, brand product structure research, SKU-level bestseller analysis.'
+      operationId: runOzonBrandProducts
+      externalDocs:
+        description: Ozon Brand Products documentation
+        url: https://www.nexscope.ai/api-docs/ozon-brand-products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.ozon-brand-products.
+              properties:
+                brandName:
+                  type: string
+                  description: Ozon brand display name (Russian or Latin)
+                  example: COMMO
+                startDate:
+                  type: string
+                  description: Statistics start date, YYYY-MM-DD; latest is yesterday
+                  example: '2026-01-01'
+                endDate:
+                  type: string
+                  description: Statistics end date, YYYY-MM-DD; latest is yesterday
+                  example: '2026-01-01'
+                page:
+                  type: integer
+                  description: Page number, starting from 1
+                  example: 1
+                pageSize:
+                  type: integer
+                  description: Rows per page, 1-100, default 100
+                  example: 10
+                sortField:
+                  type: string
+                  description: Sort column name (snake_case), e.g., sales, revenue, final_price, balance, rating
+                sortDirection:
+                  type: string
+                  description: asc ascending / desc descending
+                currency:
+                  type: string
+                  description: Currency code for result amounts, default RUB, e.g., USD / EUR / CNY
+                currencyRate:
+                  type: integer
+                  description: Custom exchange rate (for non-default currency)
+                  example: 1
+                includeFbs:
+                  type: boolean
+                  description: Whether to include FBS data
+                  example: false
+                filters:
+                  type: array
+                  items: {}
+                  description: List of numeric filter conditions, each {field, op, value, value2?}, multiple conditions AND
+                  example: []
+              required:
+              - brandName
+              example:
+                startDate: '2026-01-01'
+                currencyRate: 1
+                brandName: COMMO
+                page: 1
+                endDate: '2026-01-31'
+                pageSize: 10
+                includeFbs: false
+              additionalProperties: true
+            example:
+              startDate: '2026-01-01'
+              currencyRate: 1
+              brandName: COMMO
+              page: 1
+              endDate: '2026-01-31'
+              pageSize: 10
+              includeFbs: false
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  code:
+                    type: string
+                    description: Return code, "200" success
+                  msg:
+                    type: string
+                    description: Message; ok for success
+                  total:
+                    type: integer
+                    description: Total number of matched products under the brand
+                    example: 1
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        productId:
+                          type: integer
+                          description: SKU ID
+                          example: 1
+                        title:
+                          type: string
+                          description: Product name (Russian)
+                        brand:
+                          type: string
+                          description: Brand
+                        brandId:
+                          type: integer
+                          description: Brand ID
+                          example: 1
+                        sellerName:
+                          type: string
+                          description: Seller name
+                        sellerId:
+                          type: integer
+                          description: Seller ID
+                          example: 1
+                        category:
+                          type: string
+                          description: Category path (Russian, / separated)
+                        nicheName:
+                          type: string
+                          description: Niche path (Russian)
+                        nicheId:
+                          type: integer
+                          description: Niche ID
+                          example: 1
+                        country:
+                          type: string
+                          description: Country of sale, always RU for Ozon
+                        firstDate:
+                          type: string
+                          description: Listing date (yyyy-MM-dd)
+                          example: '2026-01-01'
+                        imageUrl:
+                          type: string
+                          description: Main image URL
+                          example: https://example.com/image.jpg
+                        productPageUrl:
+                          type: string
+                          description: Product page URL
+                          example: https://example.com/image.jpg
+                        sourceTool/sourceType:
+                          type: string
+                          description: Source tool / data source identifier
+                        price:
+                          type: number
+                          description: Current selling price
+                          example: 1
+                        oldPrice:
+                          type: number
+                          description: Original price before discount
+                          example: 1
+                        ozonCardPrice:
+                          type: number
+                          description: Ozon Card price
+                          example: 1
+                        minPrice/maxPrice/averagePrice:
+                          type: number
+                          description: Minimum / maximum / average price during the statistics period
+                          example: 1
+                        currency:
+                          type: string
+                          description: Currency symbol (₽ / $ / €)
+                        rating:
+                          type: number
+                          description: Rating, 0-5
+                          example: 1
+                        reviewCount:
+                          type: integer
+                          description: Number of reviews
+                          example: 1
+                        balance:
+                          type: integer
+                          description: Current stock (units)
+                          example: 1
+                        balanceFbs:
+                          type: integer
+                          description: FBS stock (seller self-ship units)
+                          example: 1
+                        frozenStocks:
+                          type: integer
+                          description: Slow-moving stock
+                          example: 1
+                        warehousesCount:
+                          type: integer
+                          description: Number of FBO warehouses
+                          example: 1
+                        isFbs:
+                          type: boolean
+                          description: Whether shipped via FBS
+                          example: false
+                        salesPerDay:
+                          type: number
+                          description: Average daily sales (units/day)
+                          example: 1
+                        monthlySalesUnits:
+                          type: integer
+                          description: Sales volume during the statistics period (units)
+                          example: 1
+                        monthlySalesRevenue:
+                          type: number
+                          description: Sales revenue during the statistics period
+                          example: 1
+                        lostProfit:
+                          type: number
+                          description: Lost revenue (due to stockouts, etc.)
+                          example: 1
+                        daysInSite:
+                          type: integer
+                          description: Days on sale (statistics period, including out-of-stock days)
+                          example: 1
+                        daysInStock:
+                          type: integer
+                          description: Days in stock
+                          example: 1
+                        turnoverDays:
+                          type: number
+                          description: Turnover days (lower is faster)
+                          example: 1
+                        position:
+                          type: integer
+                          description: Ranking within the current query dimension (brand for this endpoint)
+                          example: 1
+                        categoryPosition:
+                          type: integer
+                          description: Ranking within the category
+                          example: 1
+                        revenueSharePercent:
+                          type: number
+                          description: Revenue share of this SKU within the current query dimension, 0-100
+                          example: 1
+                      additionalProperties: true
+                    description: Product list (see details below)
+                    example: []
+                  columns:
+                    type: array
+                    items: {}
+                    description: Rendered column definitions
+                    example: []
+                  costTime:
+                    type: integer
+                    description: API latency (milliseconds)
+                    example: 1
+                  costToken:
+                    type: integer
+                    description: Tokens consumed
+                    example: 1
+                  type:
+                    type: string
+                    description: Response type
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  total: 1
+                  products:
+                  - productId: 1
+                    brandId: 1
+                    sellerId: 1
+                    nicheId: 1
+                    firstDate: '2026-01-01'
+                    imageUrl: https://example.com/image.jpg
+                    productPageUrl: https://example.com/image.jpg
+                    price: 1
+                    oldPrice: 1
+                    ozonCardPrice: 1
+                    minPrice/maxPrice/averagePrice: 1
+                    rating: 1
+                    reviewCount: 1
+                    balance: 1
+                    balanceFbs: 1
+                    frozenStocks: 1
+                    warehousesCount: 1
+                    isFbs: false
+                    salesPerDay: 1
+                    monthlySalesUnits: 1
+                    monthlySalesRevenue: 1
+                    lostProfit: 1
+                    daysInSite: 1
+                    daysInStock: 1
+                    turnoverDays: 1
+                    position: 1
+                    categoryPosition: 1
+                    revenueSharePercent: 1
+                  columns: []
+                  costTime: 1
+                  costToken: 1
+                additionalProperties: true
+              example:
+                total: 1
+                products:
+                - productId: 1
+                  brandId: 1
+                  sellerId: 1
+                  nicheId: 1
+                  firstDate: '2026-01-01'
+                  imageUrl: https://example.com/image.jpg
+                  productPageUrl: https://example.com/image.jpg
+                  price: 1
+                  oldPrice: 1
+                  ozonCardPrice: 1
+                  minPrice/maxPrice/averagePrice: 1
+                  rating: 1
+                  reviewCount: 1
+                  balance: 1
+                  balanceFbs: 1
+                  frozenStocks: 1
+                  warehousesCount: 1
+                  isFbs: false
+                  salesPerDay: 1
+                  monthlySalesUnits: 1
+                  monthlySalesRevenue: 1
+                  lostProfit: 1
+                  daysInSite: 1
+                  daysInStock: 1
+                  turnoverDays: 1
+                  position: 1
+                  categoryPosition: 1
+                  revenueSharePercent: 1
+                columns: []
+                costTime: 1
+                costToken: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: ozon-brand-products
+      x-nexscope-mcp-tool-name: nexscope_ozon_brand_products
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/ozon-category-products/run:
+    post:
+      tags:
+      - Ozon Marketplace
+      summary: Ozon Category Products
+      description: 'MPSTATS Ozon Russia category drill-down product list by Russian category path. Returns all products in a category with complete metrics: sales, revenue, price, rating, stock, turnover, lost revenue, supporting multi-dimensional numeric filters, sorting, and currency conversion. Use for category bestseller mining, blue-ocean insight discovery, category ranking analysis, brand landscape observation.'
+      operationId: runOzonCategoryProducts
+      externalDocs:
+        description: Ozon Category Products documentation
+        url: https://www.nexscope.ai/api-docs/ozon-category-products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.ozon-category-products.
+              properties:
+                categoryPath:
+                  type: string
+                  description: Full Ozon Russian category path, levels separated by /, e.g., Одежда/Женская одежда/Футболки и топы женские
+                  example: Электроника/Телефоны и смарт-часы/Аксессуары для смартфонов и телефонов/Чехлы для смартфонов
+                startDate:
+                  type: string
+                  description: Statistics start date YYYY-MM-DD; latest is yesterday
+                  example: '2026-01-01'
+                endDate:
+                  type: string
+                  description: Statistics end date YYYY-MM-DD; latest is yesterday
+                  example: '2026-01-01'
+                page:
+                  type: integer
+                  description: Page number, starting from 1
+                  example: 1
+                pageSize:
+                  type: integer
+                  description: Rows per page 1-100, default 100
+                  example: 10
+                sortField:
+                  type: string
+                  description: Sort column name (snake_case), e.g., sales, revenue, final_price, balance, rating
+                sortDirection:
+                  type: string
+                  description: asc / desc
+                currency:
+                  type: string
+                  description: Currency code, default RUB, e.g., USD
+                currencyRate:
+                  type: integer
+                  description: Custom exchange rate (for non-default currency)
+                  example: 1
+                includeFbs:
+                  type: boolean
+                  description: Whether to include FBS data
+                  example: false
+                filters:
+                  type: array
+                  items: {}
+                  description: List of numeric filter conditions, each {field, op, value, value2?}, multiple conditions AND
+                  example: []
+              required:
+              - categoryPath
+              example:
+                startDate: '2026-07-01'
+                currencyRate: 1
+                page: 1
+                endDate: '2026-07-31'
+                categoryPath: Электроника/Телефоны и смарт-часы/Аксессуары для смартфонов и телефонов/Чехлы для смартфонов
+                pageSize: 10
+                includeFbs: false
+              additionalProperties: true
+            example:
+              startDate: '2026-07-01'
+              currencyRate: 1
+              page: 1
+              endDate: '2026-07-31'
+              categoryPath: Электроника/Телефоны и смарт-часы/Аксессуары для смартфонов и телефонов/Чехлы для смартфонов
+              pageSize: 10
+              includeFbs: false
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  code:
+                    type: string
+                    description: Return code, "200" success
+                  msg:
+                    type: string
+                    description: Message; ok for success
+                  total:
+                    type: integer
+                    description: Total number of matched products under the category
+                    example: 1
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        productId:
+                          type: integer
+                          description: SKU ID
+                          example: 1
+                        title:
+                          type: string
+                          description: Product name (Russian)
+                        brand:
+                          type: string
+                          description: Brand
+                        brandId:
+                          type: integer
+                          description: Brand ID
+                          example: 1
+                        sellerName:
+                          type: string
+                          description: Seller name
+                        sellerId:
+                          type: integer
+                          description: Seller ID
+                          example: 1
+                        category:
+                          type: string
+                          description: Category path (Russian, / separated)
+                        nicheName:
+                          type: string
+                          description: Niche path (Russian)
+                        nicheId:
+                          type: integer
+                          description: Niche ID
+                          example: 1
+                        country:
+                          type: string
+                          description: Country of sale, always RU for Ozon
+                        firstDate:
+                          type: string
+                          description: Listing date (yyyy-MM-dd)
+                          example: '2026-01-01'
+                        imageUrl:
+                          type: string
+                          description: Main image URL
+                          example: https://example.com/image.jpg
+                        productPageUrl:
+                          type: string
+                          description: Product page URL
+                          example: https://example.com/image.jpg
+                        sourceTool/sourceType:
+                          type: string
+                          description: Source tool / data source identifier
+                        price:
+                          type: number
+                          description: Current selling price
+                          example: 1
+                        oldPrice:
+                          type: number
+                          description: Original price before discount
+                          example: 1
+                        ozonCardPrice:
+                          type: number
+                          description: Ozon Card price
+                          example: 1
+                        minPrice/maxPrice/averagePrice:
+                          type: number
+                          description: Minimum / maximum / average price during the statistics period
+                          example: 1
+                        currency:
+                          type: string
+                          description: Currency symbol (₽ / $ / €)
+                        rating:
+                          type: number
+                          description: Rating, 0-5
+                          example: 1
+                        reviewCount:
+                          type: integer
+                          description: Number of reviews
+                          example: 1
+                        balance:
+                          type: integer
+                          description: Current stock (units)
+                          example: 1
+                        balanceFbs:
+                          type: integer
+                          description: FBS stock (seller self-ship units)
+                          example: 1
+                        frozenStocks:
+                          type: integer
+                          description: Slow-moving stock
+                          example: 1
+                        warehousesCount:
+                          type: integer
+                          description: Number of FBO warehouses
+                          example: 1
+                        isFbs:
+                          type: boolean
+                          description: Whether shipped via FBS
+                          example: false
+                        salesPerDay:
+                          type: number
+                          description: Average daily sales (units/day)
+                          example: 1
+                        monthlySalesUnits:
+                          type: integer
+                          description: Sales volume during the statistics period (units)
+                          example: 1
+                        monthlySalesRevenue:
+                          type: number
+                          description: Sales revenue during the statistics period
+                          example: 1
+                        lostProfit:
+                          type: number
+                          description: Lost revenue (due to stockouts, etc.)
+                          example: 1
+                        daysInSite:
+                          type: integer
+                          description: Days on sale (statistics period, including out-of-stock days)
+                          example: 1
+                        daysInStock:
+                          type: integer
+                          description: Days in stock
+                          example: 1
+                        turnoverDays:
+                          type: number
+                          description: Turnover days (lower is faster)
+                          example: 1
+                        position:
+                          type: integer
+                          description: Ranking within the current query dimension (category for this endpoint)
+                          example: 1
+                        categoryPosition:
+                          type: integer
+                          description: Ranking within the category
+                          example: 1
+                        revenueSharePercent:
+                          type: number
+                          description: Revenue share of this SKU within the current query dimension, 0-100
+                          example: 1
+                      additionalProperties: true
+                    description: Product list (see details below)
+                    example: []
+                  columns:
+                    type: array
+                    items: {}
+                    description: Rendered column definitions
+                    example: []
+                  costTime:
+                    type: integer
+                    description: API latency (milliseconds)
+                    example: 1
+                  costToken:
+                    type: integer
+                    description: Tokens consumed
+                    example: 1
+                  type:
+                    type: string
+                    description: Response type
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  total: 1
+                  products:
+                  - productId: 1
+                    brandId: 1
+                    sellerId: 1
+                    nicheId: 1
+                    firstDate: '2026-01-01'
+                    imageUrl: https://example.com/image.jpg
+                    productPageUrl: https://example.com/image.jpg
+                    price: 1
+                    oldPrice: 1
+                    ozonCardPrice: 1
+                    minPrice/maxPrice/averagePrice: 1
+                    rating: 1
+                    reviewCount: 1
+                    balance: 1
+                    balanceFbs: 1
+                    frozenStocks: 1
+                    warehousesCount: 1
+                    isFbs: false
+                    salesPerDay: 1
+                    monthlySalesUnits: 1
+                    monthlySalesRevenue: 1
+                    lostProfit: 1
+                    daysInSite: 1
+                    daysInStock: 1
+                    turnoverDays: 1
+                    position: 1
+                    categoryPosition: 1
+                    revenueSharePercent: 1
+                  columns: []
+                  costTime: 1
+                  costToken: 1
+                additionalProperties: true
+              example:
+                total: 1
+                products:
+                - productId: 1
+                  brandId: 1
+                  sellerId: 1
+                  nicheId: 1
+                  firstDate: '2026-01-01'
+                  imageUrl: https://example.com/image.jpg
+                  productPageUrl: https://example.com/image.jpg
+                  price: 1
+                  oldPrice: 1
+                  ozonCardPrice: 1
+                  minPrice/maxPrice/averagePrice: 1
+                  rating: 1
+                  reviewCount: 1
+                  balance: 1
+                  balanceFbs: 1
+                  frozenStocks: 1
+                  warehousesCount: 1
+                  isFbs: false
+                  salesPerDay: 1
+                  monthlySalesUnits: 1
+                  monthlySalesRevenue: 1
+                  lostProfit: 1
+                  daysInSite: 1
+                  daysInStock: 1
+                  turnoverDays: 1
+                  position: 1
+                  categoryPosition: 1
+                  revenueSharePercent: 1
+                columns: []
+                costTime: 1
+                costToken: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: ozon-category-products
+      x-nexscope-mcp-tool-name: nexscope_ozon_category_products
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/ozon-category-search/run:
+    post:
+      tags:
+      - Ozon Marketplace
+      summary: Ozon Category Search
+      description: 'Seerfar Ozon category product search: fetches the product list for a given Ozon category ID, returning category-level aggregates (total sales, total revenue, average price, average rating, seasonality) and per-product sales, price, rating, review count, brand, seller, and fulfillment method. Use for category selection analysis, category bestseller mining, category capacity and price band analysis, seasonality assessment.'
+      operationId: runOzonCategorySearch
+      externalDocs:
+        description: Ozon Category Search documentation
+        url: https://www.nexscope.ai/api-docs/ozon-category-search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.ozon-category-search.
+              properties:
+                categoryId:
+                  type: string
+                  description: Ozon category ID, obtained from Ozon category documentation or other Seerfar Ozon tools. Format like 15621032_15621049_115951147 (multi-level categories joined by _)
+                  example: '15621042_17028650_97011'
+                page:
+                  type: object
+                  description: 'Pagination & sorting: {page, pageSize, orders[]}'
+                  example:
+                    page: 1
+                    pageSize: 10
+                  properties:
+                    page:
+                      type: integer
+                      description: Page number, starting from 1, default 1
+                      example: 1
+                    pageSize:
+                      type: integer
+                      description: Items per page, default 20, maximum 20 (exceeding returns errcode 1002)
+                      example: 1
+                    orders:
+                      type: array
+                      items: {}
+                      description: 'Sort rules, elements {field, direction} (both required); direction takes DESC (descending) / ASC (ascending). Common sort fields: sales, price, revenue, reviewRating'
+                      example: []
+                  additionalProperties: true
+                date:
+                  type: string
+                  description: Query historical month, format yyyy-MM (e.g., 2026-02); defaults to last 30 days if omitted
+                  example: 2026-01
+                fulfillment:
+                  type: string
+                  description: 'Fulfillment method filter, fixed options: FBO, FBS, RFBS, FBP, OZON; queries all if omitted. Note: single string, not an array'
+                uId:
+                  type: string
+                  description: User ID (max 1000)
+                  example: example-id
+                memberId:
+                  type: string
+                  description: Member ID (a unique member identifier; a user can belong to multiple teams; data is attributed to memberId, max 1000)
+                  example: example-id
+              required:
+              - categoryId
+              - page
+              example:
+                page:
+                  page: 1
+                  pageSize: 10
+                categoryId: '15621042_17028650_97011'
+                date: 2026-01
+              additionalProperties: true
+            example:
+              page:
+                page: 1
+                pageSize: 10
+              categoryId: '15621042_17028650_97011'
+              date: 2026-01
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  code:
+                    type: string
+                    description: Return code, "200" indicates success (returned on success)
+                  errcode:
+                    type: integer
+                    description: Error code, 200 indicates success; only returned on business errors (coexists with code on success)
+                    example: 1
+                  msg:
+                    type: string
+                    description: Message; ok for success
+                  errmsg:
+                    type: string
+                    description: Error message; ok for success, reason description on business error
+                  id:
+                    type: string
+                    description: Echoed category ID
+                    example: example-id
+                  total:
+                    type: integer
+                    description: Number of records returned on this page (equals the current page data count, not total category product count)
+                    example: 1
+                  totalSales:
+                    type: integer
+                    description: Total category sales volume (within the statistics interval)
+                    example: 1
+                  totalRevenue:
+                    type: number
+                    description: Total category sales revenue (RUB)
+                    example: 1
+                  avgPrice:
+                    type: number
+                    description: Average category product price (RUB)
+                    example: 1
+                  rating:
+                    type: number
+                    description: Average category product rating
+                    example: 1
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        cnTitlePath:
+                          type: string
+                          description: Chinese category path, for example Footwear > Athletic and Work Shoes > Weightlifting Shoes
+                        enTitlePath:
+                          type: string
+                          description: English category path, e.g., Footwear > Sports and Work Footwear > Weightlifting Shoes
+                        titlePath:
+                          type: string
+                          description: Russian (front-end) category path, e.g., Обувь > Спортивная и рабочая обувь > Штангетки
+                        fullCategoryId:
+                          type: array
+                          items: {}
+                          description: Array of category IDs at each level, e.g., ["15621032","15621032_15621049","15621032_15621049_115951147"]
+                          example: []
+                        category:
+                          type: object
+                          description: Terminal category object, containing cnTitle/enTitle/title(Russian)/level/crossBorderSellable(whether cross-border sales are allowed)/pid/disabled/id
+                          example: {}
+                          properties: {}
+                          additionalProperties: true
+                      additionalProperties: true
+                    description: Category product list, content identical to data
+                    example: []
+                  startDate:
+                    type: string
+                    description: Statistics start date
+                    example: '2026-01-01'
+                  endDate:
+                    type: string
+                    description: Statistics end date
+                    example: '2026-01-01'
+                  sellerType:
+                    type: object
+                    description: Fulfillment method distribution (not seller domestic/cross-border type), keys are fulfillment methods and values are product counts for that method, e.g., {"FBO":218,"RFBS":528,"FBP":5,"FBS":240,"OZON":1}
+                    example: {}
+                    properties: {}
+                    additionalProperties: true
+                  categoryInfo:
+                    type: object
+                    description: Category metadata, structure see "categoryInfo Structure" below
+                    example: {}
+                    properties: {}
+                    additionalProperties: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        sku:
+                          type: integer
+                          description: Product SKU
+                          example: 1
+                        productId:
+                          type: integer
+                          description: Unified product ID, mapped from sku
+                          example: 1
+                        title:
+                          type: string
+                          description: Product title
+                        price:
+                          type: number
+                          description: Product price (RUB)
+                          example: 1
+                        currency:
+                          type: string
+                          description: Currency, always ₽
+                        sales:
+                          type: integer
+                          description: Product sales volume
+                          example: 1
+                        monthlySalesUnits:
+                          type: integer
+                          description: Unified monthly sales, mapped from sales
+                          example: 1
+                        revenue:
+                          type: number
+                          description: Product sales revenue
+                          example: 1
+                        monthlySalesRevenue:
+                          type: number
+                          description: Unified monthly revenue, mapped from revenue
+                          example: 1
+                        reviewRating:
+                          type: number
+                          description: Product rating
+                          example: 1
+                        rating:
+                          type: number
+                          description: Unified rating, mapped from reviewRating
+                          example: 1
+                        reviewCount:
+                          type: integer
+                          description: Number of reviews
+                          example: 1
+                        brandName:
+                          type: string
+                          description: Brand name
+                        brand:
+                          type: string
+                          description: Unified brand, mapped from brandName
+                        sellerName:
+                          type: string
+                          description: Seller name
+                        fulfillment:
+                          type: array
+                          items: {}
+                          description: Product fulfillment methods, e.g., ["FBO"], may contain multiple values
+                          example: []
+                        imageUrl:
+                          type: string
+                          description: Product image URL
+                          example: https://example.com/image.jpg
+                        productUrl:
+                          type: string
+                          description: Product URL
+                          example: https://example.com/image.jpg
+                        productPageUrl:
+                          type: string
+                          description: Unified product page URL, mapped from productUrl
+                          example: https://example.com/image.jpg
+                        categoryInfo:
+                          type: object
+                          description: Product category attribution information, structure see "categoryInfo Structure" below
+                          example: {}
+                          properties: {}
+                          additionalProperties: true
+                        sourceType:
+                          type: string
+                          description: Data source, always ozon
+                        sourceTool:
+                          type: string
+                          description: Source tool identifier for the Ozon category endpoint
+                      additionalProperties: true
+                    description: Category product list (see details below)
+                    example: []
+                  hasNextPage:
+                    type: boolean
+                    description: Whether there is a next page
+                    example: false
+                  columns:
+                    type: array
+                    items: {}
+                    description: Column definitions, elements contain {field, title, cellType, sortable, filterable}
+                    example: []
+                  type:
+                    type: string
+                    description: Response display type
+                  costTime:
+                    type: integer
+                    description: API latency (milliseconds)
+                    example: 1
+                  costToken:
+                    type: integer
+                    description: Tokens consumed
+                    example: 1
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  errcode: 1
+                  id: example-id
+                  total: 1
+                  totalSales: 1
+                  totalRevenue: 1
+                  avgPrice: 1
+                  rating: 1
+                  startDate: '2026-01-01'
+                  endDate: '2026-01-01'
+                  sellerType: {}
+                  categoryInfo: {}
+                  data:
+                  - sku: 1
+                    productId: 1
+                    price: 1
+                    sales: 1
+                    monthlySalesUnits: 1
+                    revenue: 1
+                    monthlySalesRevenue: 1
+                    reviewRating: 1
+                    rating: 1
+                    reviewCount: 1
+                    fulfillment: []
+                    imageUrl: https://example.com/image.jpg
+                    productUrl: https://example.com/image.jpg
+                    productPageUrl: https://example.com/image.jpg
+                    categoryInfo: {}
+                  products:
+                  - fullCategoryId: []
+                    category: {}
+                  hasNextPage: false
+                  columns: []
+                  costTime: 1
+                  costToken: 1
+                additionalProperties: true
+              example:
+                errcode: 1
+                id: example-id
+                total: 1
+                totalSales: 1
+                totalRevenue: 1
+                avgPrice: 1
+                rating: 1
+                startDate: '2026-01-01'
+                endDate: '2026-01-01'
+                sellerType: {}
+                categoryInfo: {}
+                data:
+                - sku: 1
+                  productId: 1
+                  price: 1
+                  sales: 1
+                  monthlySalesUnits: 1
+                  revenue: 1
+                  monthlySalesRevenue: 1
+                  reviewRating: 1
+                  rating: 1
+                  reviewCount: 1
+                  fulfillment: []
+                  imageUrl: https://example.com/image.jpg
+                  productUrl: https://example.com/image.jpg
+                  productPageUrl: https://example.com/image.jpg
+                  categoryInfo: {}
+                products:
+                - fullCategoryId: []
+                  category: {}
+                hasNextPage: false
+                columns: []
+                costTime: 1
+                costToken: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: ozon-category-search
+      x-nexscope-mcp-tool-name: nexscope_ozon_category_search
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/ozon-product-detail/run:
+    post:
+      tags:
+      - Ozon Marketplace
+      summary: Ozon Product Detail
+      description: MPSTATS Ozon Russia SKU full detail query for one product ID per call, returning price, discount, Ozon Card price, rating, review count, stock, sales, revenue, revenue potential/lost revenue, listing date, images, and the complete product card.
+      operationId: runOzonProductDetail
+      externalDocs:
+        description: Ozon Product Detail documentation
+        url: https://www.nexscope.ai/api-docs/ozon-product-detail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.ozon-product-detail.
+              properties:
+                productIds:
+                  type: array
+                  items:
+                    type: integer
+                  description: Exactly one Ozon product ID (integer or string); multiple IDs are currently unsupported
+                  minItems: 1
+                  maxItems: 1
+                  example:
+                  - 1786874757
+                startDate:
+                  type: string
+                  description: Statistics start date, format YYYY-MM-DD; latest is yesterday
+                  example: '2025-03-01'
+                endDate:
+                  type: string
+                  description: Statistics end date, format YYYY-MM-DD; latest is yesterday
+                  example: '2025-03-31'
+                includeFbs:
+                  type: boolean
+                  description: Whether to include FBS data for the requested SKU
+                  example: false
+              required:
+              - productIds
+              example:
+                includeFbs: false
+                endDate: '2026-01-31'
+                productIds:
+                - 1786874757
+                startDate: '2025-03-01'
+              additionalProperties: true
+            example:
+              includeFbs: false
+              endDate: '2025-03-31'
+              productIds:
+              - 1786874757
+              startDate: '2025-03-01'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  code:
+                    type: string
+                    description: Return code (string), "200" indicates success
+                  errcode:
+                    type: integer
+                    description: Return code (integer), 200 indicates success
+                    example: 200
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        productId:
+                          type: integer
+                          description: SKU ID
+                          example: 1786874757
+                        title:
+                          type: string
+                          description: Product name (Russian)
+                        brand:
+                          type: string
+                          description: Brand
+                        sellerName:
+                          type: string
+                          description: Seller name
+                        sellerId:
+                          type: integer
+                          description: Seller ID
+                          example: 1
+                        sellerIsBestSeller:
+                          type: boolean
+                          description: Whether the seller is a best seller
+                          example: false
+                        nicheName:
+                          type: string
+                          description: Niche path (Russian, / separated)
+                        nicheId:
+                          type: integer
+                          description: Niche ID
+                          example: 1
+                        firstDate:
+                          type: string
+                          description: Listing date (yyyy-MM-dd)
+                          example: '2025-03-01'
+                        updated:
+                          type: string
+                          description: Data update time (yyyy-MM-dd HH:mm:ss)
+                          example: '2025-03-31 12:00:00'
+                        note:
+                          type: string
+                          description: Notes
+                        sourceTool/sourceType:
+                          type: string
+                          description: Source tool / data source identifier
+                        imageUrl:
+                          type: string
+                          description: Main image URL (first large image)
+                          example: https://example.com/image.jpg
+                        imageCount:
+                          type: integer
+                          description: Total image count
+                          example: 1
+                        productImageUrls:
+                          type: array
+                          items: {}
+                          description: Remaining large image URLs besides the main image
+                          example: []
+                        productPageUrl:
+                          type: string
+                          description: Product page URL
+                          example: https://example.com/image.jpg
+                        price:
+                          type: number
+                          description: Current selling price
+                          example: 1
+                        oldPrice:
+                          type: number
+                          description: Original price before discount
+                          example: 1
+                        ozonCardPrice:
+                          type: number
+                          description: Ozon Card price (bank card discount price)
+                          example: 1
+                        discount:
+                          type: integer
+                          description: Discount, integer percentage 0-100
+                          example: 1
+                        currency:
+                          type: string
+                          description: Currency symbol (₽ / $ / €)
+                        rating:
+                          type: number
+                          description: Rating, 0-5
+                          example: 1
+                        reviewCount:
+                          type: integer
+                          description: Number of reviews
+                          example: 1
+                        balance:
+                          type: integer
+                          description: Current stock (units)
+                          example: 1
+                        deliveryScheme:
+                          type: string
+                          description: Delivery scheme; FBO = Ozon fulfillment, FBS = seller self-delivery
+                        salesPerDay:
+                          type: number
+                          description: Average daily sales (units/day)
+                          example: 1
+                        salesPerDayWithStock:
+                          type: number
+                          description: Average daily sales counting only days with stock
+                          example: 1
+                        dailySalesRevenue:
+                          type: number
+                          description: Average daily sales revenue
+                          example: 1
+                        dailySalesRevenueWithStock:
+                          type: number
+                          description: Average daily sales revenue counting only days with stock
+                          example: 1
+                        monthlySalesUnits:
+                          type: integer
+                          description: Sales volume during the statistics period (units)
+                          example: 1
+                        monthlySalesRevenue:
+                          type: number
+                          description: Sales revenue during the statistics period
+                          example: 1
+                        previousSalesUnits:
+                          type: integer
+                          description: Prior period sales volume (the same-length period before the current statistics period)
+                          example: 1
+                        previousRevenue:
+                          type: number
+                          description: Prior period sales revenue
+                          example: 1
+                        revenuePotential:
+                          type: number
+                          description: Potential revenue (estimated based on full-period stock availability)
+                          example: 1
+                        lostProfit:
+                          type: number
+                          description: Lost revenue (due to stockouts, etc.)
+                          example: 1
+                        lostProfitPercent:
+                          type: number
+                          description: Lost revenue percentage (%)
+                          example: 1
+                      additionalProperties: true
+                    description: Product card list (see details below)
+                    example: []
+                  total:
+                    type: integer
+                    description: Number of SKUs returned (= successCount + failedCount)
+                    example: 1
+                  successCount:
+                    type: integer
+                    description: Number of SKUs for which cards were successfully returned
+                    example: 1
+                  failedCount:
+                    type: integer
+                    description: Number of SKUs that failed
+                    example: 0
+                  failures:
+                    type: array
+                    items: {}
+                    description: List of failed SKU details (each item contains the failed productId and error info)
+                    example: []
+                  columns:
+                    type: array
+                    items: {}
+                    description: Rendered column definitions
+                    example: []
+                  costTime:
+                    type: integer
+                    description: API latency (milliseconds)
+                    example: 1
+                  costToken:
+                    type: integer
+                    description: Tokens consumed
+                    example: 1
+                  type:
+                    type: string
+                    description: Response type
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  errcode: 200
+                  total: 1
+                  successCount: 1
+                  failedCount: 0
+                  failures: []
+                  products:
+                  - productId: 1786874757
+                    sellerId: 1
+                    sellerIsBestSeller: false
+                    nicheId: 1
+                    firstDate: '2025-03-01'
+                    updated: '2025-03-31 12:00:00'
+                    imageUrl: https://example.com/image.jpg
+                    imageCount: 1
+                    productImageUrls: []
+                    productPageUrl: https://example.com/image.jpg
+                    price: 1
+                    oldPrice: 1
+                    ozonCardPrice: 1
+                    discount: 1
+                    rating: 1
+                    reviewCount: 1
+                    balance: 1
+                    salesPerDay: 1
+                    salesPerDayWithStock: 1
+                    dailySalesRevenue: 1
+                    dailySalesRevenueWithStock: 1
+                    monthlySalesUnits: 1
+                    monthlySalesRevenue: 1
+                    previousSalesUnits: 1
+                    previousRevenue: 1
+                    revenuePotential: 1
+                    lostProfit: 1
+                    lostProfitPercent: 1
+                  columns: []
+                  costTime: 1
+                  costToken: 1
+                additionalProperties: true
+              example:
+                errcode: 200
+                total: 1
+                successCount: 1
+                failedCount: 0
+                failures: []
+                products:
+                - productId: 1786874757
+                  sellerId: 1
+                  sellerIsBestSeller: false
+                  nicheId: 1
+                  firstDate: '2025-03-01'
+                  updated: '2025-03-31 12:00:00'
+                  imageUrl: https://example.com/image.jpg
+                  imageCount: 1
+                  productImageUrls: []
+                  productPageUrl: https://example.com/image.jpg
+                  price: 1
+                  oldPrice: 1
+                  ozonCardPrice: 1
+                  discount: 1
+                  rating: 1
+                  reviewCount: 1
+                  balance: 1
+                  salesPerDay: 1
+                  salesPerDayWithStock: 1
+                  dailySalesRevenue: 1
+                  dailySalesRevenueWithStock: 1
+                  monthlySalesUnits: 1
+                  monthlySalesRevenue: 1
+                  previousSalesUnits: 1
+                  previousRevenue: 1
+                  revenuePotential: 1
+                  lostProfit: 1
+                  lostProfitPercent: 1
+                columns: []
+                costTime: 1
+                costToken: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: ozon-product-detail
+      x-nexscope-mcp-tool-name: nexscope_ozon_product_detail
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/ozon-product-detail-search/run:
+    post:
+      tags:
+      - Ozon Marketplace
+      summary: Ozon Product Detail Search
+      description: 'Seerfar Ozon product detail query: fetches the complete detail of a single Ozon product by SKU, returning title, price (RUB), rating, review count, QA count, total and daily average sales within the stats window, revenue, stock, category ranking, daily sales trend, brand, seller, fulfillment method (FBO/FBS/OZON), weight, and listing time/days/months. Use for single product deep analysis, competitor product teardown, Ozon product selection assessment, listing diagnosis, sales trend and category ranking tracking.'
+      operationId: runOzonProductDetailSearch
+      externalDocs:
+        description: Ozon Product Detail Search documentation
+        url: https://www.nexscope.ai/api-docs/ozon-product-detail-search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.ozon-product-detail-search.
+              properties:
+                sku:
+                  type: string
+                  description: Product SKU (Ozon SKU, e.g., 175924376). This is the sku returned by other Seerfar Ozon tools
+                  example: '1664362124'
+                dateRange:
+                  type: string
+                  description: 'Sales/metrics statistics window, default past_30_days. Options: past_7_days / past_30_days / past_60_days / past_90_days / past_180_days / past_365_days'
+                  example: past_30_days
+                uId:
+                  type: string
+                  description: User ID (max 1000)
+                  example: example-id
+                memberId:
+                  type: string
+                  description: Member ID (a unique member identifier; a user can belong to multiple teams; data is attributed to memberId, max 1000)
+                  example: example-id
+              required:
+              - sku
+              example:
+                dateRange: past_30_days
+                sku: '1664362124'
+              additionalProperties: true
+            example:
+              dateRange: past_30_days
+              sku: '1664362124'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  code:
+                    type: string
+                    description: Return code, "200" indicates success (returned on success)
+                  errcode:
+                    type: integer
+                    description: Error code, 200 indicates success; only returned on business errors
+                    example: 1
+                  msg:
+                    type: string
+                    description: Message; ok for success
+                  errmsg:
+                    type: string
+                    description: Error message; ok for success, reason description on business error
+                  total:
+                    type: integer
+                    description: Number of records returned (1 on hit, 0 on miss)
+                    example: 1
+                  totalSales:
+                    type: integer
+                    description: Total sales volume within the statistics window
+                    example: 1
+                  dailySales:
+                    type: number
+                    description: Average daily sales (approx totalSales / window days)
+                    example: 1
+                  totalRevenue:
+                    type: number
+                    description: Sales revenue within the statistics window (RUB)
+                    example: 1
+                  stock:
+                    type: integer
+                    description: Stock
+                    example: 1
+                  startDate:
+                    type: string
+                    description: Statistics window start date (e.g., 2026-06-01)
+                    example: '2026-01-01'
+                  endDate:
+                    type: string
+                    description: Statistics window end date (e.g., 2026-06-30)
+                    example: '2026-01-01'
+                  salesTrendVOList:
+                    type: array
+                    items: {}
+                    description: Daily sales data series (see below)
+                    example: []
+                  categoryRanks:
+                    type: array
+                    items: {}
+                    description: Product category ranking history (see below)
+                    example: []
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        sku:
+                          type: integer
+                          description: Product SKU
+                          example: 1
+                        productId:
+                          type: integer
+                          description: Unified product ID, mapped from sku
+                          example: 1
+                        title:
+                          type: string
+                          description: Product title
+                        price:
+                          type: number
+                          description: Product price (RUB)
+                          example: 1
+                        currency:
+                          type: string
+                          description: Currency, always ₽
+                        reviewRating:
+                          type: number
+                          description: Product rating
+                          example: 1
+                        rating:
+                          type: number
+                          description: Unified rating, mapped from reviewRating
+                          example: 1
+                        reviewCount:
+                          type: integer
+                          description: Number of reviews
+                          example: 1
+                        questionsAndAnswers:
+                          type: integer
+                          description: QA count
+                          example: 1
+                        brandName:
+                          type: string
+                          description: Brand name
+                        brand:
+                          type: string
+                          description: Unified brand, mapped from brandName
+                        brandId:
+                          type: integer
+                          description: Brand ID
+                          example: 1
+                        brandUrl:
+                          type: string
+                          description: Brand link
+                          example: https://example.com/image.jpg
+                        sellerName:
+                          type: string
+                          description: Seller name
+                        sellerId:
+                          type: integer
+                          description: Seller ID (negative values indicate Ozon platform self-operated sellers, e.g., -4 Ozon Россия)
+                          example: 1
+                        fulfillment:
+                          type: array
+                          items: {}
+                          description: Product fulfillment methods, e.g., ["FBO"], ["OZON"], may contain multiple values
+                          example: []
+                        upTime:
+                          type: integer
+                          description: Listing time, millisecond timestamp
+                          example: 1
+                        upDays:
+                          type: integer
+                          description: Days since listing
+                          example: 1
+                        upMonths:
+                          type: integer
+                          description: Months since listing
+                          example: 1
+                        imageUrl:
+                          type: string
+                          description: Unified main image URL, mapped from the first of imageUrls
+                          example: https://example.com/image.jpg
+                        imageUrls:
+                          type: array
+                          items: {}
+                          description: List of product image URLs
+                          example: []
+                        productUrl:
+                          type: string
+                          description: Product URL
+                          example: https://example.com/image.jpg
+                        productPageUrl:
+                          type: string
+                          description: Unified product page URL, mapped from productUrl
+                          example: https://example.com/image.jpg
+                        categoryInfo:
+                          type: object
+                          description: Product category information (see below)
+                          example: {}
+                          properties: {}
+                          additionalProperties: true
+                        monthlySalesUnits:
+                          type: integer
+                          description: Unified monthly sales, actual value equals totalSales of the current statistics window
+                          example: 1
+                        monthlySalesRevenue:
+                          type: number
+                          description: Unified monthly revenue, actual value equals totalRevenue of the current statistics window
+                          example: 1
+                        sourceType:
+                          type: string
+                          description: Data source, always ozon
+                        sourceTool:
+                          type: string
+                          description: Source tool identifier for the Ozon competitor-detail endpoint
+                        weight:
+                          type: number
+                          description: Product weight, in grams (digital/service products may not return this, see field differences)
+                          example: 1
+                        grossMargin:
+                          type: number
+                          description: Gross margin (defined in schema, some products may not return this in practice, see field differences)
+                          example: 1
+                      additionalProperties: true
+                    description: Product detail list (1 record on single SKU hit, empty on miss)
+                    example: []
+                  data:
+                    type: array
+                    items: {}
+                    description: Returned data, content identical to products
+                    example: []
+                  columns:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        cnTitlePath:
+                          type: string
+                          description: Chinese category path
+                        enTitlePath:
+                          type: string
+                          description: English category path
+                        titlePath:
+                          type: string
+                          description: Category path (original text)
+                        category:
+                          type: object
+                          description: Terminal category object (fields see below)
+                          example: {}
+                          properties: {}
+                          additionalProperties: true
+                        fullCategoryId:
+                          type: array
+                          items: {}
+                          description: Full category ID path (string array, root to terminal, e.g., ["99999999", "99999999_200001489", "99999999_200001489_970727001"])
+                          example: []
+                        cnTitle:
+                          type: string
+                          description: Category Chinese name
+                        enTitle:
+                          type: string
+                          description: Category English name
+                        title:
+                          type: string
+                          description: Category original title
+                        level:
+                          type: integer
+                          description: Category level
+                          example: 1
+                        id:
+                          type: string
+                          description: Category ID
+                          example: example-id
+                        pid:
+                          type: string
+                          description: Parent category ID
+                          example: example-id
+                        crossBorderSellable:
+                          type: boolean
+                          description: Whether cross-border sales are supported
+                          example: false
+                        disabled:
+                          type: boolean
+                          description: Whether disabled
+                          example: false
+                      additionalProperties: true
+                    description: Column definitions, elements contain {field, title, cellType, sortable, filterable}
+                    example: []
+                  type:
+                    type: string
+                    description: Response display type, e.g., productWorkbenches
+                  costTime:
+                    type: integer
+                    description: API latency (milliseconds)
+                    example: 1
+                  costToken:
+                    type: integer
+                    description: Tokens consumed
+                    example: 1
+                  salestrendvolist:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          description: Date (e.g., 2026-06-01)
+                          example: '2026-01-01'
+                        sales:
+                          type: integer
+                          description: Daily sales (may be 0)
+                          example: 1
+                        revenue:
+                          type: number
+                          description: Daily revenue (RUB)
+                          example: 1
+                        price:
+                          type: number
+                          description: Daily price (RUB)
+                          example: 1
+                        stock:
+                          type: integer
+                          description: Daily stock
+                          example: 1
+                        reviewCount:
+                          type: integer
+                          description: Cumulative review count as of this date
+                          example: 1
+                        reviewRating:
+                          type: number
+                          description: Rating as of this date
+                          example: 1
+                      additionalProperties: true
+                  categoryranks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          description: Month (e.g., 2026-02; current month shows as specific date 2026-07-01)
+                          example: '2026-01-01'
+                        rank:
+                          type: integer
+                          description: Category ranking
+                          example: 1
+                        count:
+                          type: integer
+                          description: Statistics count (subject to actual gateway interpretation)
+                          example: 1
+                      additionalProperties: true
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  errcode: 1
+                  total: 1
+                  totalSales: 1
+                  dailySales: 1
+                  totalRevenue: 1
+                  stock: 1
+                  startDate: '2026-01-01'
+                  endDate: '2026-01-01'
+                  salesTrendVOList: []
+                  categoryRanks: []
+                  products:
+                  - sku: 1
+                    productId: 1
+                    price: 1
+                    reviewRating: 1
+                    rating: 1
+                    reviewCount: 1
+                    questionsAndAnswers: 1
+                    brandId: 1
+                    brandUrl: https://example.com/image.jpg
+                    sellerId: 1
+                    fulfillment: []
+                    upTime: 1
+                    upDays: 1
+                    upMonths: 1
+                    imageUrl: https://example.com/image.jpg
+                    imageUrls: []
+                    productUrl: https://example.com/image.jpg
+                    productPageUrl: https://example.com/image.jpg
+                    categoryInfo: {}
+                    monthlySalesUnits: 1
+                    monthlySalesRevenue: 1
+                    weight: 1
+                    grossMargin: 1
+                  data: []
+                  columns:
+                  - category: {}
+                    fullCategoryId: []
+                    level: 1
+                    id: example-id
+                    pid: example-id
+                    crossBorderSellable: false
+                    disabled: false
+                  costTime: 1
+                  costToken: 1
+                  salestrendvolist:
+                  - date: '2026-01-01'
+                    sales: 1
+                    revenue: 1
+                    price: 1
+                    stock: 1
+                    reviewCount: 1
+                    reviewRating: 1
+                  categoryranks:
+                  - date: '2026-01-01'
+                    rank: 1
+                    count: 1
+                additionalProperties: true
+              example:
+                errcode: 1
+                total: 1
+                totalSales: 1
+                dailySales: 1
+                totalRevenue: 1
+                stock: 1
+                startDate: '2026-01-01'
+                endDate: '2026-01-01'
+                salesTrendVOList: []
+                categoryRanks: []
+                products:
+                - sku: 1
+                  productId: 1
+                  price: 1
+                  reviewRating: 1
+                  rating: 1
+                  reviewCount: 1
+                  questionsAndAnswers: 1
+                  brandId: 1
+                  brandUrl: https://example.com/image.jpg
+                  sellerId: 1
+                  fulfillment: []
+                  upTime: 1
+                  upDays: 1
+                  upMonths: 1
+                  imageUrl: https://example.com/image.jpg
+                  imageUrls: []
+                  productUrl: https://example.com/image.jpg
+                  productPageUrl: https://example.com/image.jpg
+                  categoryInfo: {}
+                  monthlySalesUnits: 1
+                  monthlySalesRevenue: 1
+                  weight: 1
+                  grossMargin: 1
+                data: []
+                columns:
+                - category: {}
+                  fullCategoryId: []
+                  level: 1
+                  id: example-id
+                  pid: example-id
+                  crossBorderSellable: false
+                  disabled: false
+                costTime: 1
+                costToken: 1
+                salestrendvolist:
+                - date: '2026-01-01'
+                  sales: 1
+                  revenue: 1
+                  price: 1
+                  stock: 1
+                  reviewCount: 1
+                  reviewRating: 1
+                categoryranks:
+                - date: '2026-01-01'
+                  rank: 1
+                  count: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: ozon-product-detail-search
+      x-nexscope-mcp-tool-name: nexscope_ozon_product_detail_search
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/ozon-product-report-search/run:
+    post:
+      tags:
+      - Ozon Marketplace
+      summary: Ozon Product Report Search
+      description: 'Seerfar Ozon product report search: filters Ozon products by multi-dimensional metrics including sales, revenue, sales/revenue growth rate, cart conversion rate, order conversion rate, price, rating, review count, QA count, variant count, page views, gross margin, return/cancellation rate, ad spend share, weight/volume, listing time, brand, seller, fulfillment method, and labels. Returns each product''s SKU, title, price (RUB), sales, revenue, lost revenue, conversion rate, rating, reviews, brand, seller, fulfillment method, listing days/months, and complete product report fields. Use for Ozon product selection, competitor product analysis, best-seller mining, price/conversion band filtering.'
+      operationId: runOzonProductReportSearch
+      externalDocs:
+        description: Ozon Product Report Search documentation
+        url: https://www.nexscope.ai/api-docs/ozon-product-report-search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.ozon-product-report-search.
+              properties:
+                page:
+                  type: object
+                  description: 'Pagination & sorting: {page, pageSize, orders[]}'
+                  example:
+                    page: 1
+                    pageSize: 10
+                  properties:
+                    page:
+                      type: integer
+                      description: Page number, starting from 1, default 1
+                      example: 1
+                    pageSize:
+                      type: integer
+                      description: Items per page, default 20
+                      example: 1
+                    orders:
+                      type: array
+                      items: {}
+                      description: Sort rules, elements {field, direction}; direction takes DESC (descending) / ASC (ascending). field is a metric field in the response (e.g., sales, revenue, price, reviewRating, reviewCount, salesRate)
+                      example: []
+                  additionalProperties: true
+                skus:
+                  type: array
+                  items:
+                    type: string
+                  description: SKU array (max 10), for precise lookup of specified products
+                  example:
+                  - '1664362124'
+                keywords:
+                  type: array
+                  items: {}
+                  description: Keyword array, filters by product title
+                  example: []
+                categoryIds:
+                  type: array
+                  items: {}
+                  description: Category ID array (Seerfar category IDs, not category names)
+                  example: []
+                sellerName:
+                  type: array
+                  items: {}
+                  description: Seller name array
+                  example: []
+                brand:
+                  type: object
+                  description: 'Brand filter: {brandName: array<string>, type: integer}; type takes 0 include brand, 1 exclude brand, 2 unbranded'
+                  example: {}
+                  properties: {}
+                  additionalProperties: true
+                fulfillment:
+                  type: array
+                  items: {}
+                  description: 'Fulfillment method array, fixed options: OZON, FBO, FBS, RFBS, FBP'
+                  example: []
+                labels:
+                  type: integer
+                  description: 'Label array, fixed options: 0 new product, 1 genuine product, 2 best seller'
+                  example: 1
+                creationDate:
+                  type: integer
+                  description: 'Listing time filter (months), fixed options: 1 last 30 days, 3 last 90 days, 6 last 180 days, 12 last year, 24 last two years; no filtering if omitted'
+                  example: 1
+                variationsMerge:
+                  type: integer
+                  description: 'Whether to merge variants: 0 do not merge, 1 merge'
+                  example: 1
+                searchDate:
+                  type: string
+                  description: Query date yyyy-MM-dd (e.g., 2026-04-01); defaults to last 30 days if omitted; passing 2026-04-01 queries March 2026 data
+                  example: '2026-01-01'
+                tag:
+                  type: string
+                  description: Tag word
+                uId:
+                  type: string
+                  description: User ID
+                  example: example-id
+                memberId:
+                  type: string
+                  description: Member ID (a unique member identifier; data is attributed to memberId)
+                  example: example-id
+                monthlySales:
+                  type: string
+                  description: monthlySales
+                monthlySalesRate:
+                  type: string
+                  description: monthlySalesRate
+                monthlyRevenue:
+                  type: string
+                  description: monthlyRevenue
+                price:
+                  type: string
+                  description: price
+                convToCartPdp:
+                  type: string
+                  description: convToCartPdp
+                reviewRating:
+                  type: string
+                  description: reviewRating
+                reviewCount:
+                  type: string
+                  description: reviewCount
+                questionsAndAnswers:
+                  type: string
+                  description: questionsAndAnswers
+                variants:
+                  type: string
+                  description: variants
+                drr:
+                  type: string
+                  description: drr
+                grossMargin:
+                  type: string
+                  description: grossMargin
+                returnCancellationRate:
+                  type: string
+                  description: returnCancellationRate
+                weight:
+                  type: string
+                  description: weight
+                volume:
+                  type: string
+                  description: volume
+              required:
+              - page
+              example:
+                page:
+                  page: 1
+                  pageSize: 10
+                skus:
+                - '1664362124'
+              additionalProperties: true
+            example:
+              page:
+                page: 1
+                pageSize: 10
+              skus:
+              - '1664362124'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  code:
+                    type: string
+                    description: Return code, "200" indicates success (returned on success)
+                  errcode:
+                    type: integer
+                    description: Error code, 200 indicates success; only returned on business errors (coexists with code on success)
+                    example: 1
+                  msg:
+                    type: string
+                    description: Message; ok for success
+                  errmsg:
+                    type: string
+                    description: Error message; ok for success, reason description on business error
+                  total:
+                    type: integer
+                    description: Total matched record count (can reach tens of millions with no filters; equals hit count when using skus precise lookup)
+                    example: 1
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        sku:
+                          type: integer
+                          description: Product SKU
+                          example: 1
+                        productId:
+                          type: integer
+                          description: Unified product ID (= sku)
+                          example: 1
+                        title:
+                          type: string
+                          description: Product title (original Russian)
+                        imageUrl:
+                          type: string
+                          description: Product main image URL
+                          example: https://example.com/image.jpg
+                        productUrl:
+                          type: string
+                          description: Product URL
+                          example: https://example.com/image.jpg
+                        productPageUrl:
+                          type: string
+                          description: Unified product page URL (= productUrl)
+                          example: https://example.com/image.jpg
+                        currency:
+                          type: string
+                          description: Currency, always ₽
+                        sourceType:
+                          type: string
+                          description: Data source, always ozon
+                        sourceTool:
+                          type: string
+                          description: Source tool identifier for the Ozon bestseller report endpoint
+                        sales:
+                          type: integer
+                          description: Monthly sales volume
+                          example: 1
+                        monthlySalesUnits:
+                          type: integer
+                          description: Unified monthly sales (= sales)
+                          example: 1
+                        revenue:
+                          type: number
+                          description: Monthly sales revenue (RUB)
+                          example: 1
+                        monthlySalesRevenue:
+                          type: number
+                          description: Unified monthly revenue (= revenue)
+                          example: 1
+                        missedRevenue:
+                          type: number
+                          description: Lost revenue (RUB)
+                          example: 1
+                        price:
+                          type: number
+                          description: Price (RUB)
+                          example: 1
+                        convToCartPdp:
+                          type: number
+                          description: Cart conversion rate (%)
+                          example: 1
+                        orderConversionRate:
+                          type: number
+                          description: Order conversion rate (%)
+                          example: 1
+                        salesRate:
+                          type: number
+                          description: Sales growth rate (%)
+                          example: 1
+                        revenueRate:
+                          type: number
+                          description: Revenue growth rate (%)
+                          example: 1
+                        drr:
+                          type: number
+                          description: Ad cost share (ratio)
+                          example: 1
+                        grossMargin:
+                          type: number
+                          description: Gross margin (%)
+                          example: 1
+                        returnCancellationRate:
+                          type: number
+                          description: Return/cancellation rate (%)
+                          example: 1
+                        views:
+                          type: integer
+                          description: Views
+                          example: 1
+                        reviewRating:
+                          type: number
+                          description: Rating (0~5)
+                          example: 1
+                        rating:
+                          type: number
+                          description: Unified rating (= reviewRating)
+                          example: 1
+                        reviewCount:
+                          type: integer
+                          description: Review count
+                          example: 1
+                        questionsAndAnswers:
+                          type: integer
+                          description: QA count
+                          example: 1
+                        variants:
+                          type: integer
+                          description: Variant count
+                          example: 1
+                        fulfillment:
+                          type: array
+                          items: {}
+                          description: Fulfillment methods (values OZON/FBO/FBS/RFBS/FBP)
+                          example: []
+                        weight:
+                          type: number
+                          description: Weight (g)
+                          example: 1
+                        volume:
+                          type: number
+                          description: Volume (L)
+                          example: 1
+                        upTime:
+                          type: integer
+                          description: Listing timestamp (milliseconds)
+                          example: 1
+                        upDays:
+                          type: integer
+                          description: Days since listing
+                          example: 1
+                        upMonths:
+                          type: integer
+                          description: Months since listing
+                          example: 1
+                        brandName:
+                          type: string
+                          description: Brand name
+                        brand:
+                          type: string
+                          description: Unified brand (= brandName)
+                        brandId:
+                          type: integer
+                          description: Brand ID
+                          example: 1
+                        brandUrl:
+                          type: string
+                          description: Brand link
+                          example: https://example.com/image.jpg
+                        sellerName:
+                          type: string
+                          description: Seller name
+                        sellerId:
+                          type: integer
+                          description: Seller ID (may be negative for Ozon self-operated)
+                          example: 1
+                        categoryInfo:
+                          type: object
+                          description: Category information (see below)
+                          example: {}
+                          properties: {}
+                          additionalProperties: true
+                      additionalProperties: true
+                    description: Product report data (see details below), content identical to products
+                    example: []
+                  products:
+                    type: array
+                    items: {}
+                    description: Product report data (identical to data, two keys for the same data)
+                    example: []
+                  columns:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        cnTitlePath:
+                          type: string
+                          description: Chinese category path
+                        enTitlePath:
+                          type: string
+                          description: English category path
+                        titlePath:
+                          type: string
+                          description: Russian category path
+                        fullCategoryId:
+                          type: array
+                          items: {}
+                          description: Full category ID hierarchy array
+                          example: []
+                        category:
+                          type: object
+                          description: 'Category node: {cnTitle, enTitle, title, level, id, pid, crossBorderSellable, disabled}'
+                          example: {}
+                          properties: {}
+                          additionalProperties: true
+                      additionalProperties: true
+                    description: Column definitions, elements contain {field, title, cellType, sortable, filterable}, identifying sortable/filterable fields
+                    example: []
+                  type:
+                    type: string
+                    description: Response display type, e.g., productWorkbenches
+                  costTime:
+                    type: integer
+                    description: API latency (milliseconds)
+                    example: 1
+                  costToken:
+                    type: integer
+                    description: Tokens consumed
+                    example: 1
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  errcode: 1
+                  total: 1
+                  data:
+                  - sku: 1
+                    productId: 1
+                    imageUrl: https://example.com/image.jpg
+                    productUrl: https://example.com/image.jpg
+                    productPageUrl: https://example.com/image.jpg
+                    sales: 1
+                    monthlySalesUnits: 1
+                    revenue: 1
+                    monthlySalesRevenue: 1
+                    missedRevenue: 1
+                    price: 1
+                    convToCartPdp: 1
+                    orderConversionRate: 1
+                    salesRate: 1
+                    revenueRate: 1
+                    drr: 1
+                    grossMargin: 1
+                    returnCancellationRate: 1
+                    views: 1
+                    reviewRating: 1
+                    rating: 1
+                    reviewCount: 1
+                    questionsAndAnswers: 1
+                    variants: 1
+                    fulfillment: []
+                    weight: 1
+                    volume: 1
+                    upTime: 1
+                    upDays: 1
+                    upMonths: 1
+                    brandId: 1
+                    brandUrl: https://example.com/image.jpg
+                    sellerId: 1
+                    categoryInfo: {}
+                  products: []
+                  columns:
+                  - fullCategoryId: []
+                    category: {}
+                  costTime: 1
+                  costToken: 1
+                additionalProperties: true
+              example:
+                errcode: 1
+                total: 1
+                data:
+                - sku: 1
+                  productId: 1
+                  imageUrl: https://example.com/image.jpg
+                  productUrl: https://example.com/image.jpg
+                  productPageUrl: https://example.com/image.jpg
+                  sales: 1
+                  monthlySalesUnits: 1
+                  revenue: 1
+                  monthlySalesRevenue: 1
+                  missedRevenue: 1
+                  price: 1
+                  convToCartPdp: 1
+                  orderConversionRate: 1
+                  salesRate: 1
+                  revenueRate: 1
+                  drr: 1
+                  grossMargin: 1
+                  returnCancellationRate: 1
+                  views: 1
+                  reviewRating: 1
+                  rating: 1
+                  reviewCount: 1
+                  questionsAndAnswers: 1
+                  variants: 1
+                  fulfillment: []
+                  weight: 1
+                  volume: 1
+                  upTime: 1
+                  upDays: 1
+                  upMonths: 1
+                  brandId: 1
+                  brandUrl: https://example.com/image.jpg
+                  sellerId: 1
+                  categoryInfo: {}
+                products: []
+                columns:
+                - fullCategoryId: []
+                  category: {}
+                costTime: 1
+                costToken: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: ozon-product-report-search
+      x-nexscope-mcp-tool-name: nexscope_ozon_product_report_search
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/ozon-product-search/run:
+    post:
+      tags:
+      - Ozon Marketplace
+      summary: Ozon Product Search
+      description: MPSTATS Ozon Russia product search and reverse lookup. Searches Ozon products in the MPSTATS database by Russian keyword or SKU, returning product ID, title, brand, and seller information. The entry point for Ozon product discovery and competitor analysis chains.
+      operationId: runOzonProductSearch
+      externalDocs:
+        description: Ozon Product Search documentation
+        url: https://www.nexscope.ai/api-docs/ozon-product-search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.ozon-product-search.
+              properties:
+                keyword:
+                  type: string
+                  description: Russian search keyword, e.g., кроссовки (running shoes)
+                  example: phone case
+                productIds:
+                  type: array
+                  items: {}
+                  description: List of Ozon product SKUs (integer or string)
+                  example: []
+                startDate:
+                  type: string
+                  description: Statistics start date, format YYYY-MM-DD; defaults to one year ago if empty; latest is yesterday
+                  example: '2026-01-01'
+                endDate:
+                  type: string
+                  description: Statistics end date, format YYYY-MM-DD; defaults to yesterday if empty; latest is yesterday
+                  example: '2026-01-01'
+              example:
+                endDate: '2026-01-31'
+                startDate: '2026-01-01'
+                keyword: phone case
+              additionalProperties: true
+            example:
+              endDate: '2026-01-31'
+              startDate: '2026-01-01'
+              keyword: phone case
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  code:
+                    type: string
+                    description: Return code (string), "200" indicates success
+                  msg:
+                    type: string
+                    description: Message; ok for success, error description on failure
+                  total:
+                    type: integer
+                    description: Total matched count
+                    example: 1
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        productId:
+                          type: integer
+                          description: SKU ID
+                          example: 1
+                        title:
+                          type: string
+                          description: Product name (Russian)
+                        productPageUrl:
+                          type: string
+                          description: Product page URL
+                          example: https://example.com/image.jpg
+                        imageUrl:
+                          type: string
+                          description: Main image URL
+                          example: https://example.com/image.jpg
+                        brand:
+                          type: string
+                          description: Brand name
+                        brandId:
+                          type: integer
+                          description: Brand ID
+                          example: 1
+                        sellerName:
+                          type: string
+                          description: Seller name
+                        sellerId:
+                          type: integer
+                          description: Seller ID
+                          example: 1
+                        sourceType:
+                          type: string
+                          description: Data source identifier, always ozon
+                        sourceTool:
+                          type: string
+                          description: Source tool identifier for the Ozon product-search endpoint
+                      additionalProperties: true
+                    description: Product list (see details below)
+                    example: []
+                  columns:
+                    type: array
+                    items: {}
+                    description: Rendered column definitions
+                    example: []
+                  costTime:
+                    type: integer
+                    description: API latency (milliseconds)
+                    example: 1
+                  costToken:
+                    type: integer
+                    description: Tokens consumed
+                    example: 1
+                  type:
+                    type: string
+                    description: Response type
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  total: 1
+                  products:
+                  - productId: 1
+                    productPageUrl: https://example.com/image.jpg
+                    imageUrl: https://example.com/image.jpg
+                    brandId: 1
+                    sellerId: 1
+                  columns: []
+                  costTime: 1
+                  costToken: 1
+                additionalProperties: true
+              example:
+                total: 1
+                products:
+                - productId: 1
+                  productPageUrl: https://example.com/image.jpg
+                  imageUrl: https://example.com/image.jpg
+                  brandId: 1
+                  sellerId: 1
+                columns: []
+                costTime: 1
+                costToken: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: ozon-product-search
+      x-nexscope-mcp-tool-name: nexscope_ozon_product_search
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/ozon-product-trend/run:
+    post:
+      tags:
+      - Ozon Marketplace
+      summary: Ozon Product Trend
+      description: MPSTATS Ozon Russia single SKU daily time-series performance. Returns daily sales units, price, stock, rating, and optionally search position/visibility data for one Ozon product by date granularity. Use for validating growth trends, seasonality, and anomaly detection.
+      operationId: runOzonProductTrend
+      externalDocs:
+        description: Ozon Product Trend documentation
+        url: https://www.nexscope.ai/api-docs/ozon-product-trend
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.ozon-product-trend.
+              properties:
+                productId:
+                  type: integer
+                  description: Ozon product SKU
+                  example: 1664362124
+                startDate:
+                  type: string
+                  description: Statistics start date, YYYY-MM-DD; data delayed by T-1, latest is yesterday
+                  example: '2026-01-01'
+                endDate:
+                  type: string
+                  description: Statistics end date, YYYY-MM-DD; data delayed by T-1, latest is yesterday
+                  example: '2026-01-01'
+                includeFbs:
+                  type: boolean
+                  description: Whether to include FBS data
+                  example: false
+                includeSearchStats:
+                  type: boolean
+                  description: Whether to include search position / visibility; not supported for some niches
+                  example: false
+              required:
+              - productId
+              example:
+                includeSearchStats: false
+                includeFbs: false
+                startDate: '2026-01-01'
+                productId: 1664362124
+                endDate: '2026-01-31'
+              additionalProperties: true
+            example:
+              includeSearchStats: false
+              includeFbs: false
+              startDate: '2026-01-01'
+              productId: 1664362124
+              endDate: '2026-01-31'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  code:
+                    type: string
+                    description: Return code (string), "200" indicates success
+                  errcode:
+                    type: integer
+                    description: Return code (integer), 200 indicates success
+                    example: 1
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          description: Date, YYYY-MM-DD
+                          example: '2026-01-01'
+                        hasData:
+                          type: boolean
+                          description: Whether there is data for this day (false indicates a missing day, distinct from sales=0)
+                          example: false
+                        price:
+                          type: number
+                          description: Daily selling price
+                          example: 1
+                        oldPrice:
+                          type: number
+                          description: Daily original price before discount
+                          example: 1
+                        ozonCardPrice:
+                          type: number
+                          description: Ozon Card price (Ozon official bank card discount price)
+                          example: 1
+                        discount:
+                          type: integer
+                          description: Discount, integer percentage 0-100
+                          example: 1
+                        currency:
+                          type: string
+                          description: Currency symbol (e.g., ₽ / $ / €)
+                        sales:
+                          type: integer
+                          description: Daily sales (units)
+                          example: 1
+                        balance:
+                          type: integer
+                          description: Daily FBO warehouse stock (units)
+                          example: 1
+                        rating:
+                          type: number
+                          description: Rating, 0-5
+                          example: 1
+                        comments:
+                          type: integer
+                          description: Review count
+                          example: 1
+                        isBestseller:
+                          type: boolean
+                          description: Whether the "bestseller" badge was active that day
+                          example: false
+                        isNew:
+                          type: boolean
+                          description: Whether the "new product" badge was active that day
+                          example: false
+                      additionalProperties: true
+                    description: List of daily data points (see details below)
+                    example: []
+                  total:
+                    type: integer
+                    description: Number of daily data points (window days)
+                    example: 1
+                  columns:
+                    type: array
+                    items: {}
+                    description: Rendered column definitions
+                    example: []
+                  costTime:
+                    type: integer
+                    description: API latency (milliseconds)
+                    example: 1
+                  costToken:
+                    type: integer
+                    description: Tokens consumed
+                    example: 1
+                  type:
+                    type: string
+                    description: Response type
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  errcode: 1
+                  total: 1
+                  data:
+                  - date: '2026-01-01'
+                    hasData: false
+                    price: 1
+                    oldPrice: 1
+                    ozonCardPrice: 1
+                    discount: 1
+                    sales: 1
+                    balance: 1
+                    rating: 1
+                    comments: 1
+                    isBestseller: false
+                    isNew: false
+                  columns: []
+                  costTime: 1
+                  costToken: 1
+                additionalProperties: true
+              example:
+                errcode: 1
+                total: 1
+                data:
+                - date: '2026-01-01'
+                  hasData: false
+                  price: 1
+                  oldPrice: 1
+                  ozonCardPrice: 1
+                  discount: 1
+                  sales: 1
+                  balance: 1
+                  rating: 1
+                  comments: 1
+                  isBestseller: false
+                  isNew: false
+                columns: []
+                costTime: 1
+                costToken: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: ozon-product-trend
+      x-nexscope-mcp-tool-name: nexscope_ozon_product_trend
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/ozon-seller-products/run:
+    post:
+      tags:
+      - Ozon Marketplace
+      summary: Ozon Seller Products
+      description: 'MPSTATS Ozon Russia seller drill-down product list by seller ID. Returns all SKUs under a seller with complete metrics: sales, revenue, price, rating, stock, turnover, lost revenue, supporting multi-dimensional numeric filters, sorting, and currency conversion. Use for store structure analysis, seller bestseller analysis, competitor store benchmarking.'
+      operationId: runOzonSellerProducts
+      externalDocs:
+        description: Ozon Seller Products documentation
+        url: https://www.nexscope.ai/api-docs/ozon-seller-products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.ozon-seller-products.
+              properties:
+                sellerId:
+                  type: string
+                  description: Ozon seller ID (numeric string), matching the seller identifier in product lists/seller rankings
+                  example: '1581151'
+                startDate:
+                  type: string
+                  description: Statistics start date YYYY-MM-DD; latest is yesterday
+                  example: '2026-01-01'
+                endDate:
+                  type: string
+                  description: Statistics end date YYYY-MM-DD; latest is yesterday
+                  example: '2026-01-01'
+                page:
+                  type: integer
+                  description: Page number, starting from 1
+                  example: 1
+                pageSize:
+                  type: integer
+                  description: Rows per page 1-100, default 100
+                  example: 10
+                sortField:
+                  type: string
+                  description: Sort column name (snake_case), e.g., sales, revenue, final_price, balance, rating
+                sortDirection:
+                  type: string
+                  description: asc / desc
+                currency:
+                  type: string
+                  description: Currency code, default RUB, e.g., USD
+                currencyRate:
+                  type: integer
+                  description: Custom exchange rate (for non-default currency)
+                  example: 1
+                includeFbs:
+                  type: boolean
+                  description: Whether to include FBS data
+                  example: false
+                filters:
+                  type: array
+                  items: {}
+                  description: List of numeric filter conditions, each {field, op, value, value2?}, multiple conditions AND
+                  example: []
+              required:
+              - sellerId
+              example:
+                page: 1
+                pageSize: 10
+                endDate: '2026-01-31'
+                startDate: '2026-01-01'
+                sellerId: '1581151'
+                currencyRate: 1
+              additionalProperties: true
+            example:
+              page: 1
+              pageSize: 10
+              endDate: '2026-01-31'
+              startDate: '2026-01-01'
+              sellerId: '1581151'
+              currencyRate: 1
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  code:
+                    type: string
+                    description: Return code, "200" success
+                  msg:
+                    type: string
+                    description: Message; ok for success
+                  total:
+                    type: integer
+                    description: Total number of matched products under the seller
+                    example: 1
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        productId:
+                          type: integer
+                          description: SKU ID
+                          example: 1
+                        title:
+                          type: string
+                          description: Product name (Russian)
+                        brand:
+                          type: string
+                          description: Brand
+                        brandId:
+                          type: integer
+                          description: Brand ID
+                          example: 1
+                        sellerName:
+                          type: string
+                          description: Seller name
+                        sellerId:
+                          type: integer
+                          description: Seller ID
+                          example: 1
+                        category:
+                          type: string
+                          description: Category path (Russian, / separated)
+                        nicheName:
+                          type: string
+                          description: Niche path (Russian)
+                        nicheId:
+                          type: integer
+                          description: Niche ID
+                          example: 1
+                        country:
+                          type: string
+                          description: Country of sale, always RU for Ozon
+                        firstDate:
+                          type: string
+                          description: Listing date (yyyy-MM-dd)
+                          example: '2026-01-01'
+                        imageUrl:
+                          type: string
+                          description: Main image URL
+                          example: https://example.com/image.jpg
+                        productPageUrl:
+                          type: string
+                          description: Product page URL
+                          example: https://example.com/image.jpg
+                        sourceTool/sourceType:
+                          type: string
+                          description: Source tool / data source identifier
+                        price:
+                          type: number
+                          description: Current selling price
+                          example: 1
+                        oldPrice:
+                          type: number
+                          description: Original price before discount
+                          example: 1
+                        ozonCardPrice:
+                          type: number
+                          description: Ozon Card price
+                          example: 1
+                        minPrice/maxPrice/averagePrice:
+                          type: number
+                          description: Minimum / maximum / average price during the statistics period
+                          example: 1
+                        currency:
+                          type: string
+                          description: Currency symbol (₽ / $ / €)
+                        rating:
+                          type: number
+                          description: Rating, 0-5
+                          example: 1
+                        reviewCount:
+                          type: integer
+                          description: Number of reviews
+                          example: 1
+                        balance:
+                          type: integer
+                          description: Current stock (units)
+                          example: 1
+                        balanceFbs:
+                          type: integer
+                          description: FBS stock (seller self-ship units)
+                          example: 1
+                        frozenStocks:
+                          type: integer
+                          description: Slow-moving stock
+                          example: 1
+                        warehousesCount:
+                          type: integer
+                          description: Number of FBO warehouses
+                          example: 1
+                        isFbs:
+                          type: boolean
+                          description: Whether shipped via FBS
+                          example: false
+                        salesPerDay:
+                          type: number
+                          description: Average daily sales (units/day)
+                          example: 1
+                        monthlySalesUnits:
+                          type: integer
+                          description: Sales volume during the statistics period (units)
+                          example: 1
+                        monthlySalesRevenue:
+                          type: number
+                          description: Sales revenue during the statistics period
+                          example: 1
+                        lostProfit:
+                          type: number
+                          description: Lost revenue (due to stockouts, etc.)
+                          example: 1
+                        daysInSite:
+                          type: integer
+                          description: Days on sale (statistics period, including out-of-stock days)
+                          example: 1
+                        daysInStock:
+                          type: integer
+                          description: Days in stock
+                          example: 1
+                        turnoverDays:
+                          type: number
+                          description: Turnover days (lower is faster)
+                          example: 1
+                        position:
+                          type: integer
+                          description: Ranking within the current query dimension (seller for this endpoint)
+                          example: 1
+                        categoryPosition:
+                          type: integer
+                          description: Ranking within the category
+                          example: 1
+                        revenueSharePercent:
+                          type: number
+                          description: Revenue share of this SKU within the current query dimension, 0-100
+                          example: 1
+                      additionalProperties: true
+                    description: Product list (see details below)
+                    example: []
+                  columns:
+                    type: array
+                    items: {}
+                    description: Rendered column definitions
+                    example: []
+                  costTime:
+                    type: integer
+                    description: API latency (milliseconds)
+                    example: 1
+                  costToken:
+                    type: integer
+                    description: Tokens consumed
+                    example: 1
+                  type:
+                    type: string
+                    description: Response type
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  total: 1
+                  products:
+                  - productId: 1
+                    brandId: 1
+                    sellerId: 1
+                    nicheId: 1
+                    firstDate: '2026-01-01'
+                    imageUrl: https://example.com/image.jpg
+                    productPageUrl: https://example.com/image.jpg
+                    price: 1
+                    oldPrice: 1
+                    ozonCardPrice: 1
+                    minPrice/maxPrice/averagePrice: 1
+                    rating: 1
+                    reviewCount: 1
+                    balance: 1
+                    balanceFbs: 1
+                    frozenStocks: 1
+                    warehousesCount: 1
+                    isFbs: false
+                    salesPerDay: 1
+                    monthlySalesUnits: 1
+                    monthlySalesRevenue: 1
+                    lostProfit: 1
+                    daysInSite: 1
+                    daysInStock: 1
+                    turnoverDays: 1
+                    position: 1
+                    categoryPosition: 1
+                    revenueSharePercent: 1
+                  columns: []
+                  costTime: 1
+                  costToken: 1
+                additionalProperties: true
+              example:
+                total: 1
+                products:
+                - productId: 1
+                  brandId: 1
+                  sellerId: 1
+                  nicheId: 1
+                  firstDate: '2026-01-01'
+                  imageUrl: https://example.com/image.jpg
+                  productPageUrl: https://example.com/image.jpg
+                  price: 1
+                  oldPrice: 1
+                  ozonCardPrice: 1
+                  minPrice/maxPrice/averagePrice: 1
+                  rating: 1
+                  reviewCount: 1
+                  balance: 1
+                  balanceFbs: 1
+                  frozenStocks: 1
+                  warehousesCount: 1
+                  isFbs: false
+                  salesPerDay: 1
+                  monthlySalesUnits: 1
+                  monthlySalesRevenue: 1
+                  lostProfit: 1
+                  daysInSite: 1
+                  daysInStock: 1
+                  turnoverDays: 1
+                  position: 1
+                  categoryPosition: 1
+                  revenueSharePercent: 1
+                columns: []
+                costTime: 1
+                costToken: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: ozon-seller-products
+      x-nexscope-mcp-tool-name: nexscope_ozon_seller_products
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/ozon-shop-search/run:
+    post:
+      tags:
+      - Ozon Marketplace
+      summary: Ozon Shop Search
+      description: 'Seerfar Ozon shop product search: fetches the product list of an Ozon shop (seller) by shop ID, returning each product''s 30-day sales, price, rating, weight, fulfillment method (FBO/FBS), seller type (local/cross-border), return/cancellation rate, and the shop''s total 30-day sales. Use for competitor shop product analysis, shop bestseller mining, seller product structure analysis.'
+      operationId: runOzonShopSearch
+      externalDocs:
+        description: Ozon Shop Search documentation
+        url: https://www.nexscope.ai/api-docs/ozon-shop-search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.ozon-shop-search.
+              properties:
+                id:
+                  type: integer
+                  description: Shop (seller) ID, i.e., the sellerId returned by other Seerfar Ozon tools; negative values are Ozon platform self-operated sellers (e.g., -2 Ozon Express, -4 Ozon Fresh), positive values are third-party sellers
+                  example: 1581151
+                page:
+                  type: object
+                  description: 'Pagination & sorting: {page, pageSize, orders[]}'
+                  example:
+                    page: 1
+                    pageSize: 10
+                  properties:
+                    page:
+                      type: integer
+                      description: Page number, starting from 1, default 1
+                      example: 1
+                    pageSize:
+                      type: integer
+                      description: Items per page, default 20, maximum 20 (exceeding returns errcode 1002)
+                      example: 1
+                    orders:
+                      type: array
+                      items: {}
+                      description: 'Sort rules, elements {field, direction}; direction takes DESC (descending) / ASC (ascending). Common sort fields: sales, price, reviewRating, upTime'
+                      example: []
+                  additionalProperties: true
+                uId:
+                  type: string
+                  description: User ID (max 1000)
+                  example: example-id
+                memberId:
+                  type: string
+                  description: Member ID (a unique member identifier; a user can belong to multiple teams; data is attributed to memberId, max 1000)
+                  example: example-id
+              required:
+              - id
+              - page
+              example:
+                id: 1581151
+                page:
+                  page: 1
+                  pageSize: 10
+              additionalProperties: true
+            example:
+              id: 1581151
+              page:
+                page: 1
+                pageSize: 10
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  code:
+                    type: string
+                    description: Return code, "200" indicates success (returned on success)
+                  errcode:
+                    type: integer
+                    description: Error code, 200 indicates success; only returned on business errors (coexists with code on success)
+                    example: 1
+                  msg:
+                    type: string
+                    description: Message; ok for success
+                  errmsg:
+                    type: string
+                    description: Error message; ok for success, reason description on business error
+                  total:
+                    type: integer
+                    description: Number of records returned on this page (equals the current page data count, not total shop product count)
+                    example: 1
+                  totalSales:
+                    type: integer
+                    description: Total shop sales in the last 30 days
+                    example: 1
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        productId:
+                          type: integer
+                          description: Unified product ID, mapped from sku
+                          example: 1
+                        sku:
+                          type: integer
+                          description: Product SKU
+                          example: 1
+                        rating:
+                          type: number
+                          description: Unified rating, mapped from reviewRating
+                          example: 1
+                        reviewRating:
+                          type: number
+                          description: Product rating
+                          example: 1
+                        weight:
+                          type: number
+                          description: Product weight, in grams
+                          example: 1
+                        sales:
+                          type: integer
+                          description: Product sales in the last 30 days
+                          example: 1
+                        monthlySalesUnits:
+                          type: integer
+                          description: Unified monthly sales, mapped from sales
+                          example: 1
+                        upTime:
+                          type: integer
+                          description: Product listing time, millisecond timestamp
+                          example: 1
+                        price:
+                          type: number
+                          description: Product price (RUB)
+                          example: 1
+                        currency:
+                          type: string
+                          description: Currency, always ₽
+                        imageUrl:
+                          type: string
+                          description: Unified main image URL
+                          example: https://example.com/image.jpg
+                        fulfillment:
+                          type: array
+                          items: {}
+                          description: Product fulfillment methods, e.g., ["FBO"], may contain multiple values
+                          example: []
+                        sellerType:
+                          type: integer
+                          description: 'Seller type: 0 domestic, 1 cross-border'
+                          example: 1
+                        returnCancellationRate:
+                          type: number
+                          description: Product return/cancellation rate (%)
+                          example: 1
+                        sourceType:
+                          type: string
+                          description: Data source, always ozon
+                        sourceTool:
+                          type: string
+                          description: Source tool identifier for the Ozon shop endpoint
+                      additionalProperties: true
+                    description: Shop product list (see details below)
+                    example: []
+                  products:
+                    type: array
+                    items: {}
+                    description: Shop product list, content identical to data
+                    example: []
+                  hasNextPage:
+                    type: boolean
+                    description: Whether there is a next page
+                    example: false
+                  columns:
+                    type: array
+                    items: {}
+                    description: Column definitions, elements contain {field, title, cellType, sortable, filterable}
+                    example: []
+                  type:
+                    type: string
+                    description: Response display type, e.g., productWorkbenches
+                  costTime:
+                    type: integer
+                    description: API latency (milliseconds)
+                    example: 1
+                  costToken:
+                    type: integer
+                    description: Tokens consumed
+                    example: 1
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  errcode: 1
+                  total: 1
+                  totalSales: 1
+                  data:
+                  - productId: 1
+                    sku: 1
+                    rating: 1
+                    reviewRating: 1
+                    weight: 1
+                    sales: 1
+                    monthlySalesUnits: 1
+                    upTime: 1
+                    price: 1
+                    imageUrl: https://example.com/image.jpg
+                    fulfillment: []
+                    sellerType: 1
+                    returnCancellationRate: 1
+                  products: []
+                  hasNextPage: false
+                  columns: []
+                  costTime: 1
+                  costToken: 1
+                additionalProperties: true
+              example:
+                errcode: 1
+                total: 1
+                totalSales: 1
+                data:
+                - productId: 1
+                  sku: 1
+                  rating: 1
+                  reviewRating: 1
+                  weight: 1
+                  sales: 1
+                  monthlySalesUnits: 1
+                  upTime: 1
+                  price: 1
+                  imageUrl: https://example.com/image.jpg
+                  fulfillment: []
+                  sellerType: 1
+                  returnCancellationRate: 1
+                products: []
+                hasNextPage: false
+                columns: []
+                costTime: 1
+                costToken: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: ozon-shop-search
+      x-nexscope-mcp-tool-name: nexscope_ozon_shop_search
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+components:
+  responses:
+    BadRequest:
+      description: Invalid request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Forbidden:
+      description: The account or API key is not allowed to use this capability.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    ServerError:
+      description: Server or upstream provider error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    TooManyRequests:
+      description: Rate limit or account usage limit reached.
+      headers:
+        Retry-After:
+          description: Retry delay when returned by the service.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+  schemas:
+    CommonError:
+      type: object
+      description: Common API error envelope. Exact fields may vary by endpoint and upstream provider.
+      properties:
+        code:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Application or provider error code.
+        msg:
+          type: string
+          description: Error message.
+        message:
+          type: string
+          description: Alternative error message field.
+        traceId:
+          type: string
+          description: Support trace identifier when available.
+      additionalProperties: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Nexscope API Key
+externalDocs:
+  description: Nexscope API Documentation
+  url: https://www.nexscope.ai/api-docs
+x-nexscope-source: https://api.nexscope.ai/api/skill-api/v1/api-docs
+x-nexscope-pricing-mode: dynamic-credits
+x-nexscope-mcp-endpoint: https://api.nexscope.ai/api/skill-api/v1/mcp

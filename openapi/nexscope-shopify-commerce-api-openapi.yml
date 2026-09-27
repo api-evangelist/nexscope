@@ -1,0 +1,622 @@
+openapi: 3.2.0
+info:
+  title: Nexscope Ecommerce Data and Creative Shopify Commerce API
+  version: 2026-08-28-public-catalog-v1
+  description: Nexscope APIs provide ecommerce marketplace intelligence and creative generation capabilities through REST and MCP. Authentication uses a Nexscope API key. Pricing is credit-based and actual usage varies by endpoint and workload; current estimates are shown in the Nexscope account.
+  termsOfService: https://www.nexscope.ai/terms
+  contact:
+    name: Nexscope Support
+    email: service@nexscope.ai
+    url: https://www.nexscope.ai/api-docs
+  license:
+    name: Proprietary API; use subject to Nexscope Terms
+    url: https://www.nexscope.ai/terms
+servers:
+- url: https://api.nexscope.ai
+  description: Production
+security:
+- bearerAuth: []
+tags:
+- name: Shopify Commerce
+  description: Shopify product and store query APIs.
+  x-category-slug: shopify-commerce
+paths:
+  /api/skill-api/v1/skills/shopify-product-query/run:
+    post:
+      tags:
+      - Shopify Commerce
+      summary: Shopify Product Query
+      description: Filter Shopify standalone store products by multiple dimensions (keyword/URL, price, weekly sales, listing date, Facebook ads, competitiveness, supplier availability, shipping country, etc.). Triggered when users mention Shopify products, Shopify product selection, standalone store product selection, Shopify bestsellers, Shopify dropshipping, standalone store sourcing, Facebook ad products, Shopify product query, or shopify items. Even if the user does not mention the tool name, this skill should be triggered whenever searching for products, viewing weekly sales/revenue/competitiveness, or filtering products on Shopify standalone stores.
+      operationId: runShopifyProductQuery
+      externalDocs:
+        description: Shopify Product Query documentation
+        url: https://www.nexscope.ai/api-docs/shopify-product-query
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.shopify-product-query.
+              properties:
+                searchKey:
+                  type: string
+                  description: Keyword or Shopify product/store URL
+                priceMin:
+                  type: number
+                  description: Price range start (USD), combined with priceMax to form upstream price
+                  example: 1
+                priceMax:
+                  type: number
+                  description: Price range end (USD)
+                  example: 1
+                salesWeeklyMin:
+                  type: integer
+                  description: Weekly sales range start
+                  example: 1
+                salesWeeklyMax:
+                  type: integer
+                  description: Weekly sales range end
+                  example: 1
+                publishedTimeBegin:
+                  type: string
+                  description: Listing date range start
+                publishedTimeEnd:
+                  type: string
+                  description: Listing date range end
+                facebookAd:
+                  type: integer
+                  description: 'Has Facebook ad: 1=Yes'
+                  example: 1
+                competitionMin:
+                  type: integer
+                  description: Competition (number of stores selling) range start
+                  example: 1
+                competitionMax:
+                  type: integer
+                  description: Competition (number of stores selling) range end
+                  example: 1
+                hasSupplier:
+                  type: integer
+                  description: 'Has supplier: 1=Yes, 0=No'
+                  example: 1
+                showDeleted:
+                  type: integer
+                  description: 'Show delisted products: 1=Yes, 0=No'
+                  example: 1
+                country:
+                  type: string
+                  description: Shipping country (two-letter country code, e.g., US)
+                sortBy:
+                  type: integer
+                  description: Sort field (default 14=Weekly sales descending; also includes price/ad count/competition/revenue etc. values, see enumeration below)
+                  example: 1
+                page:
+                  type: integer
+                  description: Page number (starting from 1)
+                  example: 1
+                pageSize:
+                  type: integer
+                  description: Results per page, max 100, recommended not to exceed 50
+                  example: 1
+                keyword:
+                  type: string
+              example:
+                page: 1
+                keyword: phone case
+                pageSize: 10
+              additionalProperties: true
+            example:
+              page: 1
+              keyword: phone case
+              pageSize: 10
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  total:
+                    type: integer
+                    description: Number of results returned on this page
+                    example: 1
+                  productNum:
+                    type: integer
+                    description: Total number of matching products (upstream product_num)
+                    example: 1
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        productId:
+                          type: string
+                          description: Product ID
+                          example: example-id
+                        title:
+                          type: string
+                          description: Product title
+                        productLink:
+                          type: string
+                          description: Product link
+                        previewImageUrl:
+                          type: string
+                          description: Main image URL
+                          example: https://example.com/image.jpg
+                        country:
+                          type: string
+                          description: Shipping country
+                        minPrice:
+                          type: string
+                          description: Minimum price
+                        maxPrice:
+                          type: string
+                          description: Maximum price
+                        storeId:
+                          type: string
+                          description: Store ID
+                          example: example-id
+                        shopId:
+                          type: string
+                          description: Shopify shop ID
+                          example: example-id
+                        storeLink:
+                          type: string
+                          description: Store link
+                        storeRank:
+                          type: string
+                          description: Store rank
+                        competitorCount:
+                          type: string
+                          description: Competition (number of stores selling)
+                        facebookAdCount:
+                          type: string
+                          description: Facebook ad count
+                        weekOrderCount:
+                          type: string
+                          description: Weekly order count (string)
+                        weekRevenueCount:
+                          type: string
+                          description: Weekly revenue
+                        weekRevenueGrowth:
+                          type: string
+                          description: Weekly revenue growth rate (%)
+                        shelfTime:
+                          type: string
+                          description: Listing time
+                        isDeleted:
+                          type: string
+                          description: 'Whether delisted: 0=Listed, 1=Delisted'
+                        isFavourite:
+                          type: string
+                          description: Whether favorited
+                      additionalProperties: true
+                    description: Shopify product list
+                    example: []
+                  columns:
+                    type: array
+                    items: {}
+                    description: Columns for rendering
+                    example: []
+                  title:
+                    type: string
+                    description: Title (Shopify Product Query)
+                  sourceType:
+                    type: string
+                    description: 'Source type: shopify'
+                  sourceTool:
+                    type: string
+                    description: 'Tool type: ehunt'
+                  type:
+                    type: string
+                    description: 'Render style: tableListWorkbenches'
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  total: 1
+                  productNum: 1
+                  products:
+                  - productId: example-id
+                    previewImageUrl: https://example.com/image.jpg
+                    storeId: example-id
+                    shopId: example-id
+                  columns: []
+                additionalProperties: true
+              example:
+                total: 1
+                productNum: 1
+                products:
+                - productId: example-id
+                  previewImageUrl: https://example.com/image.jpg
+                  storeId: example-id
+                  shopId: example-id
+                columns: []
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: shopify-product-query
+      x-nexscope-mcp-tool-name: nexscope_shopify_product_query
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/shopify-store-query/run:
+    post:
+      tags:
+      - Shopify Commerce
+      summary: Shopify Store Query
+      description: Filter Shopify standalone stores by multiple dimensions (store name/domain, country, years since creation, product count, ad count, monthly visits, monthly orders, social media followers, etc.). Triggered when users mention Shopify stores, Shopify store analysis, standalone stores, Shopify sellers, competitor standalone stores, Shopify monthly visits, standalone store ad library, shopify stores, or Shopify store query. Even if the user does not mention the tool name, this skill should be triggered whenever searching for stores, filtering store data, or analyzing store performance on Shopify standalone stores.
+      operationId: runShopifyStoreQuery
+      externalDocs:
+        description: Shopify Store Query documentation
+        url: https://www.nexscope.ai/api-docs/shopify-store-query
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.shopify-store-query.
+              properties:
+                searchKey:
+                  type: string
+                  description: Store name or domain keyword
+                country:
+                  type: string
+                  description: Country code (e.g., US, CN)
+                year:
+                  type: integer
+                  description: 'Store creation year: 1=Last 1 year, 2=1~2 years, 3=2~3 years, 4=3+ years'
+                  example: 1
+                productNumMin:
+                  type: integer
+                  description: Product count range start
+                  example: 1
+                productNumMax:
+                  type: integer
+                  description: Product count range end
+                  example: 1
+                advertiseCountMin:
+                  type: integer
+                  description: Ad count range start
+                  example: 1
+                advertiseCountMax:
+                  type: integer
+                  description: Ad count range end
+                  example: 1
+                monthlyVisitMin:
+                  type: integer
+                  description: Monthly visits range start
+                  example: 1
+                monthlyVisitMax:
+                  type: integer
+                  description: Monthly visits range end
+                  example: 1
+                monthOrderMin:
+                  type: integer
+                  description: Monthly orders range start
+                  example: 1
+                monthOrderMax:
+                  type: integer
+                  description: Monthly orders range end
+                  example: 1
+                sortBy:
+                  type: integer
+                  description: 'Sort field: 0=Product count, 1=Category count, 2=Monthly visits, 3=FB followers, 4=Ins followers, 5=Ad count, 6=Relevance, 7=Monthly orders (default)'
+                  example: 1
+                orderBy:
+                  type: string
+                  description: 'Sort direction: desc (default) / asc'
+                page:
+                  type: integer
+                  description: Page number (starting from 1)
+                  example: 1
+                pageSize:
+                  type: integer
+                  description: Results per page, max 100
+                  example: 1
+                keyword:
+                  type: string
+              example:
+                page: 1
+                keyword: phone case
+                pageSize: 10
+              additionalProperties: true
+            example:
+              page: 1
+              keyword: phone case
+              pageSize: 10
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  total:
+                    type: integer
+                    description: Number of results returned on this page
+                    example: 1
+                  storeNum:
+                    type: integer
+                    description: Total number of matching stores (upstream store_num)
+                    example: 1
+                  stores:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        storeId:
+                          type: string
+                          description: Store ID
+                          example: example-id
+                        shopId:
+                          type: string
+                          description: Shopify shop ID
+                          example: example-id
+                        storeName:
+                          type: string
+                          description: Store name
+                        storeDomain:
+                          type: string
+                          description: Store domain
+                        storeLink:
+                          type: string
+                          description: Store link
+                        country:
+                          type: string
+                          description: Country
+                        createdTime:
+                          type: string
+                          description: Creation time
+                        productNum:
+                          type: string
+                          description: Product count
+                        categoryNum:
+                          type: string
+                          description: Category count
+                        categories:
+                          type: string
+                          description: Category list (elements contain id, name)
+                        monthlyVisit:
+                          type: string
+                          description: Monthly visits (formatted)
+                        monthOrderNum:
+                          type: string
+                          description: Monthly orders (formatted)
+                        fbFollowers:
+                          type: string
+                          description: Facebook followers
+                        insFollowers:
+                          type: string
+                          description: Instagram followers
+                        advertiseCount:
+                          type: string
+                          description: Ad count
+                        adLink:
+                          type: string
+                          description: Ad library link
+                        email:
+                          type: string
+                          description: Contact email
+                        facebookUrl:
+                          type: string
+                          description: Facebook page
+                          example: https://example.com/image.jpg
+                        instagramUrl:
+                          type: string
+                          description: Instagram page
+                          example: https://example.com/image.jpg
+                        socialLinks:
+                          type: string
+                          description: Social media links (Map)
+                        globalRank:
+                          type: string
+                          description: Global rank
+                        logo:
+                          type: string
+                          description: Store logo URL
+                        availableStatus:
+                          type: string
+                          description: 'Whether active: 1=Active'
+                      additionalProperties: true
+                    description: Shopify store list
+                    example: []
+                  columns:
+                    type: array
+                    items: {}
+                    description: Columns for rendering
+                    example: []
+                  title:
+                    type: string
+                    description: Title (Shopify Store Query)
+                  sourceType:
+                    type: string
+                    description: 'Source type: shopify'
+                  sourceTool:
+                    type: string
+                    description: 'Tool type: ehunt'
+                  type:
+                    type: string
+                    description: 'Render style: tableListWorkbenches'
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  total: 1
+                  storeNum: 1
+                  stores:
+                  - storeId: example-id
+                    shopId: example-id
+                    facebookUrl: https://example.com/image.jpg
+                    instagramUrl: https://example.com/image.jpg
+                  columns: []
+                additionalProperties: true
+              example:
+                total: 1
+                storeNum: 1
+                stores:
+                - storeId: example-id
+                  shopId: example-id
+                  facebookUrl: https://example.com/image.jpg
+                  instagramUrl: https://example.com/image.jpg
+                columns: []
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: shopify-store-query
+      x-nexscope-mcp-tool-name: nexscope_shopify_store_query
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+components:
+  responses:
+    BadRequest:
+      description: Invalid request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Forbidden:
+      description: The account or API key is not allowed to use this capability.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    ServerError:
+      description: Server or upstream provider error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    TooManyRequests:
+      description: Rate limit or account usage limit reached.
+      headers:
+        Retry-After:
+          description: Retry delay when returned by the service.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+  schemas:
+    CommonError:
+      type: object
+      description: Common API error envelope. Exact fields may vary by endpoint and upstream provider.
+      properties:
+        code:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Application or provider error code.
+        msg:
+          type: string
+          description: Error message.
+        message:
+          type: string
+          description: Alternative error message field.
+        traceId:
+          type: string
+          description: Support trace identifier when available.
+      additionalProperties: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Nexscope API Key
+externalDocs:
+  description: Nexscope API Documentation
+  url: https://www.nexscope.ai/api-docs
+x-nexscope-source: https://api.nexscope.ai/api/skill-api/v1/api-docs
+x-nexscope-pricing-mode: dynamic-credits
+x-nexscope-mcp-endpoint: https://api.nexscope.ai/api/skill-api/v1/mcp

@@ -25,7 +25,7 @@ tags:
 - Amazon
 - TikTok
 - Keyword Research
-- Image-Generation
+- Image Generation
 - Video Generation
 - MCP
 tags_raw:
@@ -40,22 +40,552 @@ tags_raw:
 - Image Generation
 - Video Generation
 - MCP
+- Image-Generation
 apis:
-- name: Nexscope Ecommerce Data and Creative APIs
-  description: >-
-    Proprietary REST skill API (OpenAPI 3.1) with 225 POST operations at
-    /api/skill-api/v1/skills/{skill}/run, bearer API-key auth, a credit-based
-    usage model, and a matching remote MCP server.
+- aid: nexscope:nexscope-1688-sourcing-api
+  name: Nexscope Ecommerce Data and Creative APIs 1688 Sourcing API
+  description: 1688 product search, image search and billboard sourcing APIs.
   humanURL: https://www.nexscope.ai
   baseURL: https://api.nexscope.ai
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  tags:
+  - 1688 Sourcing
   properties:
   - type: OpenAPI
-    url: openapi/nexscope-openapi.json
-  - type: Overlay
-    url: overlays/nexscope-openapi-overlay.yaml
-  - type: MCPServer
-    url: mcp/nexscope-mcp.yml
+    url: openapi/nexscope-1688-sourcing-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-amazon-advertising-api
+  name: Nexscope Ecommerce Data and Creative APIs Amazon Advertising API
+  description: Amazon advertising access, reporting and campaign intelligence APIs.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - Amazon Advertising
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-amazon-advertising-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-amazon-marketplace-intelligence-api
+  name: Nexscope Ecommerce Data and Creative APIs Amazon Marketplace Intelligence API
+  description: Amazon product, search, market, review, traffic and policy APIs.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - Amazon Marketplace Intelligence
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-amazon-marketplace-intelligence-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-ebay-marketplace-api
+  name: Nexscope Ecommerce Data and Creative APIs eBay Marketplace API
+  description: eBay marketplace product search APIs.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - eBay Marketplace
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-ebay-marketplace-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-ecommerce-content-generation-api
+  name: Nexscope Ecommerce Data and Creative APIs Ecommerce Content Generation API
+  description: Product description and product video generation APIs.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - Ecommerce Content Generation
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-ecommerce-content-generation-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-etsy-marketplace-api
+  name: Nexscope Ecommerce Data and Creative APIs Etsy Marketplace API
+  description: Etsy product and category discovery APIs.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - Etsy Marketplace
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-etsy-marketplace-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-image-generation-models-api
+  name: Nexscope Ecommerce Data and Creative APIs Image Generation Models API
+  description: Dedicated image generation APIs with one fixed model per endpoint.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - Image Generation Models
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-image-generation-models-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-keyword-search-demand-api
+  name: Nexscope Ecommerce Data and Creative APIs Keyword & Search Demand API
+  description: Keyword expansion, search volume, share of voice and ranking intelligence.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - Keyword & Search Demand
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-keyword-search-demand-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-multimodal-ai-api
+  name: Nexscope Ecommerce Data and Creative APIs Multimodal AI API
+  description: Image recognition, image editing, image generation, and ecommerce creative APIs.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - Multimodal AI
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-multimodal-ai-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-ozon-marketplace-api
+  name: Nexscope Ecommerce Data and Creative APIs Ozon Marketplace API
+  description: Ozon product, category, shop, seller and keyword APIs.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - Ozon Marketplace
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-ozon-marketplace-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-patent-intelligence-api
+  name: Nexscope Ecommerce Data and Creative APIs Patent Intelligence API
+  description: Patent search and intellectual-property research APIs.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - Patent Intelligence
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-patent-intelligence-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-patent-ip-risk-api
+  name: Nexscope Ecommerce Data and Creative APIs Patent & IP Risk API
+  description: Patent, trademark, copyright and IP risk APIs.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - Patent & IP Risk
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-patent-ip-risk-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-product-market-research-api
+  name: Nexscope Ecommerce Data and Creative APIs Product & Market Research API
+  description: General ecommerce product and market research APIs.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - Product & Market Research
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-product-market-research-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-search-trend-intelligence-api
+  name: Nexscope Ecommerce Data and Creative APIs Search & Trend Intelligence API
+  description: Google Trends, AI mode search and web search APIs.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - Search & Trend Intelligence
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-search-trend-intelligence-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-shopee-marketplace-api
+  name: Nexscope Ecommerce Data and Creative APIs Shopee Marketplace API
+  description: Shopee product search APIs.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - Shopee Marketplace
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-shopee-marketplace-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-shopify-commerce-api
+  name: Nexscope Ecommerce Data and Creative APIs Shopify Commerce API
+  description: Shopify product and store query APIs.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - Shopify Commerce
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-shopify-commerce-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-temu-marketplace-intelligence-api
+  name: Nexscope Ecommerce Data and Creative APIs Temu Marketplace Intelligence API
+  description: Temu product, category and store source APIs.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - Temu Marketplace Intelligence
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-temu-marketplace-intelligence-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-tiktok-social-commerce-api
+  name: Nexscope Ecommerce Data and Creative APIs TikTok / Social Commerce API
+  description: TikTok Shop products, sellers, videos, creators, livestreams and rankings.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - TikTok / Social Commerce
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-tiktok-social-commerce-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-video-generation-models-api
+  name: Nexscope Ecommerce Data and Creative APIs Video Generation Models API
+  description: Dedicated video generation APIs with one fixed model per endpoint.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - Video Generation Models
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-video-generation-models-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/nexscope-tool-crosswalk.yml
+  - type: Conventions
+    url: conventions/nexscope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/nexscope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nexscope-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/nexscope-lifecycle.yml
+  - type: Conformance
+    url: conformance/nexscope-conformance.yml
+  - type: Plans
+    url: plans/nexscope-plans-pricing.yml
+  - type: Documentation
+    url: https://www.nexscope.ai/api-docs
+  - type: APIReference
+    url: https://www.nexscope.ai/api-docs
+- aid: nexscope:nexscope-walmart-marketplace-intelligence-api
+  name: Nexscope Ecommerce Data and Creative APIs Walmart Marketplace Intelligence API
+  description: >-
+    The Walmart Marketplace Intelligence API from Nexscope Ecommerce Data and Creative APIs — 3 operation(s)
+    for walmart marketplace intelligence.
+  humanURL: https://www.nexscope.ai
+  baseURL: https://api.nexscope.ai
+  tags:
+  - Walmart Marketplace Intelligence
+  properties:
+  - type: OpenAPI
+    url: openapi/nexscope-walmart-marketplace-intelligence-api-openapi.yml
   - type: ToolCrosswalk
     url: mcp/nexscope-tool-crosswalk.yml
   - type: Conventions
@@ -75,6 +605,10 @@ apis:
   - type: APIReference
     url: https://www.nexscope.ai/api-docs
 common:
+- type: Overlay
+  url: overlays/nexscope-openapi-overlay.yaml
+- type: MCPServer
+  url: mcp/nexscope-mcp.yml
 - type: DomainSecurity
   url: security/nexscope-domain-security.yml
 - type: Authentication

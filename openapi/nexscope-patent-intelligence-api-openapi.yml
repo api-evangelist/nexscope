@@ -1,0 +1,232 @@
+openapi: 3.2.0
+info:
+  title: Nexscope Ecommerce Data and Creative Patent Intelligence API
+  version: 2026-08-28-public-catalog-v1
+  description: Nexscope APIs provide ecommerce marketplace intelligence and creative generation capabilities through REST and MCP. Authentication uses a Nexscope API key. Pricing is credit-based and actual usage varies by endpoint and workload; current estimates are shown in the Nexscope account.
+  termsOfService: https://www.nexscope.ai/terms
+  contact:
+    name: Nexscope Support
+    email: service@nexscope.ai
+    url: https://www.nexscope.ai/api-docs
+  license:
+    name: Proprietary API; use subject to Nexscope Terms
+    url: https://www.nexscope.ai/terms
+servers:
+- url: https://api.nexscope.ai
+  description: Production
+security:
+- bearerAuth: []
+tags:
+- name: Patent Intelligence
+  description: Patent search and intellectual-property research APIs.
+  x-category-slug: patent-intelligence
+paths:
+  /api/skill-api/v1/skills/patent-search/run:
+    post:
+      tags:
+      - Patent Intelligence
+      summary: Patent Search
+      description: Searches the Zhihuiya patent database and returns matching patent identifiers and publication numbers.
+      operationId: runPatentSearch
+      externalDocs:
+        description: Patent Search documentation
+        url: https://www.nexscope.ai/api-docs/patent-search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Search parameters for the patent provider.
+              properties:
+                queryText:
+                  type: string
+                  description: Optional patent Analytics query expression forwarded as documented by the provider.
+                  example: TI=(wireless speaker)
+                pageNum:
+                  type: integer
+                  description: Page number.
+                  example: 1
+                pageSize:
+                  type: integer
+                  description: Results per page.
+                  example: 20
+              example:
+                pageNum: 1
+                queryText: TI=(wireless speaker)
+                pageSize: 20
+              additionalProperties: true
+            example:
+              pageNum: 1
+              queryText: TI=(wireless speaker)
+              pageSize: 20
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns patent search results from the provider.
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        patentId:
+                          type: string
+                          description: Patent identifier.
+                          example: CN123456789
+                        publicationNumber:
+                          type: string
+                          description: Patent publication number.
+                          example: CN123456789A
+                      additionalProperties: true
+                    description: Matching patent records.
+                    example: []
+                  total:
+                    type: integer
+                    description: Total matching records.
+                    example: 1
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  type:
+                    type: string
+                    description: Provider-specific render or payload type.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  data:
+                  - patentId: CN123456789
+                    publicationNumber: CN123456789A
+                  total: 1
+                additionalProperties: true
+              example:
+                data:
+                - patentId: CN123456789
+                  publicationNumber: CN123456789A
+                total: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: patent-search
+      x-nexscope-mcp-tool-name: nexscope_patent_search
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+components:
+  responses:
+    BadRequest:
+      description: Invalid request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Forbidden:
+      description: The account or API key is not allowed to use this capability.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    ServerError:
+      description: Server or upstream provider error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    TooManyRequests:
+      description: Rate limit or account usage limit reached.
+      headers:
+        Retry-After:
+          description: Retry delay when returned by the service.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+  schemas:
+    CommonError:
+      type: object
+      description: Common API error envelope. Exact fields may vary by endpoint and upstream provider.
+      properties:
+        code:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Application or provider error code.
+        msg:
+          type: string
+          description: Error message.
+        message:
+          type: string
+          description: Alternative error message field.
+        traceId:
+          type: string
+          description: Support trace identifier when available.
+      additionalProperties: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Nexscope API Key
+externalDocs:
+  description: Nexscope API Documentation
+  url: https://www.nexscope.ai/api-docs
+x-nexscope-source: https://api.nexscope.ai/api/skill-api/v1/api-docs
+x-nexscope-pricing-mode: dynamic-credits
+x-nexscope-mcp-endpoint: https://api.nexscope.ai/api/skill-api/v1/mcp

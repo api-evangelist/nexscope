@@ -1,0 +1,1572 @@
+openapi: 3.2.0
+info:
+  title: Nexscope Ecommerce Data and Creative Amazon Advertising API
+  version: 2026-08-28-public-catalog-v1
+  description: Nexscope APIs provide ecommerce marketplace intelligence and creative generation capabilities through REST and MCP. Authentication uses a Nexscope API key. Pricing is credit-based and actual usage varies by endpoint and workload; current estimates are shown in the Nexscope account.
+  termsOfService: https://www.nexscope.ai/terms
+  contact:
+    name: Nexscope Support
+    email: service@nexscope.ai
+    url: https://www.nexscope.ai/api-docs
+  license:
+    name: Proprietary API; use subject to Nexscope Terms
+    url: https://www.nexscope.ai/terms
+servers:
+- url: https://api.nexscope.ai
+  description: Production
+security:
+- bearerAuth: []
+tags:
+- name: Amazon Advertising
+  description: Amazon advertising access, reporting and campaign intelligence APIs.
+  x-category-slug: amazon-advertising
+paths:
+  /api/skill-api/v1/skills/amazon-ads-sp-insights-report-download/run:
+    post:
+      tags:
+      - Amazon Advertising
+      summary: Amazon Ads SP Insights Report Download
+      description: Uses existing Amazon Ads authorization and tokenized download handling. Create once, poll by reportId, then download using a documentToken.
+      operationId: runAmazonAdsSpInsightsReportDownload
+      externalDocs:
+        description: Amazon Ads SP Insights Report Download documentation
+        url: https://www.nexscope.ai/api-docs/amazon-ads-sp-insights-report-download
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+              - connectionId
+              - documentToken
+              additionalProperties: false
+              properties:
+                connectionId:
+                  minimum: 1
+                  type: integer
+                documentToken:
+                  type: string
+                  minLength: 1
+              type: object
+            example:
+              connectionId: 123
+              documentToken: opaque-document-token
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Existing governed report download result; CSV content is returned inline.
+                fields:
+                - name: contentType
+                  type: string
+                  required: false
+                  description: Downloaded media type
+                  example: text/csv
+                  constraints: {}
+                - name: content
+                  type: string
+                  required: false
+                  description: UTF-8 CSV report content
+                  example: 'date.value,metric.impressions
+
+                    2026-08-01,10
+
+                    '
+                  constraints: {}
+                - name: errcode
+                  type: integer
+                  required: false
+                  description: Upstream status code returned by the provider.
+                  example: null
+                  constraints: {}
+                - name: errmsg
+                  type: string
+                  required: false
+                  description: Upstream status message returned by the provider.
+                  example: null
+                  constraints: {}
+                - name: code
+                  type: string
+                  required: false
+                  description: Provider-specific status code.
+                  example: null
+                  constraints: {}
+                - name: msg
+                  type: string
+                  required: false
+                  description: Provider-specific status message.
+                  example: null
+                  constraints: {}
+                - name: message
+                  type: string
+                  required: false
+                  description: Provider-specific message.
+                  example: null
+                  constraints: {}
+                - name: type
+                  type: string
+                  required: false
+                  description: Provider-specific render or payload type.
+                  example: null
+                  constraints: {}
+                - name: title
+                  type: string
+                  required: false
+                  description: Provider-specific response title.
+                  example: null
+                  constraints: {}
+                - name: sourceType
+                  type: string
+                  required: false
+                  description: Provider-specific source platform type.
+                  example: null
+                  constraints: {}
+                - name: sourceTool
+                  type: string
+                  required: false
+                  description: Provider-specific source tool name.
+                  example: null
+                  constraints: {}
+                - name: costToken
+                  type: integer
+                  required: false
+                  description: Token cost reported by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: costTime
+                  type: integer
+                  required: false
+                  description: Execution time reported by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: page
+                  type: integer
+                  required: false
+                  description: Current page returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: pageSize
+                  type: integer
+                  required: false
+                  description: Page size returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: pageItemCount
+                  type: integer
+                  required: false
+                  description: Item count on the current page returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: totalPage
+                  type: integer
+                  required: false
+                  description: Total page count returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: dataSnapshotMonth
+                  type: string
+                  required: false
+                  description: Data snapshot month returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                example:
+                  contentType: text/csv
+                  content: 'date.value,metric.impressions
+
+                    2026-08-01,10
+
+                    '
+                jsonSchema: null
+              example:
+                contentType: text/csv
+                content: 'date.value,metric.impressions
+
+                  2026-08-01,10
+
+                  '
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: amazon-ads-sp-insights-report-download
+      x-nexscope-mcp-tool-name: nexscope_amazon_ads_sp_insights_report_download
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/amazon-ads-sp-insights-report-status/run:
+    post:
+      tags:
+      - Amazon Advertising
+      summary: Amazon Ads SP Insights Report Status
+      description: Uses existing Amazon Ads authorization and tokenized download handling. Create once, poll by reportId, then download using a documentToken.
+      operationId: runAmazonAdsSpInsightsReportStatus
+      externalDocs:
+        description: Amazon Ads SP Insights Report Status documentation
+        url: https://www.nexscope.ai/api-docs/amazon-ads-sp-insights-report-status
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+              - connectionId
+              - reportId
+              additionalProperties: false
+              properties:
+                connectionId:
+                  minimum: 1
+                  type: integer
+                reportId:
+                  type: string
+                  minLength: 1
+              type: object
+            example:
+              connectionId: 123
+              reportId: report-id
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Normalized single Reporting v1 report. Signed URLs are replaced with owned, expiring documentToken values. No automatic recreation occurs.
+                fields:
+                - name: reportId
+                  type: string
+                  required: true
+                  description: Created or queried report identifier.
+                  example: report-id
+                  constraints: {}
+                - name: status
+                  type: string
+                  required: false
+                  description: Provider report state when present.
+                  example: PENDING
+                  constraints: {}
+                - name: completedReportParts
+                  type: array
+                  required: false
+                  description: Completed CSV parts; each part contains a backend documentToken instead of a signed URL.
+                  example: []
+                  constraints: {}
+                - name: reportParts
+                  type: array
+                  required: false
+                  description: Provider alias for completed parts, when present.
+                  example: []
+                  constraints: {}
+                - name: errcode
+                  type: integer
+                  required: false
+                  description: Upstream status code returned by the provider.
+                  example: null
+                  constraints: {}
+                - name: errmsg
+                  type: string
+                  required: false
+                  description: Upstream status message returned by the provider.
+                  example: null
+                  constraints: {}
+                - name: code
+                  type: string
+                  required: false
+                  description: Provider-specific status code.
+                  example: null
+                  constraints: {}
+                - name: msg
+                  type: string
+                  required: false
+                  description: Provider-specific status message.
+                  example: null
+                  constraints: {}
+                - name: message
+                  type: string
+                  required: false
+                  description: Provider-specific message.
+                  example: null
+                  constraints: {}
+                - name: type
+                  type: string
+                  required: false
+                  description: Provider-specific render or payload type.
+                  example: null
+                  constraints: {}
+                - name: title
+                  type: string
+                  required: false
+                  description: Provider-specific response title.
+                  example: null
+                  constraints: {}
+                - name: sourceType
+                  type: string
+                  required: false
+                  description: Provider-specific source platform type.
+                  example: null
+                  constraints: {}
+                - name: sourceTool
+                  type: string
+                  required: false
+                  description: Provider-specific source tool name.
+                  example: null
+                  constraints: {}
+                - name: costToken
+                  type: integer
+                  required: false
+                  description: Token cost reported by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: costTime
+                  type: integer
+                  required: false
+                  description: Execution time reported by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: page
+                  type: integer
+                  required: false
+                  description: Current page returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: pageSize
+                  type: integer
+                  required: false
+                  description: Page size returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: pageItemCount
+                  type: integer
+                  required: false
+                  description: Item count on the current page returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: totalPage
+                  type: integer
+                  required: false
+                  description: Total page count returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: dataSnapshotMonth
+                  type: string
+                  required: false
+                  description: Data snapshot month returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                example:
+                  reportId: report-id
+                  status: PENDING
+                jsonSchema: null
+              example:
+                reportId: report-id
+                status: PENDING
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: amazon-ads-sp-insights-report-status
+      x-nexscope-mcp-tool-name: nexscope_amazon_ads_sp_insights_report_status
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/amazon-ads-sp-search-impression-share-report/run:
+    post:
+      tags:
+      - Amazon Advertising
+      summary: Amazon Ads SP Search Impression Share Report
+      description: Uses existing Amazon Ads authorization and tokenized download handling. Create once, poll by reportId, then download using a documentToken.
+      operationId: runAmazonAdsSpSearchImpressionShareReport
+      externalDocs:
+        description: Amazon Ads SP Search Impression Share Report documentation
+        url: https://www.nexscope.ai/api-docs/amazon-ads-sp-search-impression-share-report
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+              - connectionId
+              - startDate
+              - endDate
+              additionalProperties: false
+              properties:
+                connectionId:
+                  minimum: 1
+                  type: integer
+                startDate:
+                  format: date
+                  type: string
+                endDate:
+                  format: date
+                  type: string
+                advertiserAccountId:
+                  type: string
+                  minLength: 1
+                timeUnit:
+                  enum:
+                  - DAILY
+                  - SUMMARY
+                  default: DAILY
+                  type: string
+              type: object
+            example:
+              connectionId: 123
+              startDate: '2026-08-01'
+              endDate: '2026-08-07'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Normalized single Reporting v1 report. Signed URLs are replaced with owned, expiring documentToken values. No automatic recreation occurs.
+                fields:
+                - name: reportId
+                  type: string
+                  required: true
+                  description: Created or queried report identifier.
+                  example: report-id
+                  constraints: {}
+                - name: status
+                  type: string
+                  required: false
+                  description: Provider report state when present.
+                  example: PENDING
+                  constraints: {}
+                - name: completedReportParts
+                  type: array
+                  required: false
+                  description: Completed CSV parts; each part contains a backend documentToken instead of a signed URL.
+                  example: []
+                  constraints: {}
+                - name: reportParts
+                  type: array
+                  required: false
+                  description: Provider alias for completed parts, when present.
+                  example: []
+                  constraints: {}
+                - name: errcode
+                  type: integer
+                  required: false
+                  description: Upstream status code returned by the provider.
+                  example: null
+                  constraints: {}
+                - name: errmsg
+                  type: string
+                  required: false
+                  description: Upstream status message returned by the provider.
+                  example: null
+                  constraints: {}
+                - name: code
+                  type: string
+                  required: false
+                  description: Provider-specific status code.
+                  example: null
+                  constraints: {}
+                - name: msg
+                  type: string
+                  required: false
+                  description: Provider-specific status message.
+                  example: null
+                  constraints: {}
+                - name: message
+                  type: string
+                  required: false
+                  description: Provider-specific message.
+                  example: null
+                  constraints: {}
+                - name: type
+                  type: string
+                  required: false
+                  description: Provider-specific render or payload type.
+                  example: null
+                  constraints: {}
+                - name: title
+                  type: string
+                  required: false
+                  description: Provider-specific response title.
+                  example: null
+                  constraints: {}
+                - name: sourceType
+                  type: string
+                  required: false
+                  description: Provider-specific source platform type.
+                  example: null
+                  constraints: {}
+                - name: sourceTool
+                  type: string
+                  required: false
+                  description: Provider-specific source tool name.
+                  example: null
+                  constraints: {}
+                - name: costToken
+                  type: integer
+                  required: false
+                  description: Token cost reported by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: costTime
+                  type: integer
+                  required: false
+                  description: Execution time reported by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: page
+                  type: integer
+                  required: false
+                  description: Current page returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: pageSize
+                  type: integer
+                  required: false
+                  description: Page size returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: pageItemCount
+                  type: integer
+                  required: false
+                  description: Item count on the current page returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: totalPage
+                  type: integer
+                  required: false
+                  description: Total page count returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: dataSnapshotMonth
+                  type: string
+                  required: false
+                  description: Data snapshot month returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                example:
+                  reportId: report-id
+                  status: PENDING
+                jsonSchema: null
+              example:
+                reportId: report-id
+                status: PENDING
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: amazon-ads-sp-search-impression-share-report
+      x-nexscope-mcp-tool-name: nexscope_amazon_ads_sp_search_impression_share_report
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/amazon-ads-sp-audience-report/run:
+    post:
+      tags:
+      - Amazon Advertising
+      summary: Amazon Ads SP Audience Report
+      description: Uses existing Amazon Ads authorization and tokenized download handling. Create once, poll by reportId, then download using a documentToken.
+      operationId: runAmazonAdsSpAudienceReport
+      externalDocs:
+        description: Amazon Ads SP Audience Report documentation
+        url: https://www.nexscope.ai/api-docs/amazon-ads-sp-audience-report
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+              - connectionId
+              - startDate
+              - endDate
+              additionalProperties: false
+              properties:
+                connectionId:
+                  minimum: 1
+                  type: integer
+                startDate:
+                  format: date
+                  type: string
+                endDate:
+                  format: date
+                  type: string
+                advertiserAccountId:
+                  type: string
+                  minLength: 1
+                timeUnit:
+                  enum:
+                  - DAILY
+                  - SUMMARY
+                  default: DAILY
+                  type: string
+                detailLevel:
+                  enum:
+                  - ACCOUNT
+                  - CAMPAIGN
+                  - AD_GROUP
+                  default: ACCOUNT
+                  type: string
+              type: object
+            example:
+              connectionId: 123
+              startDate: '2026-08-01'
+              endDate: '2026-08-07'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Normalized single Reporting v1 report. Signed URLs are replaced with owned, expiring documentToken values. No automatic recreation occurs.
+                fields:
+                - name: reportId
+                  type: string
+                  required: true
+                  description: Created or queried report identifier.
+                  example: report-id
+                  constraints: {}
+                - name: status
+                  type: string
+                  required: false
+                  description: Provider report state when present.
+                  example: PENDING
+                  constraints: {}
+                - name: completedReportParts
+                  type: array
+                  required: false
+                  description: Completed CSV parts; each part contains a backend documentToken instead of a signed URL.
+                  example: []
+                  constraints: {}
+                - name: reportParts
+                  type: array
+                  required: false
+                  description: Provider alias for completed parts, when present.
+                  example: []
+                  constraints: {}
+                - name: errcode
+                  type: integer
+                  required: false
+                  description: Upstream status code returned by the provider.
+                  example: null
+                  constraints: {}
+                - name: errmsg
+                  type: string
+                  required: false
+                  description: Upstream status message returned by the provider.
+                  example: null
+                  constraints: {}
+                - name: code
+                  type: string
+                  required: false
+                  description: Provider-specific status code.
+                  example: null
+                  constraints: {}
+                - name: msg
+                  type: string
+                  required: false
+                  description: Provider-specific status message.
+                  example: null
+                  constraints: {}
+                - name: message
+                  type: string
+                  required: false
+                  description: Provider-specific message.
+                  example: null
+                  constraints: {}
+                - name: type
+                  type: string
+                  required: false
+                  description: Provider-specific render or payload type.
+                  example: null
+                  constraints: {}
+                - name: title
+                  type: string
+                  required: false
+                  description: Provider-specific response title.
+                  example: null
+                  constraints: {}
+                - name: sourceType
+                  type: string
+                  required: false
+                  description: Provider-specific source platform type.
+                  example: null
+                  constraints: {}
+                - name: sourceTool
+                  type: string
+                  required: false
+                  description: Provider-specific source tool name.
+                  example: null
+                  constraints: {}
+                - name: costToken
+                  type: integer
+                  required: false
+                  description: Token cost reported by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: costTime
+                  type: integer
+                  required: false
+                  description: Execution time reported by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: page
+                  type: integer
+                  required: false
+                  description: Current page returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: pageSize
+                  type: integer
+                  required: false
+                  description: Page size returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: pageItemCount
+                  type: integer
+                  required: false
+                  description: Item count on the current page returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: totalPage
+                  type: integer
+                  required: false
+                  description: Total page count returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                - name: dataSnapshotMonth
+                  type: string
+                  required: false
+                  description: Data snapshot month returned by the upstream provider.
+                  example: null
+                  constraints: {}
+                example:
+                  reportId: report-id
+                  status: PENDING
+                jsonSchema: null
+              example:
+                reportId: report-id
+                status: PENDING
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: amazon-ads-sp-audience-report
+      x-nexscope-mcp-tool-name: nexscope_amazon_ads_sp_audience_report
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/amazon-ads-api-access/run:
+    post:
+      tags:
+      - Amazon Advertising
+      summary: Amazon Ads API Access
+      description: Starts Amazon Ads OAuth authorization or returns safe connection and profile metadata. Access and refresh tokens are never accepted or returned.
+      operationId: runAmazonAdsApiAccess
+      externalDocs:
+        description: Amazon Ads API Access documentation
+        url: https://www.nexscope.ai/api-docs/amazon-ads-api-access
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 'Operation-specific inputs: authorize requires region and marketplaceId; profiles requires connectionId; connections requires no additional input. Connections are scoped to the API-key owner, and OAuth tokens are backend-owned.'
+              properties:
+                operation:
+                  type: string
+                  description: 'Operation: authorize, connections, or profiles.'
+                  example: authorize
+                region:
+                  type: string
+                  description: 'Required when operation=authorize. Amazon Ads region: NA, EU, or FE.'
+                  example: NA
+                marketplaceId:
+                  type: string
+                  description: Required when operation=authorize. Amazon marketplace identifier.
+                  example: ATVPDKIKX0DER
+                accountName:
+                  type: string
+                  description: Optional display name for the authorization request.
+                  example: US Ads account
+                connectionId:
+                  type: integer
+                  description: Required when operation=profiles. Owned Amazon Ads connection ID.
+                  example: 123
+              required:
+              - operation
+              - region
+              - marketplaceId
+              example:
+                operation: authorize
+                marketplaceId: ATVPDKIKX0DER
+                region: NA
+                accountName: US Ads account
+              additionalProperties: true
+            example:
+              operation: authorize
+              marketplaceId: ATVPDKIKX0DER
+              region: NA
+              accountName: US Ads account
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns authorization or safe connection metadata without provider credentials.
+                properties:
+                  authorizationUrl:
+                    type: string
+                    description: OAuth URL to open in a browser.
+                    example: https://example.com/authorize
+                  state:
+                    type: string
+                    description: Opaque OAuth state used only by the backend callback.
+                    example: opaque-state
+                  expiresAt:
+                    type:
+                    - integer
+                    - string
+                    description: Authorization state expiry timestamp in milliseconds.
+                    example: '1760000000000'
+                  connections:
+                    type: array
+                    items: {}
+                    description: Safe owned Amazon Ads connection metadata.
+                    example: []
+                  profiles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        profileId:
+                          type: string
+                          description: Amazon Ads profile ID.
+                          example: '123456789'
+                        countryCode:
+                          type: string
+                          description: Profile country code.
+                          example: US
+                        currencyCode:
+                          type: string
+                          description: Profile currency code.
+                          example: USD
+                      additionalProperties: true
+                    description: Safe Amazon Ads profiles for the selected connection.
+                    example: []
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  type:
+                    type: string
+                    description: Provider-specific render or payload type.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  authorizationUrl: https://example.com/authorize
+                  state: opaque-state
+                  expiresAt: '1760000000000'
+                  connections: []
+                  profiles:
+                  - profileId: '123456789'
+                    countryCode: US
+                    currencyCode: USD
+                additionalProperties: true
+              example:
+                authorizationUrl: https://example.com/authorize
+                state: opaque-state
+                expiresAt: '1760000000000'
+                connections: []
+                profiles:
+                - profileId: '123456789'
+                  countryCode: US
+                  currencyCode: USD
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: amazon-ads-api-access
+      x-nexscope-mcp-tool-name: nexscope_amazon_ads_api_access
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/amazon-ads-manager/run:
+    post:
+      tags:
+      - Amazon Advertising
+      summary: Amazon Ads Manager
+      description: Accepts only documented ads_manager.sb/sd/sp operation IDs. Provider methods and paths are derived server-side; mutations require preview followed by confirmation.
+      operationId: runAmazonAdsManager
+      externalDocs:
+        description: Amazon Ads Manager documentation
+        url: https://www.nexscope.ai/api-docs/amazon-ads-manager
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: The API key owner must own connectionId. Raw provider method, path, content type, and workspace are not accepted.
+              properties:
+                operationId:
+                  type: string
+                  description: Exact catalog operation ID, for example sp.list_campaigns.
+                  example: sp.list_campaigns
+                connectionId:
+                  type: integer
+                  description: Owned Amazon Ads connection ID.
+                  example: 123
+                payload:
+                  type: object
+                  additionalProperties: true
+                  description: Documented fields for the selected operation; required by create/update operations.
+                  example: {}
+                queryString:
+                  type: string
+                  description: Optional operation-specific query string without a leading ?.
+                  example: ''
+                adType:
+                  type: string
+                  description: Required only by sb.create_ads.
+                  example: video
+                action:
+                  type: string
+                  description: preview (default) or confirm for mutations; ignored for reads.
+                  example: preview
+                confirmationToken:
+                  type: string
+                  description: Single-use token required when action is confirm.
+                  example: opaque-token
+              required:
+              - operationId
+              - connectionId
+              example:
+                connectionId: 123
+                operationId: sp.list_campaigns
+                payload: {}
+              additionalProperties: true
+            example:
+              connectionId: 123
+              operationId: sp.list_campaigns
+              payload: {}
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns governed Amazon Ads results and never exposes provider credentials.
+                properties:
+                  data:
+                    type: object
+                    additionalProperties: true
+                    description: Safe Amazon Ads provider result.
+                    example: {}
+                  confirmationToken:
+                    type: string
+                    description: Single-use mutation confirmation token returned by preview.
+                    example: opaque-token
+                  expiresAt:
+                    type: integer
+                    description: Confirmation expiry timestamp when returned.
+                    example: 1760000000000
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  type:
+                    type: string
+                    description: Provider-specific render or payload type.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  data: {}
+                  confirmationToken: opaque-token
+                  expiresAt: 1760000000000
+                additionalProperties: true
+              example:
+                data: {}
+                confirmationToken: opaque-token
+                expiresAt: 1760000000000
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: amazon-ads-manager
+      x-nexscope-mcp-tool-name: nexscope_amazon_ads_manager
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/amazon-ads-reporting/run:
+    post:
+      tags:
+      - Amazon Advertising
+      summary: Amazon Ads Reporting
+      description: 'Uses the source get_report contract: omit reportId to create, supply reportId to poll, or supply a backend documentToken to download.'
+      operationId: runAmazonAdsReporting
+      externalDocs:
+        description: Amazon Ads Reporting documentation
+        url: https://www.nexscope.ai/api-docs/amazon-ads-reporting
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Create requires startDate/endDate plus configuration, or startDate/endDate plus reportTypeId/adProduct/groupBy/columns. Poll requires reportId. Download requires documentToken.
+              properties:
+                connectionId:
+                  type: integer
+                  description: Owned Amazon Ads connection ID.
+                  example: 123
+                reportId:
+                  type: string
+                  description: Existing report ID; when present the API polls that report.
+                  example: report-id
+                reportTypeId:
+                  type: string
+                  description: Report type required by a new report unless configuration supplies it.
+                  example: spCampaigns
+                adProduct:
+                  type: string
+                  description: Ad product required by a new report unless configuration supplies it.
+                  example: SPONSORED_PRODUCTS
+                groupBy:
+                  type: array
+                  items:
+                    type: string
+                  description: Report grouping fields.
+                  example:
+                  - campaign
+                columns:
+                  type: array
+                  items:
+                    type: string
+                  description: Requested report columns.
+                  example:
+                  - campaignId
+                  - impressions
+                  - clicks
+                name:
+                  type: string
+                  description: Optional report name.
+                  example: Campaign report
+                startDate:
+                  type: string
+                  description: Inclusive report start date for a new report.
+                  example: '2026-07-01'
+                endDate:
+                  type: string
+                  description: Inclusive report end date for a new report.
+                  example: '2026-07-31'
+                timeUnit:
+                  type: string
+                  description: Optional report time unit.
+                  example: DAILY
+                format:
+                  type: string
+                  description: Optional report format.
+                  example: GZIP_JSON
+                filters:
+                  type: array
+                  items: {}
+                  description: Optional report filters.
+                  example: []
+                configuration:
+                  type: object
+                  description: Complete Amazon Ads reporting configuration; may replace reportTypeId/adProduct/groupBy/columns.
+                  example: {}
+                  properties: {}
+                  additionalProperties: true
+                documentToken:
+                  type: string
+                  description: Backend-issued token for downloading a completed report.
+                  example: opaque-document-token
+              required:
+              - connectionId
+              example:
+                startDate: '2026-07-01'
+                reportTypeId: spCampaigns
+                adProduct: SPONSORED_PRODUCTS
+                connectionId: 123
+                groupBy:
+                - campaign
+                endDate: '2026-07-31'
+                columns:
+                - campaignId
+                - impressions
+              additionalProperties: true
+            example:
+              startDate: '2026-07-01'
+              reportTypeId: spCampaigns
+              adProduct: SPONSORED_PRODUCTS
+              connectionId: 123
+              groupBy:
+              - campaign
+              endDate: '2026-07-31'
+              columns:
+              - campaignId
+              - impressions
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns safe report lifecycle results without upstream URLs or credentials.
+                properties:
+                  status:
+                    type: string
+                    description: Report status.
+                    example: PENDING
+                  reportId:
+                    type: string
+                    description: Provider report ID.
+                    example: report-id
+                  documentToken:
+                    type: string
+                    description: Safe opaque token used for download.
+                    example: opaque-document-token
+                  content:
+                    type: object
+                    description: Downloaded report content when available.
+                    example: {}
+                    properties: {}
+                    additionalProperties: true
+                  contentType:
+                    type: string
+                    description: Downloaded report content type.
+                    example: application/json
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  type:
+                    type: string
+                    description: Provider-specific render or payload type.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  status: PENDING
+                  reportId: report-id
+                  documentToken: opaque-document-token
+                  content: {}
+                  contentType: application/json
+                additionalProperties: true
+              example:
+                status: PENDING
+                reportId: report-id
+                documentToken: opaque-document-token
+                content: {}
+                contentType: application/json
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: amazon-ads-reporting
+      x-nexscope-mcp-tool-name: nexscope_amazon_ads_reporting
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/amazon-advertising/run:
+    post:
+      tags:
+      - Amazon Advertising
+      summary: Amazon Advertising
+      description: Accepts only documented ads_manager.sb/sd/sp operation IDs. Provider methods and paths are derived server-side; mutations require preview followed by confirmation.
+      operationId: runAmazonAdvertising
+      externalDocs:
+        description: Amazon Advertising documentation
+        url: https://www.nexscope.ai/api-docs/amazon-advertising
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: The API key owner must own connectionId. Raw provider method, path, content type, and workspace are not accepted.
+              properties:
+                operationId:
+                  type: string
+                  description: Exact catalog operation ID, for example ads_manager.sp.list_campaigns.
+                  example: ads_manager.sp.list_campaigns
+                connectionId:
+                  type: integer
+                  description: Owned Amazon Ads connection ID.
+                  example: 123
+                payload:
+                  type: object
+                  description: Documented fields for the selected operation; required by create/update operations.
+                  example: {}
+                  properties: {}
+                  additionalProperties: true
+                queryString:
+                  type: string
+                  description: Optional operation-specific query string without a leading ?.
+                  example: ''
+                adType:
+                  type: string
+                  description: Required only by ads_manager.sb.create_ads.
+                  example: video
+                action:
+                  type: string
+                  description: preview (default) or confirm for mutations; ignored for reads.
+                  example: preview
+                confirmationToken:
+                  type: string
+                  description: Single-use token required when action is confirm.
+                  example: opaque-token
+              required:
+              - operationId
+              - connectionId
+              example:
+                payload: {}
+                operationId: ads_manager.sp.list_campaigns
+                connectionId: 123
+              additionalProperties: true
+            example:
+              payload: {}
+              operationId: ads_manager.sp.list_campaigns
+              connectionId: 123
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns governed Amazon Ads results and never exposes provider credentials.
+                properties:
+                  data:
+                    type: object
+                    description: Safe Amazon Ads provider result.
+                    example: {}
+                    properties: {}
+                    additionalProperties: true
+                  confirmationToken:
+                    type: string
+                    description: Single-use mutation confirmation token returned by preview.
+                    example: opaque-token
+                  expiresAt:
+                    type:
+                    - integer
+                    - string
+                    description: Confirmation expiry timestamp when returned.
+                    example: '1760000000000'
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  type:
+                    type: string
+                    description: Provider-specific render or payload type.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  data: {}
+                  confirmationToken: opaque-token
+                  expiresAt: '1760000000000'
+                additionalProperties: true
+              example:
+                data: {}
+                confirmationToken: opaque-token
+                expiresAt: '1760000000000'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: amazon-advertising
+      x-nexscope-mcp-tool-name: nexscope_amazon_advertising
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+components:
+  responses:
+    BadRequest:
+      description: Invalid request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Forbidden:
+      description: The account or API key is not allowed to use this capability.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    ServerError:
+      description: Server or upstream provider error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    TooManyRequests:
+      description: Rate limit or account usage limit reached.
+      headers:
+        Retry-After:
+          description: Retry delay when returned by the service.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+  schemas:
+    CommonError:
+      type: object
+      description: Common API error envelope. Exact fields may vary by endpoint and upstream provider.
+      properties:
+        code:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Application or provider error code.
+        msg:
+          type: string
+          description: Error message.
+        message:
+          type: string
+          description: Alternative error message field.
+        traceId:
+          type: string
+          description: Support trace identifier when available.
+      additionalProperties: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Nexscope API Key
+externalDocs:
+  description: Nexscope API Documentation
+  url: https://www.nexscope.ai/api-docs
+x-nexscope-source: https://api.nexscope.ai/api/skill-api/v1/api-docs
+x-nexscope-pricing-mode: dynamic-credits
+x-nexscope-mcp-endpoint: https://api.nexscope.ai/api/skill-api/v1/mcp

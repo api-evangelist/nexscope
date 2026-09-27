@@ -1,0 +1,1180 @@
+openapi: 3.2.0
+info:
+  title: Nexscope Ecommerce Data and Creative 1688 Sourcing API
+  version: 2026-08-28-public-catalog-v1
+  description: Nexscope APIs provide ecommerce marketplace intelligence and creative generation capabilities through REST and MCP. Authentication uses a Nexscope API key. Pricing is credit-based and actual usage varies by endpoint and workload; current estimates are shown in the Nexscope account.
+  termsOfService: https://www.nexscope.ai/terms
+  contact:
+    name: Nexscope Support
+    email: service@nexscope.ai
+    url: https://www.nexscope.ai/api-docs
+  license:
+    name: Proprietary API; use subject to Nexscope Terms
+    url: https://www.nexscope.ai/terms
+servers:
+- url: https://api.nexscope.ai
+  description: Production
+security:
+- bearerAuth: []
+tags:
+- name: 1688 Sourcing
+  description: 1688 product search, image search and billboard sourcing APIs.
+  x-category-slug: 1688-sourcing
+paths:
+  /api/skill-api/v1/skills/1688-product-billboard/run:
+    post:
+      tags:
+      - 1688 Sourcing
+      summary: 1688 Product Billboard
+      description: Query 1688 product bestseller billboard data for sourcing discovery and wholesale product research.
+      operationId: run1688ProductBillboard
+      externalDocs:
+        description: 1688 Product Billboard documentation
+        url: https://www.nexscope.ai/api-docs/1688-product-billboard
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.1688-product-billboard.
+              properties:
+                keyWord:
+                  type: string
+                  description: Product search keyword (must be written in Simplified Chinese; translate it before calling this API). Maximum 50 characters
+                  example: iPhone 15
+                date:
+                  type: string
+                  description: 'Query time. Weekly chart: pass the Sunday date of that week, e.g. 2025-06-15 (up to 90 days); Monthly chart: pass the first day of the month, e.g. 2025-06-01 (up to one year)'
+                  example: '2026-07-01'
+                pageType:
+                  type: integer
+                  description: 'Billboard type: 2 = weekly, 3 = monthly. Default 3'
+                  example: 3
+                pageIndex:
+                  type: integer
+                  description: Page number (starting from 1), default 1
+                  example: 1
+                pageSize:
+                  type: integer
+                  description: Number of results per page (10-100), default 20
+                  example: 10
+                sortField:
+                  type: string
+                  description: 'Sort field, default orderCount. Options: orderCount (order count), saleCount (units sold), saleVolume (estimated sales amount), offerCreateTime (listing time), price (wholesale price), consignPrice (dropship price)'
+                sortType:
+                  type: string
+                  description: 'Sort order: desc (descending), asc (ascending), default desc'
+                searchType:
+                  type: integer
+                  description: 'Product keyword search type: 1 = fuzzy match, 3 = exact match. Default 1'
+                  example: 1
+                offerType:
+                  type: integer
+                  description: 'Product tag: 0 = no limit, 2 = new product, 3 = 1688 Select, 4 = cross-border, 5 = customization supported, 6 = store highlight. Default 0'
+                  example: 1
+                companyType:
+                  type: integer
+                  description: 'Company type: 0 = no limit, 1 = store, 2 = factory'
+                  example: 1
+                shiLiType:
+                  type: string
+                  description: 'Seller membership type (multi-select), comma-separated. Options: superFactory (Super Factory), Power (Power Seller), TrustPass (TrustPass member only)'
+                beginTpYear:
+                  type: integer
+                  description: Start TrustPass years
+                  example: 1
+                endTpYear:
+                  type: integer
+                  description: End TrustPass years
+                  example: 1
+                beginPrice:
+                  type: number
+                  description: Wholesale price (start)
+                  example: 1
+                endPrice:
+                  type: number
+                  description: Wholesale price (end)
+                  example: 1
+                beginConsignPrice:
+                  type: number
+                  description: Dropship price (start)
+                  example: 1
+                endConsignPrice:
+                  type: number
+                  description: Dropship price (end)
+                  example: 1
+                beginOrderCount:
+                  type: integer
+                  description: Order count (start)
+                  example: 1
+                endOrderCount:
+                  type: integer
+                  description: Order count (end)
+                  example: 1
+                beginSaleCount:
+                  type: integer
+                  description: Units sold (start)
+                  example: 1
+                endSaleCount:
+                  type: integer
+                  description: Units sold (end)
+                  example: 1
+                beginSaleVolume:
+                  type: number
+                  description: Sales amount (start)
+                  example: 1
+                endSaleVolume:
+                  type: number
+                  description: Sales amount (end)
+                  example: 1
+                beginStartQuantity:
+                  type: integer
+                  description: Minimum order quantity (start)
+                  example: 1
+                endStartQuantity:
+                  type: integer
+                  description: Minimum order quantity (end)
+                  example: 1
+                beginOfferCreateTime:
+                  type: string
+                  description: 'Listing time (start), format: YYYY-MM-DD'
+                endOfferCreateTime:
+                  type: string
+                  description: 'Listing time (end), format: YYYY-MM-DD'
+                sendTime:
+                  type: string
+                  description: 'Delivery time (multi-select), comma-separated. Options: 24 (24 hours), 48 (48 hours), 72 (72 hours)'
+                proxyRights:
+                  type: string
+                  description: 'Dropship rights (multi-select), comma-separated. Options: 4360897 (one-piece dropship with free shipping), 449154 (procure now, pay later)'
+                shopService:
+                  type: string
+                  description: 'Seller services (multi-select), comma-separated. Options: 4057409 (Safe Buy), 888777 (Deep Verification Report)'
+                buyerProtections:
+                  type: string
+                  description: 'Buyer protections, comma-separated: free shipping, 7-day free return, or shipping insurance'
+                faceToFaceSupport:
+                  type: string
+                  description: 'Waybill support (multi-select), comma-separated. Options: 441218 (Taobao), 386434 (Douyin), 422914 (Pinduoduo), 422978 (Xiaohongshu), 386370 (Kuaishou)'
+                productIds:
+                  type: string
+                  description: Product IDs, separated by Chinese comma for multiple, max 20
+                goodsUrl:
+                  type: string
+                  description: Product link URL
+                  example: https://example.com/image.jpg
+              example:
+                pageIndex: 1
+                searchType: 1
+                pageType: 3
+                pageSize: 10
+                date: '2026-07-01'
+                keyWord: iPhone 15
+              additionalProperties: true
+            example:
+              pageIndex: 1
+              searchType: 1
+              pageType: 3
+              pageSize: 10
+              date: '2026-07-01'
+              keyWord: iPhone 15
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  total:
+                    type: integer
+                    description: Total record count
+                    example: 1
+                  type:
+                    type: string
+                    description: Render style
+                  columns:
+                    type: array
+                    items: {}
+                    description: Render columns
+                    example: []
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        offerId:
+                          type: string
+                          description: Product ID
+                          example: example-id
+                        asin:
+                          type: string
+                          description: Product number
+                          example: B072MQ5BRX
+                        title:
+                          type: string
+                          description: Product title
+                        price:
+                          type: number
+                          description: Wholesale price
+                          example: 1
+                        consignPrice:
+                          type: number
+                          description: Dropship price
+                          example: 1
+                        currency:
+                          type: string
+                          description: Currency
+                        unit:
+                          type: string
+                          description: Unit
+                        quantityBegin:
+                          type: integer
+                          description: Minimum order quantity
+                          example: 1
+                        quantityPrices:
+                          type: string
+                          description: Price range
+                        salesOrderCount:
+                          type: integer
+                          description: Order count (returns corresponding value based on statistical period)
+                          example: 1
+                        salesQuantity:
+                          type: integer
+                          description: Units sold (returns corresponding value based on statistical period)
+                          example: 1
+                        estimatedSalesAmount:
+                          type: integer
+                          description: Estimated sales amount (returns corresponding value based on statistical period)
+                          example: 1
+                        dataType:
+                          type: string
+                          description: 'Data type: weeklyData = weekly data, monthlyData = monthly data'
+                        availableDate:
+                          type: string
+                          description: Product listing time, format yyyy-MM-dd HH:mm:ss
+                          example: '2026-01-01'
+                        deliveryTime:
+                          type: string
+                          description: Delivery time
+                        levelName:
+                          type: string
+                          description: Category hierarchy name
+                        company:
+                          type: string
+                          description: Store name
+                        shopId:
+                          type: string
+                          description: Store ID
+                          example: example-id
+                        shopUrl:
+                          type: string
+                          description: Store link URL
+                          example: https://example.com/image.jpg
+                        asinUrl:
+                          type: string
+                          description: Product link URL
+                          example: B072MQ5BRX
+                        imageUrl:
+                          type: string
+                          description: Image URL
+                          example: https://example.com/image.jpg
+                        sourceType:
+                          type: string
+                          description: Source platform (1688)
+                        sourceTool:
+                          type: string
+                          description: Source tool
+                      additionalProperties: true
+                    description: Product list (see Product Object below)
+                    example: []
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  total: 1
+                  columns: []
+                  products:
+                  - offerId: example-id
+                    asin: B072MQ5BRX
+                    price: 1
+                    consignPrice: 1
+                    quantityBegin: 1
+                    salesOrderCount: 1
+                    salesQuantity: 1
+                    estimatedSalesAmount: 1
+                    availableDate: '2026-01-01'
+                    shopId: example-id
+                    shopUrl: https://example.com/image.jpg
+                    asinUrl: B072MQ5BRX
+                    imageUrl: https://example.com/image.jpg
+                additionalProperties: true
+              example:
+                total: 1
+                columns: []
+                products:
+                - offerId: example-id
+                  asin: B072MQ5BRX
+                  price: 1
+                  consignPrice: 1
+                  quantityBegin: 1
+                  salesOrderCount: 1
+                  salesQuantity: 1
+                  estimatedSalesAmount: 1
+                  availableDate: '2026-01-01'
+                  shopId: example-id
+                  shopUrl: https://example.com/image.jpg
+                  asinUrl: B072MQ5BRX
+                  imageUrl: https://example.com/image.jpg
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: 1688-product-billboard
+      x-nexscope-mcp-tool-name: nexscope_1688_product_billboard
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/1688-product-search/run:
+    post:
+      tags:
+      - 1688 Sourcing
+      summary: 1688 Product Search
+      description: Search and analyze products on the Chinese 1688 wholesale platform (Alibaba domestic B2B market) for sourcing, supplier discovery, and product selection.
+      operationId: run1688ProductSearch
+      externalDocs:
+        description: 1688 Product Search documentation
+        url: https://www.nexscope.ai/api-docs/1688-product-search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.1688-product-search.
+              properties:
+                keyWord:
+                  type: string
+                  description: Search keyword (must be written in Simplified Chinese; maximum 50 characters)
+                  example: iPhone 15
+                goodsUrl:
+                  type: string
+                  description: Product link URL (mutually exclusive with keyWord)
+                  example: https://example.com/image.jpg
+                productIds:
+                  type: string
+                  description: Product IDs, comma-separated, max 20
+                cycle:
+                  type: string
+                  description: 'Statistical period: 7 (last 7 days) or 30 (last 30 days)'
+                searchType:
+                  type: integer
+                  description: 'Search type: 1 = fuzzy match, 3 = exact match'
+                  example: 1
+                sortField:
+                  type: string
+                  description: 'Sort field: orderCount7d, saleCount7d, saleVolume7d, orderCount30d, saleCount30d, saleVolume30d, offerCreateTime, price, consignPrice'
+                sortType:
+                  type: string
+                  description: 'Sort order: desc (descending), asc (ascending)'
+                pageIndex:
+                  type: integer
+                  description: Page number (starting from 1)
+                  example: 1
+                pageSize:
+                  type: integer
+                  description: Results per page (10-100)
+                  example: 10
+                beginPrice:
+                  type: number
+                  description: Wholesale price (start)
+                  example: 1
+                endPrice:
+                  type: number
+                  description: Wholesale price (end)
+                  example: 1
+                beginConsignPrice:
+                  type: number
+                  description: Dropship price (start)
+                  example: 1
+                endConsignPrice:
+                  type: number
+                  description: Dropship price (end)
+                  example: 1
+                beginOrderCount:
+                  type: integer
+                  description: Order count (start)
+                  example: 1
+                endOrderCount:
+                  type: integer
+                  description: Order count (end)
+                  example: 1
+                beginSaleCount:
+                  type: integer
+                  description: Units sold (start)
+                  example: 1
+                endSaleCount:
+                  type: integer
+                  description: Units sold (end)
+                  example: 1
+                beginSaleVolume:
+                  type: number
+                  description: Sales amount (start)
+                  example: 1
+                endSaleVolume:
+                  type: number
+                  description: Sales amount (end)
+                  example: 1
+                beginStartQuantity:
+                  type: integer
+                  description: Minimum purchase quantity (start)
+                  example: 1
+                endStartQuantity:
+                  type: integer
+                  description: Minimum purchase quantity (end)
+                  example: 1
+                beginTpYear:
+                  type: integer
+                  description: TrustPass years (start)
+                  example: 1
+                endTpYear:
+                  type: integer
+                  description: TrustPass years (end)
+                  example: 1
+                beginOfferCreateTime:
+                  type: string
+                  description: 'Listing time start (format: YYYY-MM-DD)'
+                endOfferCreateTime:
+                  type: string
+                  description: 'Listing time end (format: YYYY-MM-DD)'
+                companyType:
+                  type: integer
+                  description: 'Company type: 0 = no limit, 1 = store, 2 = factory'
+                  example: 1
+                offerType:
+                  type: integer
+                  description: 'Product tag: 0 = no limit, 2 = new product, 3 = 1688 Select, 4 = cross-border, 5 = customization supported, 6 = store highlight'
+                  example: 1
+                shiLiType:
+                  type: string
+                  description: 'Seller type (multi-select, comma-separated): superFactory (Super Factory), Power (Power Seller), TrustPass (TrustPass)'
+                sendTime:
+                  type: string
+                  description: 'Delivery time (multi-select, comma-separated): 24, 48, 72'
+                faceToFaceSupport:
+                  type: string
+                  description: 'Waybill support (multi-select, comma-separated): 441218 (Taobao), 386434 (Douyin), 422914 (Pinduoduo), 422978 (Xiaohongshu), 386370 (Kuaishou)'
+                proxyRights:
+                  type: string
+                  description: 'Dropship rights (multi-select, comma-separated): 4360897 (one-piece dropship with free shipping), 449154 (procure now, pay later)'
+                shopService:
+                  type: string
+                  description: 'Seller services (multi-select, comma-separated): 4057409 (Safe Buy), 888777 (Deep Verification Report)'
+                buyerProtections:
+                  type: string
+                  description: 'Buyer protections, comma-separated: free shipping, 7-day free return, or shipping insurance'
+              example:
+                pageIndex: 1
+                searchType: 1
+                keyWord: iPhone 15
+                pageSize: 10
+              additionalProperties: true
+            example:
+              pageIndex: 1
+              searchType: 1
+              keyWord: iPhone 15
+              pageSize: 10
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  total:
+                    type: integer
+                    description: Total record count
+                    example: 1
+                  type:
+                    type: string
+                    description: Render style
+                  columns:
+                    type: array
+                    items: {}
+                    description: Render column definitions
+                    example: []
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        offerId:
+                          type: string
+                          description: Product ID
+                          example: example-id
+                        asin:
+                          type: string
+                          description: Product number
+                          example: B072MQ5BRX
+                        title:
+                          type: string
+                          description: Product title
+                        asinUrl:
+                          type: string
+                          description: Product link URL
+                          example: B072MQ5BRX
+                        imageUrl:
+                          type: string
+                          description: Product image URL
+                          example: https://example.com/image.jpg
+                        price:
+                          type: number
+                          description: Wholesale price
+                          example: 1
+                        consignPrice:
+                          type: number
+                          description: Dropship price
+                          example: 1
+                        quantityPrices:
+                          type: string
+                          description: Price range
+                        quantityBegin:
+                          type: integer
+                          description: Minimum order quantity
+                          example: 1
+                        unit:
+                          type: string
+                          description: Unit
+                        currency:
+                          type: string
+                          description: Currency
+                        salesOrderCount:
+                          type: integer
+                          description: Order count (by statistical period)
+                          example: 1
+                        salesQuantity:
+                          type: integer
+                          description: Units sold (by statistical period)
+                          example: 1
+                        estimatedSalesAmount:
+                          type: integer
+                          description: Estimated sales amount (by statistical period)
+                          example: 1
+                        deliveryTime:
+                          type: string
+                          description: Delivery time
+                        availableDate:
+                          type: string
+                          description: Product listing time
+                          example: '2026-01-01'
+                        levelName:
+                          type: string
+                          description: Category hierarchy name
+                        company:
+                          type: string
+                          description: Store name
+                        shopId:
+                          type: string
+                          description: Store ID
+                          example: example-id
+                        shopUrl:
+                          type: string
+                          description: Store link URL
+                          example: https://example.com/image.jpg
+                        dataType:
+                          type: string
+                          description: 'Data type: weeklyData (weekly data), monthlyData (monthly data)'
+                        sourceType:
+                          type: string
+                          description: Source platform (1688)
+                        sourceTool:
+                          type: string
+                          description: Source tool
+                      additionalProperties: true
+                    description: Product list (see fields below)
+                    example: []
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  costToken:
+                    type: integer
+                    description: Token cost reported by the upstream provider.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  total: 1
+                  columns: []
+                  products:
+                  - offerId: example-id
+                    asin: B072MQ5BRX
+                    asinUrl: B072MQ5BRX
+                    imageUrl: https://example.com/image.jpg
+                    price: 1
+                    consignPrice: 1
+                    quantityBegin: 1
+                    salesOrderCount: 1
+                    salesQuantity: 1
+                    estimatedSalesAmount: 1
+                    availableDate: '2026-01-01'
+                    shopId: example-id
+                    shopUrl: https://example.com/image.jpg
+                additionalProperties: true
+              example:
+                total: 1
+                columns: []
+                products:
+                - offerId: example-id
+                  asin: B072MQ5BRX
+                  asinUrl: B072MQ5BRX
+                  imageUrl: https://example.com/image.jpg
+                  price: 1
+                  consignPrice: 1
+                  quantityBegin: 1
+                  salesOrderCount: 1
+                  salesQuantity: 1
+                  estimatedSalesAmount: 1
+                  availableDate: '2026-01-01'
+                  shopId: example-id
+                  shopUrl: https://example.com/image.jpg
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: 1688-product-search
+      x-nexscope-mcp-tool-name: nexscope_1688_product_search
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/1688-search-by-image/run:
+    post:
+      tags:
+      - 1688 Sourcing
+      summary: 1688 Search By Image
+      description: Perform image-based product search on the 1688 platform. Use an image URL to find visually similar supplier products, returning title, price, minimum order quantity, monthly sales, repurchase rate, trade score, and seller identity. Triggered when users mention 1688 image search, 1688 visual search, find supplier by image, reverse image search 1688, 1688 product sourcing by image, or Alibaba 1688 image search. Even if the user does not explicitly mention "image search," this skill should be triggered whenever a user provides an image URL and wants to find matching or similar products on the 1688 wholesale platform.
+      operationId: run1688SearchByImage
+      externalDocs:
+        description: 1688 Search By Image documentation
+        url: https://www.nexscope.ai/api-docs/1688-search-by-image
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request parameters documented by ecommerce.1688-search-by-image.
+              properties:
+                imageUrl:
+                  type: string
+                  description: 'Valid, publicly accessible image URL (maximum 1,000 characters). Supported formats: PNG, JPG, and JPEG; WEBP and GIF are not supported. Provide exactly one of imageUrl, imageBase64, or imageId'
+                  example: https://m.media-amazon.com/images/I/61v6nYvQ7+L._AC_SL1500_.jpg
+                imageBase64:
+                  type: string
+                  description: 'Raw Base64-encoded image content without a data:image/jpeg;base64, prefix. Supported formats: PNG, JPG, and JPEG. Use when imageUrl is omitted'
+                imageId:
+                  type: string
+                  description: 1688 image ID. Image-search results also return this value; include it when page is greater than 1 to improve response time
+                page:
+                  type: integer
+                  description: Page number starting from 1
+                  example: 1
+                pageSize:
+                  type: integer
+                  description: Number of products per page, maximum 50
+                  example: 10
+                priceStart:
+                  type: string
+                  description: Minimum price in CNY, for example 10
+                priceEnd:
+                  type: string
+                  description: Maximum price in CNY, for example 100
+                filter:
+                  type: string
+                  description: Comma-separated filter conditions. Use the supported filter values documented for this endpoint
+                sort:
+                  type: string
+                  description: 'Sort condition as JSON in the form {field: direction}. Fields: price, rePurchaseRate, or monthSold. Directions: asc or desc'
+                keyword:
+                  type: string
+                  description: Keyword used to search within the results
+                  example: phone case
+                productCollectionId:
+                  type: string
+                  description: Single product-collection ID. Use a supported collection ID documented for this endpoint
+                  example: example-id
+              example:
+                page: 1
+                pageSize: 10
+                imageUrl: https://m.media-amazon.com/images/I/61v6nYvQ7+L._AC_SL1500_.jpg
+              additionalProperties: true
+            example:
+              page: 1
+              pageSize: 10
+              imageUrl: https://m.media-amazon.com/images/I/61v6nYvQ7+L._AC_SL1500_.jpg
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                properties:
+                  imageId:
+                    type: string
+                    description: Uploaded image ID; send it with paginated requests to improve response time
+                    example: example-id
+                  total:
+                    type: integer
+                    description: Number of products on this page
+                    example: 1
+                  totalPage:
+                    type: integer
+                    description: Total number of pages
+                    example: 1
+                  sourceType:
+                    type: string
+                    description: Source type; fixed value "1688"
+                  type:
+                    type: string
+                    description: Rendering style; fixed value "productWorkbenches"
+                  columns:
+                    type: array
+                    items: {}
+                    description: Column definitions used for rendering
+                    example: []
+                  costToken:
+                    type: integer
+                    description: Tokens consumed
+                    example: 1
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        isOnePsale:
+                          type: string
+                          description: Whether single-item dropshipping is available
+                        isJxhy:
+                          type: string
+                          description: Whether the product is a selected supply source
+                        sellerIdentities:
+                          type: string
+                          description: Seller identities, such as Super Factory, Verified Supplier, or TrustPass member
+                        offerIdentities:
+                          type: string
+                          description: Product badge, such as Strict Selection
+                        repurchaseRate:
+                          type: string
+                          description: Repurchase rate
+                        tradeScore:
+                          type: string
+                          description: Product transaction score
+                        compositeServiceScore:
+                          type: string
+                          description: Composite service-experience score
+                        sendGoodsAddressText:
+                          type: string
+                          description: Dispatch location
+                        deliveryTime:
+                          type: string
+                          description: Dispatch time, such as 24 or 48 hours
+                        hasPromotion:
+                          type: string
+                          description: Whether a promotion is active
+                        promotionType:
+                          type: string
+                          description: Promotion type
+                        isPatentProduct:
+                          type: string
+                          description: Whether the product is patented
+                        isSelect:
+                          type: string
+                          description: Cross-border Select collection indicator
+                        currency:
+                          type: string
+                          description: Currency; fixed value "¥"
+                        dataType:
+                          type: string
+                          description: Data type; fixed value "monthlyData"
+                    description: Product list; see the product fields below
+                    example: []
+                  offerId:
+                    type: string
+                    description: Product ID
+                    example: example-id
+                  asin:
+                    type: string
+                    description: Product identifier, same as offerId
+                    example: B072MQ5BRX
+                  imageUrl:
+                    type: string
+                    description: Product image URL
+                    example: https://example.com/image.jpg
+                  title:
+                    type: string
+                    description: Product title
+                  price:
+                    type: number
+                    description: Wholesale price in CNY
+                    example: 1
+                  consignPrice:
+                    type: number
+                    description: Single-item dropshipping price in CNY
+                    example: 1
+                  salesQuantity:
+                    type: integer
+                    description: Monthly units sold
+                    example: 1
+                  estimatedSalesAmount:
+                    type: number
+                    description: Estimated sales revenue
+                    example: 1
+                  asinUrl:
+                    type: string
+                    description: Product URL
+                    example: B072MQ5BRX
+                  quantityBegin:
+                    type: integer
+                    description: Minimum order quantity
+                    example: 1
+                  sourceTool:
+                    type: string
+                    description: Source tool; fixed value identifying 1688 image search
+                  errcode:
+                    type: integer
+                    description: Upstream status code returned by the provider.
+                  errmsg:
+                    type: string
+                    description: Upstream status message returned by the provider.
+                  code:
+                    type: string
+                    description: Provider-specific status code.
+                  msg:
+                    type: string
+                    description: Provider-specific status message.
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  costTime:
+                    type: integer
+                    description: Execution time reported by the upstream provider.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  imageId: example-id
+                  total: 1
+                  totalPage: 1
+                  columns: []
+                  costToken: 1
+                  products: []
+                  offerId: example-id
+                  asin: B072MQ5BRX
+                  imageUrl: https://example.com/image.jpg
+                  price: 1
+                  consignPrice: 1
+                  salesQuantity: 1
+                  estimatedSalesAmount: 1
+                  asinUrl: B072MQ5BRX
+                  quantityBegin: 1
+                additionalProperties: true
+              example:
+                imageId: example-id
+                total: 1
+                totalPage: 1
+                columns: []
+                costToken: 1
+                products: []
+                offerId: example-id
+                asin: B072MQ5BRX
+                imageUrl: https://example.com/image.jpg
+                price: 1
+                consignPrice: 1
+                salesQuantity: 1
+                estimatedSalesAmount: 1
+                asinUrl: B072MQ5BRX
+                quantityBegin: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: 1688-search-by-image
+      x-nexscope-mcp-tool-name: nexscope_1688_search_by_image
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/1688-product-detail/run:
+    post:
+      tags:
+      - 1688 Sourcing
+      summary: 1688 Product Detail
+      description: Returns normalized public ecommerce research data with a fixed read-only provider path.
+      operationId: run1688ProductDetail
+      externalDocs:
+        description: 1688 Product Detail documentation
+        url: https://www.nexscope.ai/api-docs/1688-product-detail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - offerId
+              properties:
+                offerId:
+                  type: string
+                  pattern: ^[1-9]\d{0,999}$
+                currency:
+                  type: string
+                  pattern: ^[A-Za-z]{3}$
+              description: Request parameters documented by ecommerce.1688-product-detail.
+              example:
+                offerId: '1040473674152'
+            example:
+              offerId: '1040473674152'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - product
+                properties:
+                  product:
+                    type: object
+                    additionalProperties: true
+                    required:
+                    - offerId
+                    properties:
+                      offerId:
+                        type: string
+                      subject:
+                        type: string
+                      description:
+                        type: string
+                      productUrl:
+                        type: string
+                      skuList:
+                        type: array
+                      saleInfo:
+                        type: object
+                      shippingInfo:
+                        type: object
+                      companyName:
+                        type: string
+                description: Returns the documented upstream API response directly without an additional wrapper.
+                example:
+                  product:
+                    offerId: '1040473674152'
+                    subject: Example 1688 product
+                    skuList: []
+                    saleInfo: {}
+                    shippingInfo: {}
+                    companyName: Example supplier
+              example:
+                product:
+                  offerId: '1040473674152'
+                  subject: Example 1688 product
+                  skuList: []
+                  saleInfo: {}
+                  shippingInfo: {}
+                  companyName: Example supplier
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: 1688-product-detail
+      x-nexscope-mcp-tool-name: nexscope_1688_product_detail
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+components:
+  responses:
+    BadRequest:
+      description: Invalid request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Forbidden:
+      description: The account or API key is not allowed to use this capability.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    ServerError:
+      description: Server or upstream provider error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    TooManyRequests:
+      description: Rate limit or account usage limit reached.
+      headers:
+        Retry-After:
+          description: Retry delay when returned by the service.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+  schemas:
+    CommonError:
+      type: object
+      description: Common API error envelope. Exact fields may vary by endpoint and upstream provider.
+      properties:
+        code:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Application or provider error code.
+        msg:
+          type: string
+          description: Error message.
+        message:
+          type: string
+          description: Alternative error message field.
+        traceId:
+          type: string
+          description: Support trace identifier when available.
+      additionalProperties: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Nexscope API Key
+externalDocs:
+  description: Nexscope API Documentation
+  url: https://www.nexscope.ai/api-docs
+x-nexscope-source: https://api.nexscope.ai/api/skill-api/v1/api-docs
+x-nexscope-pricing-mode: dynamic-credits
+x-nexscope-mcp-endpoint: https://api.nexscope.ai/api/skill-api/v1/mcp

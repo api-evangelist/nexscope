@@ -1,0 +1,46 @@
+{
+  "provider": "nexscope",
+  "sources": [
+    "nexscope-openapi.json"
+  ],
+  "outputs": [
+    "nexscope-1688-sourcing-api-openapi.yml",
+    "nexscope-amazon-advertising-api-openapi.yml",
+    "nexscope-amazon-marketplace-intelligence-api-openapi.yml",
+    "nexscope-ecommerce-content-generation-api-openapi.yml",
+    "nexscope-etsy-marketplace-api-openapi.yml",
+    "nexscope-image-generation-models-api-openapi.yml",
+    "nexscope-keyword-search-demand-api-openapi.yml",
+    "nexscope-multimodal-ai-api-openapi.yml",
+    "nexscope-ozon-marketplace-api-openapi.yml",
+    "nexscope-patent-ip-risk-api-openapi.yml",
+    "nexscope-patent-intelligence-api-openapi.yml",
+    "nexscope-product-market-research-api-openapi.yml",
+    "nexscope-search-trend-intelligence-api-openapi.yml",
+    "nexscope-shopee-marketplace-api-openapi.yml",
+    "nexscope-shopify-commerce-api-openapi.yml",
+    "nexscope-temu-marketplace-intelligence-api-openapi.yml",
+    "nexscope-tiktok-social-commerce-api-openapi.yml",
+    "nexscope-video-generation-models-api-openapi.yml",
+    "nexscope-walmart-marketplace-intelligence-api-openapi.yml",
+    "nexscope-ebay-marketplace-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/nexscope-openapi.json"
+  ],
+  "errors": [
+    "nexscope-openapi.json: dangling $ref: #/$defs/marketCode",
+    "nexscope-openapi.json: dangling $ref: #/$defs/page",
+    "nexscope-openapi.json: dangling $ref: #/$defs/pageSize",
+    "nexscope-openapi.json: dangling $ref: #/$defs/pattern",
+    "nexscope-openapi.json: dangling $ref: #/$defs/range",
+    "nexscope-openapi.json: dangling $ref: #/$defs/snapshots"
+  ],
+  "warnings": [],
+  "notes": [
+    "nexscope-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "nexscope-openapi.json: declared missing tag: Walmart Marketplace Intelligence",
+    "apis.yml register: written (+20 apis, 20 total)"
+  ],
+  "skipped": []
+}

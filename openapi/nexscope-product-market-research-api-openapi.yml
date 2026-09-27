@@ -1,0 +1,603 @@
+openapi: 3.2.0
+info:
+  title: Nexscope Ecommerce Data and Creative Product & Market…
+  version: 2026-08-28-public-catalog-v1
+  description: Nexscope APIs provide ecommerce marketplace intelligence and creative generation capabilities through REST and MCP. Authentication uses a Nexscope API key. Pricing is credit-based and actual usage varies by endpoint and workload; current estimates are shown in the Nexscope account.
+  termsOfService: https://www.nexscope.ai/terms
+  contact:
+    name: Nexscope Support
+    email: service@nexscope.ai
+    url: https://www.nexscope.ai/api-docs
+  license:
+    name: Proprietary API; use subject to Nexscope Terms
+    url: https://www.nexscope.ai/terms
+servers:
+- url: https://api.nexscope.ai
+  description: Production
+security:
+- bearerAuth: []
+tags:
+- name: Product & Market Research
+  description: General ecommerce product and market research APIs.
+  x-category-slug: product-market-research
+paths:
+  /api/skill-api/v1/skills/mercado-product-selection/run:
+    post:
+      tags:
+      - Product & Market Research
+      summary: Mercado Product Selection
+      description: Validates the selected tool and its required arguments before calling the governed Lingdong gateway.
+      operationId: runMercadoProductSelection
+      externalDocs:
+        description: Mercado Product Selection documentation
+        url: https://www.nexscope.ai/api-docs/mercado-product-selection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: toolName must be one of the 24 documented values. Required argument fields depend on toolName.
+              properties:
+                toolName:
+                  type: string
+                  description: Exact Mercado tool name.
+                  example: categorySearch
+                arguments:
+                  type: object
+                  additionalProperties: true
+                  description: Arguments for the selected tool.
+                  example:
+                    searchText: Auriculares
+                    siteId: MLM
+              required:
+              - toolName
+              - arguments
+              example:
+                arguments:
+                  searchText: Auriculares
+                  siteId: MLM
+                toolName: categorySearch
+              additionalProperties: true
+            example:
+              arguments:
+                searchText: Auriculares
+                siteId: MLM
+              toolName: categorySearch
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Returns the normalized Lingdong gateway payload directly.
+                properties:
+                  code:
+                    type: string
+                    description: Nexscope wrapper status code.
+                    example: '200'
+                  msg:
+                    type: string
+                    description: Nexscope wrapper status message.
+                    example: ok
+                  errcode:
+                    type: integer
+                    description: Gateway business status code.
+                    example: 200
+                  errmsg:
+                    type: string
+                    description: Gateway business status message.
+                    example: ok
+                  type:
+                    type: string
+                    description: Provider result type.
+                    example: rawMcpToolResult
+                  toolName:
+                    type: string
+                    description: Executed Mercado tool name.
+                    example: categorySearch
+                  charged:
+                    type: boolean
+                    description: Whether the selected tool is paid.
+                    example: false
+                  data:
+                    type: object
+                    additionalProperties: true
+                    description: Parsed business data, or provider text when the result is not JSON.
+                    example: {}
+                  contentText:
+                    type: string
+                    description: Original concatenated provider text.
+                    example: Category results...
+                  textParsedAsJson:
+                    type: boolean
+                    description: Whether provider text was parsed as JSON.
+                    example: true
+                  total:
+                    type: integer
+                    description: Inferred result count when available.
+                    example: 1
+                  costToken:
+                    type: integer
+                    description: Provider-reported token cost; free tools return zero.
+                    example: 0
+                  costTime:
+                    type: integer
+                    description: Gateway execution time in milliseconds.
+                    example: 308
+                  message:
+                    type: string
+                    description: Provider-specific message.
+                  title:
+                    type: string
+                    description: Provider-specific response title.
+                  sourceType:
+                    type: string
+                    description: Provider-specific source platform type.
+                  sourceTool:
+                    type: string
+                    description: Provider-specific source tool name.
+                  page:
+                    type: integer
+                    description: Current page returned by the upstream provider.
+                  pageSize:
+                    type: integer
+                    description: Page size returned by the upstream provider.
+                  pageItemCount:
+                    type: integer
+                    description: Item count on the current page returned by the upstream provider.
+                  totalPage:
+                    type: integer
+                    description: Total page count returned by the upstream provider.
+                  dataSnapshotMonth:
+                    type: string
+                    description: Data snapshot month returned by the upstream provider.
+                example:
+                  code: '200'
+                  msg: ok
+                  errcode: 200
+                  errmsg: ok
+                  type: rawMcpToolResult
+                  toolName: categorySearch
+                  charged: false
+                  data: {}
+                  contentText: Category results...
+                  textParsedAsJson: true
+                  total: 1
+                  costToken: 0
+                  costTime: 308
+                additionalProperties: true
+              example:
+                code: '200'
+                msg: ok
+                errcode: 200
+                errmsg: ok
+                type: rawMcpToolResult
+                toolName: categorySearch
+                charged: false
+                data: {}
+                contentText: Category results...
+                textParsedAsJson: true
+                total: 1
+                costToken: 0
+                costTime: 308
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      x-nexscope-slug: mercado-product-selection
+      x-nexscope-mcp-tool-name: nexscope_mercado_product_selection
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+  /api/skill-api/v1/skills/mercado-market-intelligence/run:
+    post:
+      tags:
+      - Product & Market Research
+      summary: Mercado Market Intelligence
+      description: Returns normalized public ecommerce research data with a fixed read-only provider path.
+      operationId: runMercadoMarketIntelligence
+      externalDocs:
+        description: Mercado Market Intelligence documentation
+        url: https://www.nexscope.ai/api-docs/mercado-market-intelligence
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              unevaluatedProperties: false
+              required:
+              - toolName
+              - arguments
+              discriminator:
+                propertyName: toolName
+              oneOf:
+              - properties:
+                  toolName:
+                    const: search_categories
+                  arguments:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      market_code:
+                        $ref: '#/$defs/marketCode'
+                      query:
+                        type: string
+                      limit:
+                        type: integer
+                        minimum: 1
+                        maximum: 100
+                        default: 100
+                required:
+                - toolName
+                - arguments
+              - properties:
+                  toolName:
+                    const: industry_overview
+                  arguments:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - category_id
+                    properties:
+                      category_id:
+                        type: string
+                        minLength: 1
+                      market_code:
+                        $ref: '#/$defs/marketCode'
+                required:
+                - toolName
+                - arguments
+              - properties:
+                  toolName:
+                    const: search_product_snapshots
+                  arguments:
+                    $ref: '#/$defs/snapshots'
+                required:
+                - toolName
+                - arguments
+              - properties:
+                  toolName:
+                    const: product_sales_trend
+                  arguments:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - sku_id
+                    properties:
+                      sku_id:
+                        type: string
+                        minLength: 1
+                      market_code:
+                        $ref: '#/$defs/marketCode'
+                      days:
+                        type: integer
+                        minimum: 1
+                        maximum: 731
+                        default: 730
+                required:
+                - toolName
+                - arguments
+              - properties:
+                  toolName:
+                    const: image_search_products
+                  arguments:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      image_url:
+                        type: string
+                        format: uri
+                        pattern: ^https?://
+                      image_base64:
+                        type: string
+                        minLength: 1
+                      market_code:
+                        $ref: '#/$defs/marketCode'
+                      page:
+                        type: integer
+                        minimum: 1
+                        default: 1
+                      limit:
+                        type: integer
+                        minimum: 1
+                        default: 50
+                    anyOf:
+                    - required:
+                      - image_url
+                    - required:
+                      - image_base64
+                required:
+                - toolName
+                - arguments
+              - properties:
+                  toolName:
+                    const: review_search
+                  arguments:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - sku_id
+                    properties:
+                      sku_id:
+                        type: string
+                        minLength: 1
+                      market_code:
+                        $ref: '#/$defs/marketCode'
+                      page:
+                        type: integer
+                        minimum: 1
+                        default: 1
+                      limit:
+                        type: integer
+                        minimum: 1
+                        maximum: 100
+                        default: 20
+                required:
+                - toolName
+                - arguments
+              $defs:
+                marketCode:
+                  type: string
+                  enum:
+                  - MLM
+                  - MLB
+                  - MLA
+                  - MLC
+                  - MCO
+                  default: MLM
+                snapshots:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    market_code:
+                      $ref: '#/$defs/marketCode'
+                    keyword:
+                      type: string
+                    category_id:
+                      type: string
+                    sku_id:
+                      type: string
+                    product_url:
+                      type: string
+                      format: uri
+                      pattern: ^https?://
+                    shop_id:
+                      type: string
+                    shop_query:
+                      type: string
+                    price_min:
+                      type: number
+                      minimum: 0
+                    price_max:
+                      type: number
+                      minimum: 0
+                    sales_30d_min:
+                      type: integer
+                      minimum: 0
+                    sales_30d_max:
+                      type: integer
+                      minimum: 0
+                    historical_total_sales_min:
+                      type: integer
+                      minimum: 0
+                    historical_total_sales_max:
+                      type: integer
+                      minimum: 0
+                    review_count_min:
+                      type: integer
+                      minimum: 0
+                    review_count_max:
+                      type: integer
+                      minimum: 0
+                    rating_min:
+                      type: number
+                      minimum: 0
+                      maximum: 5
+                    rating_max:
+                      type: number
+                      minimum: 0
+                      maximum: 5
+                    listing_date_min:
+                      type: string
+                      pattern: ^\d{8}$|^\d{4}-\d{2}-\d{2}$
+                    listing_date_max:
+                      type: string
+                      pattern: ^\d{8}$|^\d{4}-\d{2}-\d{2}$
+                    stock_type:
+                      type: string
+                    shop_type:
+                      type: string
+                      enum:
+                      - cross_border
+                      - local
+                    product_status:
+                      type:
+                      - string
+                      - integer
+                    sort_by:
+                      type: string
+                      enum:
+                      - sales_30d
+                      - historical_total_sales
+                      - price
+                      - listing_date
+                      - rating
+                      - review_count
+                      - title
+                      default: sales_30d
+                    sort_order:
+                      type: string
+                      enum:
+                      - asc
+                      - desc
+                      default: desc
+                    page:
+                      type: integer
+                      minimum: 1
+                      default: 1
+                    limit:
+                      type: integer
+                      minimum: 1
+                      maximum: 100
+                      default: 100
+                  anyOf:
+                  - required:
+                    - keyword
+                  - required:
+                    - category_id
+                  - required:
+                    - sku_id
+                  - required:
+                    - product_url
+                  - required:
+                    - shop_id
+                  - required:
+                    - shop_query
+                  x-relations:
+                  - each *_min <= matching *_max
+              description: Request parameters documented by ecommerce.mercado-market-intelligence.
+              example:
+                toolName: search_categories
+                arguments:
+                  market_code: MLM
+                  query: celulares
+                  limit: 10
+            example:
+              toolName: search_categories
+              arguments:
+                market_code: MLM
+                query: celulares
+                limit: 10
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - operation
+                - data
+                properties:
+                  operation:
+                    type: string
+                    enum:
+                    - search_categories
+                    - industry_overview
+                    - search_product_snapshots
+                    - product_sales_trend
+                    - image_search_products
+                    - review_search
+                  data:
+                    type: object
+                    additionalProperties: true
+                  total:
+                    type: integer
+                    minimum: 0
+                  charged:
+                    type: boolean
+                description: Returns the documented upstream API response directly without an additional wrapper.
+              example:
+                operation: search_categories
+                data:
+                  record_count: 1
+                  records:
+                  - taxonomy_code: MLM1055
+                    taxonomy_name: Cell Phones
+                total: 1
+        '400':
+          ? ''
+          : '#/components/responses/BadRequest'
+        '401':
+          ? ''
+          : '#/components/responses/Unauthorized'
+        '403':
+          ? ''
+          : '#/components/responses/Forbidden'
+        '429':
+          ? ''
+          : '#/components/responses/TooManyRequests'
+        '500':
+          ? ''
+          : '#/components/responses/ServerError'
+      x-nexscope-slug: mercado-market-intelligence
+      x-nexscope-mcp-tool-name: nexscope_mercado_market_intelligence
+      x-nexscope-pricing-mode: dynamic-credits
+      x-nexscope-catalog-derived: true
+components:
+  responses:
+    BadRequest:
+      description: Invalid request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Forbidden:
+      description: The account or API key is not allowed to use this capability.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    ServerError:
+      description: Server or upstream provider error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    TooManyRequests:
+      description: Rate limit or account usage limit reached.
+      headers:
+        Retry-After:
+          description: Retry delay when returned by the service.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+  schemas:
+    CommonError:
+      type: object
+      description: Common API error envelope. Exact fields may vary by endpoint and upstream provider.
+      properties:
+        code:
+          oneOf:
+          - type: integer
+          - type: string
+          description: Application or provider error code.
+        msg:
+          type: string
+          description: Error message.
+        message:
+          type: string
+          description: Alternative error message field.
+        traceId:
+          type: string
+          description: Support trace identifier when available.
+      additionalProperties: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Nexscope API Key
+externalDocs:
+  description: Nexscope API Documentation
+  url: https://www.nexscope.ai/api-docs
+x-nexscope-source: https://api.nexscope.ai/api/skill-api/v1/api-docs
+x-nexscope-pricing-mode: dynamic-credits
+x-nexscope-mcp-endpoint: https://api.nexscope.ai/api/skill-api/v1/mcp
