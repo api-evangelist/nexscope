@@ -5419,14 +5419,19 @@ paths:
       x-nexscope-catalog-derived: true
 components:
   responses:
-    BadRequest:
-      description: Invalid request parameters.
+    TooManyRequests:
+      description: Rate limit or account usage limit reached.
+      headers:
+        Retry-After:
+          description: Retry delay when returned by the service.
+          schema:
+            type: integer
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/CommonError'
-    Forbidden:
-      description: The account or API key is not allowed to use this capability.
+    BadRequest:
+      description: Invalid request parameters.
       content:
         application/json:
           schema:
@@ -5437,19 +5442,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CommonError'
-    ServerError:
-      description: Server or upstream provider error.
+    Forbidden:
+      description: The account or API key is not allowed to use this capability.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/CommonError'
-    TooManyRequests:
-      description: Rate limit or account usage limit reached.
-      headers:
-        Retry-After:
-          description: Retry delay when returned by the service.
-          schema:
-            type: integer
+    ServerError:
+      description: Server or upstream provider error.
       content:
         application/json:
           schema:

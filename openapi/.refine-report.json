@@ -1,7 +1,7 @@
 {
   "provider": "nexscope",
   "sources": [
-    "nexscope-openapi.json"
+    "_original/nexscope-openapi.json"
   ],
   "outputs": [
     "nexscope-1688-sourcing-api-openapi.yml",
@@ -25,9 +25,7 @@
     "nexscope-walmart-marketplace-intelligence-api-openapi.yml",
     "nexscope-ebay-marketplace-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/nexscope-openapi.json"
-  ],
+  "archived": [],
   "errors": [
     "nexscope-openapi.json: dangling $ref: #/$defs/marketCode",
     "nexscope-openapi.json: dangling $ref: #/$defs/page",
@@ -38,9 +36,31 @@
   ],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "nexscope-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "nexscope-openapi.json: declared missing tag: Walmart Marketplace Intelligence",
-    "apis.yml register: written (+20 apis, 20 total)"
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "nexscope-1688-sourcing-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-amazon-advertising-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-amazon-marketplace-intelligence-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-ebay-marketplace-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-ecommerce-content-generation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-etsy-marketplace-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-image-generation-models-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-keyword-search-demand-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-multimodal-ai-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-ozon-marketplace-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-patent-intelligence-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-patent-ip-risk-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-product-market-research-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-search-trend-intelligence-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-shopee-marketplace-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-shopify-commerce-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-temu-marketplace-intelligence-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-tiktok-social-commerce-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-video-generation-models-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nexscope-walmart-marketplace-intelligence-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
