@@ -164,6 +164,24 @@ paths:
       x-nexscope-catalog-derived: true
 components:
   responses:
+    ServerError:
+      description: Server or upstream provider error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Forbidden:
+      description: The account or API key is not allowed to use this capability.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
     TooManyRequests:
       description: Rate limit or account usage limit reached.
       headers:
@@ -177,24 +195,6 @@ components:
             $ref: '#/components/schemas/CommonError'
     BadRequest:
       description: Invalid request parameters.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CommonError'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CommonError'
-    Forbidden:
-      description: The account or API key is not allowed to use this capability.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CommonError'
-    ServerError:
-      description: Server or upstream provider error.
       content:
         application/json:
           schema:
