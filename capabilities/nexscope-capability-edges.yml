@@ -1,0 +1,82 @@
+slug: nexscope
+provider: Nexscope Ecommerce Data and Creative APIs
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 7
+edges:
+- tag: Amazon Marketplace Intelligence
+  spec_file: nexscope-amazon-marketplace-intelligence-api-openapi.yml
+  capability_id: BC-400.30
+  capability_id_l1: BC-400
+  capability_name: Market Intelligence Management
+  confidence: 0.85
+  evidence: '"Amazon Market Research", "Amazon Competitor Lookup", "Amazon Market Statistics", "Amazon
+    Niche Info"'
+  reason: The operations deliver market research, competitive lookup, niche and opportunity statistics
+    on a marketplace — classic market and competitive intelligence.
+- tag: Amazon Advertising
+  spec_file: nexscope-amazon-advertising-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.8
+  evidence: '"Amazon Ads Manager", "Amazon Ads Reporting", "Amazon Ads SP Search Impression Share Report",
+    "Amazon Ads SP Audience Report"'
+  reason: Operations manage and report on Amazon Sponsored Products advertising campaigns — paid media
+    management and measurement, which is digital marketing management.
+- tag: Product & Market Research
+  spec_file: nexscope-product-market-research-api-openapi.yml
+  capability_id: BC-400.30
+  capability_id_l1: BC-400
+  capability_name: Market Intelligence Management
+  confidence: 0.75
+  evidence: runMercadoMarketIntelligence  Mercado Market Intelligence; runMercadoProductSelection  Mercado
+    Product Selection
+  reason: Operations deliver marketplace research and product-selection intelligence, i.e. market research
+    and competitive insight feeding commercial decisions.
+- tag: Temu Marketplace Intelligence
+  spec_file: nexscope-temu-marketplace-intelligence-api-openapi.yml
+  capability_id: BC-400.30
+  capability_id_l1: BC-400
+  capability_name: Market Intelligence Management
+  confidence: 0.75
+  evidence: GeekBI Temu Keyword Research; GeekBI Temu Category Research; GeekBI Temu Product Search
+  reason: Keyword, category and product research across a marketplace is competitive/market intelligence
+    gathering.
+- tag: Walmart Marketplace Intelligence
+  spec_file: nexscope-walmart-marketplace-intelligence-api-openapi.yml
+  capability_id: BC-400.30
+  capability_id_l1: BC-400
+  capability_name: Market Intelligence Management
+  confidence: 0.75
+  evidence: runWalmartCategoryMarket  Walmart Category Market; runWalmartKeywordResearch  Walmart Keyword
+    Research; runWalmartProductAnalysis  Walmart Product Analysis
+  reason: Category market sizing, keyword research and product analysis are market research and competitive
+    intelligence activities.
+- tag: Etsy Marketplace
+  spec_file: nexscope-etsy-marketplace-api-openapi.yml
+  capability_id: BC-400.30
+  capability_id_l1: BC-400
+  capability_name: Market Intelligence Management
+  confidence: 0.72
+  evidence: '"Etsy Category Search", "Etsy Product Query", "Etsy Store Query", "Etsy Product Detail"'
+  reason: Read-only competitive/product data retrieval from the Etsy marketplace, used for marketplace
+    and competitor research — market intelligence rather than any selling or order capability.
+- tag: Ozon Marketplace
+  spec_file: nexscope-ozon-marketplace-api-openapi.yml
+  capability_id: BC-400.30
+  capability_id_l1: BC-400
+  capability_name: Market Intelligence Management
+  confidence: 0.72
+  evidence: '"Ozon Product Trend", "Ozon Seller Products", "Ozon Category Products", "Ozon Shop Search"'
+  reason: Read-only competitor, category, seller and trend data from the Ozon marketplace — marketplace/competitive
+    intelligence, not order or inventory operations.

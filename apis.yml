@@ -605,6 +605,9 @@ apis:
   - type: APIReference
     url: https://www.nexscope.ai/api-docs
 common:
+- type: CapabilityMap
+  url: capabilities/nexscope-capability-edges.yml
+  name: Nexscope Ecommerce Data and Creative APIs Business Capability Map
 - type: Overlay
   url: overlays/nexscope-openapi-overlay.yaml
 - type: MCPServer
