@@ -605,6 +605,10 @@ apis:
   - type: APIReference
     url: https://www.nexscope.ai/api-docs
 common:
+- type: Plans
+  url: plans/nexscope-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/nexscope-rate-limits.yml
 - type: CapabilityMap
   url: capabilities/nexscope-capability-edges.yml
   name: Nexscope Ecommerce Data and Creative APIs Business Capability Map
