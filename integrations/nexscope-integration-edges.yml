@@ -1,0 +1,21 @@
+generated: '2026-10-12'
+method: searched
+source:
+- https://n8n.io/integrations/nexscope/
+checked:
+- https://composio.dev/toolkits/nexscope
+- https://monid.ai/tools/nexscope
+- https://n8n.io/integrations/nexscope/
+- https://zapier.com/apps/nexscope-ecommerce-data-and-creative-apis/integrations
+- https://zapier.com/apps/nexscope/integrations
+summary: null
+marketplace_apps:
+- marketplace: n8n
+  channel: open-source-node
+  app: nexscope
+  url: https://n8n.io/integrations/nexscope/
+  identity: title
+  pair_pages: 0
+  pairs: []
+edges: []
+templates: []
