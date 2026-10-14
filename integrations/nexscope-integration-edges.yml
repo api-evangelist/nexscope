@@ -6,6 +6,7 @@ checked:
 - https://composio.dev/toolkits/nexscope
 - https://monid.ai/tools/nexscope
 - https://n8n.io/integrations/nexscope/
+- https://registry.modelcontextprotocol.io/v0/servers
 - https://zapier.com/apps/nexscope-ecommerce-data-and-creative-apis/integrations
 - https://zapier.com/apps/nexscope/integrations
 summary: null
@@ -17,5 +18,36 @@ marketplace_apps:
   identity: title
   pair_pages: 0
   pairs: []
-edges: []
+edges:
+- partner_name: MCP Registry
+  partner: mcp
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://registry.modelcontextprotocol.io/v0/servers?search=io.github.nexscope
+  contract_reference:
+    register: registry.modelcontextprotocol.io
+    spec_file: null
+    role: mcp-server-listing
+    registered_name: io.github.nexscope/ecommerce
+    register_id: io.github.nexscope/ecommerce
+    detected_by: sweep-agent-tools.py
+    detected: '2026-10-14'
+  mcp_registry:
+    servers:
+    - io.github.nexscope/ecommerce
+    hosted_remote: 1
+    local_package: 0
+    transports:
+      streamable-http: 1
+    auth_declared: 1
+    catalog_declared: false
+    namespace_domains:
+    - nexscope.ai
+  matched_by:
+  - remote-domain
+  detected_by: sweep-agent-tools.py
+  first_seen: '2026-10-14'
 templates: []
