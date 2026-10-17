@@ -4698,42 +4698,6 @@ paths:
       x-nexscope-pricing-mode: dynamic-credits
       x-nexscope-catalog-derived: true
 components:
-  responses:
-    ServerError:
-      description: Server or upstream provider error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CommonError'
-    Forbidden:
-      description: The account or API key is not allowed to use this capability.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CommonError'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CommonError'
-    TooManyRequests:
-      description: Rate limit or account usage limit reached.
-      headers:
-        Retry-After:
-          description: Retry delay when returned by the service.
-          schema:
-            type: integer
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CommonError'
-    BadRequest:
-      description: Invalid request parameters.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CommonError'
   schemas:
     CommonError:
       type: object
@@ -4754,6 +4718,42 @@ components:
           type: string
           description: Support trace identifier when available.
       additionalProperties: true
+  responses:
+    Forbidden:
+      description: The account or API key is not allowed to use this capability.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    BadRequest:
+      description: Invalid request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    TooManyRequests:
+      description: Rate limit or account usage limit reached.
+      headers:
+        Retry-After:
+          description: Retry delay when returned by the service.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    ServerError:
+      description: Server or upstream provider error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
   securitySchemes:
     bearerAuth:
       type: http
