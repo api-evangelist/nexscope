@@ -6,6 +6,9 @@ artifacts:
   authentication/nexscope-authentication.yml:
     method: derived
     evidence: declared in the artifact
+  capabilities/nexscope-capability-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
   conformance/nexscope-conformance.yml:
     method: derived
     evidence: declared in the artifact
@@ -18,7 +21,13 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-24T161608.yml:
+  integrations/_index.yml:
+    method: generated
+    evidence: carries an API Evangelist house phrase
+  integrations/nexscope-integration-edges.yml:
+    method: searched
+    evidence: declared in the artifact
+  kin/checks-2026-10-11T110117.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-16T210549.yml:
@@ -72,6 +81,21 @@ artifacts:
   kin/score-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T210408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T232841.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T000835.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T024842.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-11T110117.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/nexscope-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
@@ -84,9 +108,70 @@ artifacts:
   mcp/nexscope-tool-crosswalk.yml:
     method: derived
     evidence: declared in the artifact
-  openapi/nexscope-openapi.json:
-    method: unknown
-    evidence: no authorship recorded
+  openapi/_original/nexscope-openapi.json:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/nexscope-1688-sourcing-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-amazon-advertising-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-amazon-marketplace-intelligence-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-ebay-marketplace-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-ecommerce-content-generation-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-etsy-marketplace-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-image-generation-models-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-keyword-search-demand-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-multimodal-ai-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-ozon-marketplace-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-patent-intelligence-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-patent-ip-risk-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-product-market-research-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-search-trend-intelligence-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-shopee-marketplace-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-shopify-commerce-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-temu-marketplace-intelligence-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-tiktok-social-commerce-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-video-generation-models-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/nexscope-walmart-marketplace-intelligence-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   overlays/nexscope-openapi-overlay.yaml:
     method: generated
     evidence: declared in the artifact
